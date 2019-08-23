@@ -1,0 +1,20 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "inmsg",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "queueName": "sitecrawl",
+      "connection": "AzureServiceBusConnectionString"
+    },
+    {
+      "type": "serviceBus",
+      "direction": "out",
+      "connection": "AzureServiceBusConnectionString",
+      "name": "outmsg",
+      "queueName": "siteparse"
+    }
+
+  ]
+}
