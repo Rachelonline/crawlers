@@ -1,7 +1,7 @@
 import requests
 import random
 from time import sleep
-from utils.headers import get_headers
+from utils.network.headers import get_headers
 import logging
 
 MAX_RETRIES = 4
