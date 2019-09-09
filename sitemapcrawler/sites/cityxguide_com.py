@@ -1,6 +1,6 @@
 from utils.network.network import get_url
 from datetime import datetime
-from sitemapper.sites.base_site_mapper import SiteMapper
+from sitemapcrawler.sites.base_site_mapper import SiteMapper
 
 
 class CityXGuide(SiteMapper):

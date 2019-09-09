@@ -2,7 +2,7 @@ import logging
 import json
 import azure.functions as func
 
-from sitemapper.sitemapper import sitemap
+from sitemapcrawler.sitemapcrawler import sitemap
 
 
 def main(inmsg: func.ServiceBusMessage, outmsg: func.Out[str]) -> None:

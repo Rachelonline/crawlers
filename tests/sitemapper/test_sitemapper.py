@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import MagicMock
 from tests.fixtures.no_network import no_requests
 
-from sitemapper.sitemapper import sitemap, SITE_MAPPING
+from sitemapcrawler.sitemapcrawler import sitemap, SITE_MAP_CRAWLERS
 
 
 def domain_mock(monkeypatch, domain: str) -> MagicMock:
@@ -11,7 +11,7 @@ def domain_mock(monkeypatch, domain: str) -> MagicMock:
     mock_mapper.return_value.extra_metadata.return_value = {
         "site-map": "test-time-stamp"
     }
-    monkeypatch.setitem(SITE_MAPPING, domain, mock_mapper)
+    monkeypatch.setitem(SITE_MAP_CRAWLERS, domain, mock_mapper)
     return mock_mapper
 
 
