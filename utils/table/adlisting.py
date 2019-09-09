@@ -20,9 +20,15 @@ class AdListingTable:
     _table_name = "adlistings"
 
     def __init__(self) -> None:
-        self.table_service = TableService(
-            account_name="picrawling", account_key=ACCOUNT_KEY
-        )
+        self._table_service = None
+
+    @property
+    def table_service(self):
+        if self._table_service is None:
+            self._table_service = TableService(
+                account_name="picrawling", account_key=ACCOUNT_KEY
+            )
+        return self._table_service
 
     def ad_listings(self) -> dict:
         for entity in self.table_service.query_entities(
