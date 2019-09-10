@@ -41,9 +41,7 @@ def test_ad_listings(mock_table_service, monkeypatch):
     assert expected == actual
 
     # We also want to check the filter is correct
-    mock_table_service.query_entities.assert_called_with(
-        "adlistings", filter="enabled eq true"
-    )
+    mock_table_service.query_entities.assert_called_with("adlistings")
 
 
 def test_batch_merge_ad_listings(mock_table_service, monkeypatch):
@@ -88,3 +86,32 @@ def test_batch_merge_ad_listings(mock_table_service, monkeypatch):
 
     # The max batch size is 1 so we should see 3 commit batches
     assert ad_listing_table.table_service.batch.call_count == 3
+
+def test_batch_merge_ad_listings_existing_url(mock_table_service, monkeypatch):
+    urls = ["test1", "test2", "test3"]
+    domain = "test-domain"
+    metadata = {"meta": "data"}
+    mock_table_service.query_entities.side_effect = [ [], "test2", []]  # Only return value on 2nd call to query_entities
+
+    ad_listing_table = AdListingTable()
+    ad_listing_table.batch_merge_ad_listings(urls, domain, metadata)
+
+    # This bit of uglyness is because we are using batch as a context manager so we need to do the __enter__ etc.
+    ad_listing_table.table_service.batch.return_value.__enter__.return_value.insert_or_merge_entity.assert_has_calls(
+        [
+            call(
+                {
+                    "PartitionKey": "dGVzdC1kb21haW4=",
+                    "RowKey": "dGVzdDE=",
+                    "metadata": '{"meta": "data"}',
+                }
+            ),
+            call(
+                {
+                    "PartitionKey": "dGVzdC1kb21haW4=",
+                    "RowKey": "dGVzdDM=",
+                    "metadata": '{"meta": "data"}',
+                }
+            ),
+        ]
+    )
