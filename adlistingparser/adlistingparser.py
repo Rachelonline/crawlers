@@ -10,7 +10,7 @@ AD_LISTING_PARSERS = {"cityxguide.com": cityxguide_com}
 
 TABLE = AdsTable()
 PERCENT_UNCRAWLED = 0.7
-
+MAX_CRAWL_DEPTH = 10
 
 def parse_ad_listings(domain, page):
     parser = AD_LISTING_PARSERS.get(domain)
@@ -43,6 +43,13 @@ def build_ad_url_msgs(msg: dict, ad_urls: List[str]) -> List[dict]:
 def build_cont_listing_msgs(msg: dict, next_urls: List[str]) -> List[dict]:
     continued_listing_msgs = []
     crawl_depth = msg["metadata"].get("crawl-depth", 0)
+    if crawl_depth >= MAX_CRAWL_DEPTH:
+        logging.info(
+            "Crawl hit max crawl depth for domain %s, depth %s",
+            msg["domain"],
+            crawl_depth,
+        )
+        return []
     logging.info(
         "not enough ads crawled, enqueing next ad listing url for %s, depth %s",
         msg["domain"],

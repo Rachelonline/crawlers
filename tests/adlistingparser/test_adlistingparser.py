@@ -82,6 +82,13 @@ def test_build_cont_listing_msgs():
     ]
     assert build_cont_listing_msgs(test_msg, urls) == expected
 
+    # Beyond max crawl depth
+    test_msg = {"domain": "test", "metadata": {"meta": "data", "crawl-depth": 10}}
+    urls = ["next-url4"]
+    expected = []
+    assert build_cont_listing_msgs(test_msg, urls) == expected
+
+
 
 def test_parse_ad_listing(monkeypatch):
     msg = {"ad-listing-page": "<html>", "domain": "test-domain"}
