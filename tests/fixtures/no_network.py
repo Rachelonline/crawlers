@@ -8,5 +8,5 @@ def no_requests(monkeypatch):
 @pytest.fixture(autouse=True)
 def no_azure_table_service(monkeypatch):
     mock_table_service = MagicMock()
-    monkeypatch.setattr("utils.table.adlisting.TableService", mock_table_service)
+    monkeypatch.setattr("utils.table.base_table.TableService", mock_table_service)
 

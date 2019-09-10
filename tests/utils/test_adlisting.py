@@ -3,15 +3,7 @@ import json
 from unittest.mock import MagicMock, call
 from tests.fixtures.no_network import no_requests, no_azure_table_service
 
-from utils.table.adlisting import encode_url, decode_url, AdListingTable
-
-
-def test_encode_url():
-    assert "aHR0cDovL3d3dy5nb29nbGUuY29t" == encode_url("http://www.google.com")
-
-
-def test_encode_url():
-    assert decode_url("aHR0cDovL3d3dy5nb29nbGUuY29t") == "http://www.google.com"
+from utils.table.adlisting import AdListingTable
 
 
 class Entity:
@@ -27,7 +19,7 @@ def mock_table_service(monkeypatch):
     def mock_table(*args, **kwargs):
         return mock_table_service
 
-    monkeypatch.setattr("utils.table.adlisting.TableService", mock_table)
+    monkeypatch.setattr("utils.table.base_table.TableService", mock_table)
     return mock_table_service
 
 
