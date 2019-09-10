@@ -33,7 +33,7 @@ def test_parse_sitemap(parsers, monkeypatch):
     monkeypatch.setattr("sitemapparser.sitemapparser.TABLE", mock_table)
     # Happy path
     test_message = {
-        "sitemapping_page": "<html>",
+        "sitemapping-page": "<html>",
         "domain": "fake-parser",
         "metadata": {"meta": "data"},
     }
@@ -45,7 +45,7 @@ def test_parse_sitemap(parsers, monkeypatch):
     # No ads found
     mock_table.reset_mock()
     test_message = {
-        "sitemapping_page": "<html>",
+        "sitemapping-page": "<html>",
         "domain": "no-urls-found-parser",
         "metadata": {"meta": "data"},
     }

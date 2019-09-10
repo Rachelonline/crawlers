@@ -23,7 +23,8 @@ def mock_mappers(monkeypatch):
 def test_sitemapping_jobs(mock_mappers):
     input_data = {"domain": "cityxguide.com", "metadata": {"domain": "cityxguide.com"}}
     expected = {
-        "sitemapping_page": "url-cityxguide.com",
+        "domain": "cityxguide.com",
+        "sitemapping-page": "url-cityxguide.com",
         "metadata": {"domain": "cityxguide.com", "site-map": "test-time-stamp"},
     }
 

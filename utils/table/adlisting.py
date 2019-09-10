@@ -6,6 +6,12 @@ from utils.table.base_table import BaseAzureTable, encode_url, decode_url
 MAX_BATCH_SIZE = 90
 
 
+def chunk(l):
+    # Break up the list into chunks 
+    for i in range(0, len(l), MAX_BATCH_SIZE):
+        yield l[i : i + MAX_BATCH_SIZE]
+
+
 class AdListingTable(BaseAzureTable):
     _table_name = "adlistings"
 
@@ -21,20 +27,13 @@ class AdListingTable(BaseAzureTable):
     def batch_merge_ad_listings(
         self, ad_listing_urls: List, domain: str, metadata: dict
     ) -> None:
-        counter = 0  # Batch can only do 100 items at a time
-
-        with self.table_service.batch(self._table_name) as batch:
-            for ad_listing_url in ad_listing_urls:
-                counter += 1
-                batch.insert_or_merge_entity(
-                    {
-                        "PartitionKey": domain,
-                        "RowKey": encode_url(ad_listing_url),
-                        "metadata": json.dumps(metadata),
-                    }
-                )
-                if counter >= MAX_BATCH_SIZE:
-                    _ = self.table_service.commit_batch(
-                        self._table_name, batch
-                    )  # TODO: check for errors
-                    counter = 0
+        for ad_listing_url_chunk in chunk(ad_listing_urls):
+            with self.table_service.batch(self._table_name) as batch:
+                for ad_listing_url in ad_listing_url_chunk:
+                    batch.insert_or_merge_entity(
+                        {
+                            "PartitionKey": domain,
+                            "RowKey": encode_url(ad_listing_url),
+                            "metadata": json.dumps(metadata),
+                        }
+                    )

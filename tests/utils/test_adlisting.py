@@ -87,4 +87,4 @@ def test_batch_merge_ad_listings(mock_table_service, monkeypatch):
     ad_listing_table.batch_merge_ad_listings(urls, domain, metadata)
 
     # The max batch size is 1 so we should see 3 commit batches
-    assert ad_listing_table.table_service.commit_batch.call_count == 3
+    assert ad_listing_table.table_service.batch.call_count == 3

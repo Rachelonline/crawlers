@@ -17,7 +17,7 @@ def parse_ad_listing_page(domain, page):
 
 
 def parse_sitemap(message):
-    page = message["sitemapping_page"]
+    page = message["sitemapping-page"]
     domain = message["domain"]
     ad_listing_urls = parse_ad_listing_page(domain, page)
     logging.info("Found %s ad_listings on %s", len(ad_listing_urls), message["domain"])
