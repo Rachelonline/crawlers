@@ -59,21 +59,21 @@ def test_batch_merge_ad_listings(mock_table_service, monkeypatch):
         [
             call(
                 {
-                    "PartitionKey": "test-domain",
+                    "PartitionKey": "dGVzdC1kb21haW4=",
                     "RowKey": "dGVzdDE=",
                     "metadata": '{"meta": "data"}',
                 }
             ),
             call(
                 {
-                    "PartitionKey": "test-domain",
+                    "PartitionKey": "dGVzdC1kb21haW4=",
                     "RowKey": "dGVzdDI=",
                     "metadata": '{"meta": "data"}',
                 }
             ),
             call(
                 {
-                    "PartitionKey": "test-domain",
+                    "PartitionKey": "dGVzdC1kb21haW4=",
                     "RowKey": "dGVzdDM=",
                     "metadata": '{"meta": "data"}',
                 }

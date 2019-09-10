@@ -32,7 +32,7 @@ class AdListingTable(BaseAzureTable):
                 for ad_listing_url in ad_listing_url_chunk:
                     batch.insert_or_merge_entity(
                         {
-                            "PartitionKey": domain,
+                            "PartitionKey": encode_url(domain),
                             "RowKey": encode_url(ad_listing_url),
                             "metadata": json.dumps(metadata),
                         }
