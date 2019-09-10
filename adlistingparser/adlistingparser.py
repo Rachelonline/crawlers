@@ -3,9 +3,9 @@ from typing import List
 import logging
 from copy import deepcopy
 from utils.table.ads import AdsTable
-from sitemapparser.sites.cityxguide_com import cityxguide_com
+from adlistingparser.sites.cityxguide_com import cityxguide_com
 
-AD_LISTING_PARSERS = {"cityxguide.com": None}
+AD_LISTING_PARSERS = {"cityxguide.com": cityxguide_com}
 
 
 TABLE = AdsTable()
