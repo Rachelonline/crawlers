@@ -16,7 +16,7 @@ def parse_ad_listings(domain, page):
     parser = AD_LISTING_PARSERS.get(domain)
     if parser is None:
         logging.error("No ad listing parser for %s", domain)
-        return None
+        return [], []
     ad_urls, continuation_urls = parser(page)
     return ad_urls, continuation_urls
 
@@ -35,14 +35,14 @@ def build_ad_url_msgs(msg: dict, ad_urls: List[str]) -> List[dict]:
         ad_msg = {}
         ad_msg["domain"] = msg["domain"]
         ad_msg["ad-url"] = url
-        ad_msg["metadata"] = deepcopy(msg["metatada"])
+        ad_msg["metadata"] = deepcopy(msg["metadata"])
         ad_url_msgs.append(ad_msg)
     return ad_url_msgs
 
 
 def build_cont_listing_msgs(msg: dict, next_urls: List[str]) -> List[dict]:
     continued_listing_msgs = []
-    crawl_depth = msg["metadata"].get("crawl-depth", 1)
+    crawl_depth = msg["metadata"].get("crawl-depth", 0)
     logging.info(
         "not enough ads crawled, enqueing next ad listing url for %s, depth %s",
         msg["domain"],
