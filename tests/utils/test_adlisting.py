@@ -7,10 +7,14 @@ from utils.table.adlisting import AdListingTable
 
 
 class Entity:
-    def __init__(self, rowkey, metadata) -> None:
+    def __init__(self, rowkey, metadata, enabled=True) -> None:
         self.RowKey = rowkey
         self.metadata = json.dumps(metadata)
+        self.enabled = enabled
 
+    def get(self, prop):
+        # Hack for testing the enabled
+        return getattr(self, prop, False)
 
 @pytest.fixture
 def mock_table_service(monkeypatch):
@@ -26,14 +30,13 @@ def mock_table_service(monkeypatch):
 def test_ad_listings(mock_table_service, monkeypatch):
     entites = [
         Entity("aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data1"}),
-        Entity("aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data2"}),
+        Entity("aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data2"}, enabled=False),
         Entity("aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data3"}),
     ]
     mock_table_service.query_entities.return_value = entites
     expected = [
-        {"url": "http://www.google.com", "metadata": {"meta": "data1"}},
-        {"url": "http://www.google.com", "metadata": {"meta": "data2"}},
-        {"url": "http://www.google.com", "metadata": {"meta": "data3"}},
+        {"ad-listing-url": "http://www.google.com", "metadata": {"meta": "data1"}},
+        {"ad-listing-url": "http://www.google.com", "metadata": {"meta": "data3"}},
     ]
 
     ad_listing_table = AdListingTable()

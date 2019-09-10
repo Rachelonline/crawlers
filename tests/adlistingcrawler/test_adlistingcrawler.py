@@ -23,7 +23,7 @@ def test_crawl_ad_listing(monkeypatch):
     monkeypatch.setattr("adlistingcrawler.adlistingcrawler.get_url", mock_get_url)
 
     input_data = {
-        "url": "test_url",
+        "ad-listing-url": "test_url",
         "metadata": {"domain": "test-domain", "other": "metadata"},
     }
 

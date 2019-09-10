@@ -19,8 +19,11 @@ class AdListingTable(BaseAzureTable):
 
     def ad_listings(self) -> dict:
         for entity in self.table_service.query_entities(self._table_name):
+            # Don't load disabled ad-listing-urls
+            if entity.get("enabled") is False:
+                continue
             yield {
-                "url": decode_url(entity.RowKey),
+                "ad-listing-url": decode_url(entity.RowKey),
                 "metadata": json.loads(entity.metadata),
             }
 
@@ -37,10 +40,14 @@ class AdListingTable(BaseAzureTable):
         for ad_listing_url_chunk in chunk(ad_listing_urls):
             with self.table_service.batch(self._table_name) as batch:
                 for ad_listing_url in ad_listing_url_chunk:
-                    existing_ad_listing_url = self.get_ad_listing_url(ad_listing_url, domain)
+                    existing_ad_listing_url = self.get_ad_listing_url(
+                        ad_listing_url, domain
+                    )
                     if existing_ad_listing_url:
                         continue
-                    logging.info("New ad listing url found for %s - %s", domain, ad_listing_url)
+                    logging.info(
+                        "New ad listing url found for %s - %s", domain, ad_listing_url
+                    )
                     batch.insert_or_merge_entity(
                         {
                             "PartitionKey": encode_url(domain),
