@@ -13,3 +13,16 @@ class AdsTable(BaseAzureTable):
             return True
         except AzureMissingResourceHttpError:
             return False
+
+    def mark_crawled(self, url: str, blob_uri: str, metadata: dict) -> None:
+        self.table_service.insert_or_merge_entity(
+            self._table_name,
+            {
+                "PartitionKey": encode_url(url),
+                "RowKey": encode_url(url),
+                "blob": blob_uri,
+                "metadata": json.dumps(metadata),
+            }
+        )
+
+

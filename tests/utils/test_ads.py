@@ -23,7 +23,22 @@ def test_is_crawled(mock_table_service):
     ads_table = AdsTable()
     assert ads_table.is_crawled("test-url") == True
 
-    mock_table_service.get_entity.side_effect = AzureMissingResourceHttpError("test", 404)
+    mock_table_service.get_entity.side_effect = AzureMissingResourceHttpError(
+        "test", 404
+    )
     ads_table = AdsTable()
     assert ads_table.is_crawled("test-url") == False
 
+
+def test_mark_crawled(mock_table_service):
+    ads_table = AdsTable()
+    ads_table.mark_crawled("test-url", "blob-uri", {"meta": "data"})
+    mock_table_service.insert_or_merge_entity.assert_called_with(
+        "ads",
+        {
+            "PartitionKey": "dGVzdC11cmw=",
+            "RowKey": "dGVzdC11cmw=",
+            "blob": "blob-uri",
+            "metadata": '{"meta": "data"}',
+        },
+    )
