@@ -23,6 +23,7 @@ class AdListingTable(BaseAzureTable):
             if entity.get("enabled") is False:
                 continue
             yield {
+                "domain": decode_url(entity.PartitionKey),
                 "ad-listing-url": decode_url(entity.RowKey),
                 "metadata": json.loads(entity.metadata),
             }

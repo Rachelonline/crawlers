@@ -7,7 +7,8 @@ from utils.table.adlisting import AdListingTable
 
 
 class Entity:
-    def __init__(self, rowkey, metadata, enabled=True) -> None:
+    def __init__(self, partitionkey, rowkey, metadata, enabled=True) -> None:
+        self.PartitionKey = partitionkey
         self.RowKey = rowkey
         self.metadata = json.dumps(metadata)
         self.enabled = enabled
@@ -29,14 +30,14 @@ def mock_table_service(monkeypatch):
 
 def test_ad_listings(mock_table_service, monkeypatch):
     entites = [
-        Entity("aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data1"}),
-        Entity("aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data2"}, enabled=False),
-        Entity("aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data3"}),
+        Entity("Y2l0eXhndWlkZS5jb20=", "aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data1"}),
+        Entity("Y2l0eXhndWlkZS5jb20=", "aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data2"}, enabled=False),
+        Entity("Y2l0eXhndWlkZS5jb20=", "aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data3"}),
     ]
     mock_table_service.query_entities.return_value = entites
     expected = [
-        {"ad-listing-url": "http://www.google.com", "metadata": {"meta": "data1"}},
-        {"ad-listing-url": "http://www.google.com", "metadata": {"meta": "data3"}},
+        {"ad-listing-url": "http://www.google.com", "domain": "cityxguide.com", "metadata": {"meta": "data1"}},
+        {"ad-listing-url": "http://www.google.com", "domain": "cityxguide.com", "metadata": {"meta": "data3"}},
     ]
 
     ad_listing_table = AdListingTable()

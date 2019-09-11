@@ -24,11 +24,13 @@ def test_crawl_ad_listing(monkeypatch):
 
     input_data = {
         "ad-listing-url": "test_url",
+        "domain": "test-domain",
         "metadata": {"domain": "test-domain", "other": "metadata"},
     }
 
     expected = {
         "ad-listing-page": "test_page",
+        "domain": "test-domain",
         "metadata": {
             "ad-listing-crawled": "2525-01-01T00:00:00",
             "domain": "test-domain",

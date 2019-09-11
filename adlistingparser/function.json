@@ -5,7 +5,7 @@
       "name": "inmsg",
       "type": "serviceBusTrigger",
       "direction": "in",
-      "queueName": "regioncrawl",
+      "queueName": "regionparse",
       "connection": "AzureServiceBusConnectionString"
     },
     {
