@@ -42,3 +42,27 @@ def test_mark_crawled(mock_table_service):
             "metadata": '{"meta": "data"}',
         },
     )
+
+
+def test_mark_parsed(mock_table_service):
+    ads_table = AdsTable()
+    ads_table.mark_parsed("test-url", "parsed-on", [])
+    mock_table_service.merge_entity.assert_called_with(
+        "ads",
+        {
+            "PartitionKey": "dGVzdC11cmw=",
+            "RowKey": "dGVzdC11cmw=",
+            "parsed-on": "parsed-on",
+        },
+    )
+
+    ads_table.mark_parsed("test-url", "parsed-on", ["test-img", "test-img2"])
+    mock_table_service.merge_entity.assert_called_with(
+        "ads",
+        {
+            "PartitionKey": "dGVzdC11cmw=",
+            "RowKey": "dGVzdC11cmw=",
+            "parsed-on": "parsed-on",
+            "image-urls": ["test-img", "test-img2"],
+        },
+    )

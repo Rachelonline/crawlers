@@ -29,3 +29,7 @@ def test_sitemapping_jobs(mock_mappers):
     }
 
     assert sitemap(input_data) == expected
+
+    input_data = {"domain": "no-parser-domain", "metadata": {"domain": "cityxguide.com"}}
+    assert sitemap(input_data) is None
+

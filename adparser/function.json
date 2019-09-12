@@ -1,0 +1,27 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "inmsg",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "queueName": "pageparse",
+      "connection": "AzureServiceBusConnectionString"
+    },
+    {
+      "type": "serviceBus",
+      "direction": "out",
+      "connection": "AzureServiceBusConnectionString",
+      "name": "imgmsg",
+      "queueName": "imagecrawl"
+    },
+    {
+      "type": "serviceBus",
+      "direction": "out",
+      "connection": "AzureServiceBusConnectionString",
+      "name": "processmsg",
+      "queueName": "process"
+    }
+
+  ]
+}

@@ -1,4 +1,5 @@
 import json
+from typing import List
 from azure.common import AzureMissingResourceHttpError
 from utils.table.base_table import BaseAzureTable, encode_url
 
@@ -22,7 +23,18 @@ class AdsTable(BaseAzureTable):
                 "RowKey": encode_url(url),
                 "blob": blob_uri,
                 "metadata": json.dumps(metadata),
-            }
+            },
         )
 
+    def mark_parsed(self, url: str, parsed_on: str, image_urls: List[str]) -> None:
+        entity = {
+            "PartitionKey": encode_url(url),
+            "RowKey": encode_url(url),
+            "parsed-on": parsed_on,
+        }
+        if image_urls:
+            entity.update({"image-urls": image_urls})
 
+        # Note: somewhat dangerous as it assumes that it's already in the table for being crawled
+        #  which should always be true (famous last words)
+        self.table_service.merge_entity(self._table_name, entity)

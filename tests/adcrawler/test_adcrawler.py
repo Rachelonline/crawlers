@@ -38,6 +38,7 @@ def test_crawl_ad(monkeypatch):
     }
 
     expected = {
+        "ad-url": "test_url",
         "ad-page-blob": "blob.storage/2525/01/01/test-domain/uuid",
         "domain": "test-domain",
         "metadata": {

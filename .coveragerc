@@ -1,2 +1,9 @@
 [run]
-omit = tests/*
+omit = 
+    # No cover unit tests
+    tests/*
+    # We don't care about testing manual trigger code - maybe we should
+    **manual.py
+    # covers the test for the parsers
+    *tests/test_*
+
