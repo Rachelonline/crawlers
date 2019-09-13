@@ -9,6 +9,7 @@ from adparser.adparser import (
     build_ad_process_msg,
     parse_ad,
 )
+from adparser.sites.base_ad_parser import BaseAdParser
 
 
 @pytest.fixture(autouse=True)
@@ -21,24 +22,30 @@ def patch_datetime_now(monkeypatch):
     monkeypatch.setattr("adparser.adparser.datetime", mydatetime)
 
 
-def fake_parser(page):
-    return {"ad": "data"}, ["img-url"]
+class FakeParser(BaseAdParser):
+    def ad_dict(self) -> dict:
+        return {"ad": "data"}
+
+class NotFoundParser(BaseAdParser):
+    def ad_dict(self) -> dict:
+        return {}
+
 
 
 def not_found_parser(page):
-    return {}, []
+    return {}
 
 
 @pytest.fixture
 def parsers(monkeypatch):
-    monkeypatch.setitem(AD_PARSERS, "fake-parser", fake_parser)
-    monkeypatch.setitem(AD_PARSERS, "no-ad-data-found-parser", not_found_parser)
+    monkeypatch.setitem(AD_PARSERS, "fake-parser", FakeParser)
+    monkeypatch.setitem(AD_PARSERS, "no-ad-data-found-parser", NotFoundParser)
 
 
 def test_parse_ads(parsers):
-    assert parse_ads("fake-parser", "<html>") == ({"ad": "data"}, ["img-url"])
-    assert parse_ads("no-ad-data-found-parser", "<html>") == ({}, [])
-    assert parse_ads("no domain", "<html>") == ({}, [])
+    assert parse_ads("fake-parser", "<html>") == {"ad": "data"}
+    assert parse_ads("no-ad-data-found-parser", "<html>") == {}
+    assert parse_ads("no domain", "<html>") == {}
 
 
 def test_build_ad_process_msgs():
