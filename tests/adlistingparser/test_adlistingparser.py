@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import MagicMock
 from tests.fixtures.no_network import *
-from adlistingparser.adlistingparser import (
+from __app__.adlistingparser.adlistingparser import (
     AD_LISTING_PARSERS,
     parse_ad_listings,
     filter_uncrawled,
@@ -36,7 +36,7 @@ def test_parse_ad_listing_page(parsers):
 
 def test_filter_uncrawled(monkeypatch):
     mock_table = MagicMock()
-    monkeypatch.setattr("adlistingparser.adlistingparser.TABLE", mock_table)
+    monkeypatch.setattr("__app__.adlistingparser.adlistingparser.TABLE", mock_table)
 
     mock_table.is_crawled.side_effect = [False, True, False]
     assert ["ad-url1", "ad-url3"] == filter_uncrawled(["ad-url1", "ad-url2", "ad-url3"])
@@ -98,23 +98,23 @@ def test_parse_ad_listing(monkeypatch):
         ["ad-url1", "ad-url2", "ad-url3", "ad-url4"],
         ["next-url"],
     )
-    monkeypatch.setattr("adlistingparser.adlistingparser.parse_ad_listings", parse_mock)
+    monkeypatch.setattr("__app__.adlistingparser.adlistingparser.parse_ad_listings", parse_mock)
 
     uncrawled_mock = MagicMock()
     monkeypatch.setattr(
-        "adlistingparser.adlistingparser.filter_uncrawled", uncrawled_mock
+        "__app__.adlistingparser.adlistingparser.filter_uncrawled", uncrawled_mock
     )
 
     ad_msg_mock = MagicMock()
     ad_msg_mock.return_value = ["ad-mgs"]
     monkeypatch.setattr(
-        "adlistingparser.adlistingparser.build_ad_url_msgs", ad_msg_mock
+        "__app__.adlistingparser.adlistingparser.build_ad_url_msgs", ad_msg_mock
     )
 
     cont_msg_mock = MagicMock()
     cont_msg_mock.return_value = ["cont-mgs"]
     monkeypatch.setattr(
-        "adlistingparser.adlistingparser.build_cont_listing_msgs", cont_msg_mock
+        "__app__.adlistingparser.adlistingparser.build_cont_listing_msgs", cont_msg_mock
     )
 
     # no ads have been crawled - be sure we're going to keep crawling

@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 from datetime import datetime
 from tests.fixtures.no_network import no_requests
 
-from adlistingcrawler.adlistingcrawler import crawl_ad_listing
+from __app__.adlistingcrawler.adlistingcrawler import crawl_ad_listing
 
 
 @pytest.fixture(autouse=True)
@@ -13,14 +13,14 @@ def patch_datetime_now(monkeypatch):
         def now(cls):
             return datetime(2525, 1, 1)
 
-    monkeypatch.setattr("adlistingcrawler.adlistingcrawler.datetime", mydatetime)
+    monkeypatch.setattr("__app__.adlistingcrawler.adlistingcrawler.datetime", mydatetime)
 
 
 def test_crawl_ad_listing(monkeypatch):
     mock_get_url = MagicMock()
     mock_get_url.return_value.text = "test_page"
 
-    monkeypatch.setattr("adlistingcrawler.adlistingcrawler.get_url", mock_get_url)
+    monkeypatch.setattr("__app__.adlistingcrawler.adlistingcrawler.get_url", mock_get_url)
 
     input_data = {
         "ad-listing-url": "test_url",

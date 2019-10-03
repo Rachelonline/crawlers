@@ -1,4 +1,4 @@
-from utils.table.base_table import encode_url, decode_url
+from __app__.utils.table.base_table import encode_url, decode_url
 
 
 def test_encode_url():

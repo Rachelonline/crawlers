@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, call
 from tests.fixtures.no_network import no_requests, no_azure_table_service
 
 from azure.common import AzureMissingResourceHttpError
-from utils.table.ads import AdsTable
+from __app__.utils.table.ads import AdsTable
 
 
 @pytest.fixture
@@ -14,7 +14,7 @@ def mock_table_service(monkeypatch):
     def mock_table(*args, **kwargs):
         return mock_table_service
 
-    monkeypatch.setattr("utils.table.base_table.TableService", mock_table)
+    monkeypatch.setattr("__app__.utils.table.base_table.TableService", mock_table)
     return mock_table_service
 
 

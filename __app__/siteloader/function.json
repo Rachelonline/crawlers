@@ -1,0 +1,18 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "timer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "0 0 18 */1 * *"
+    },
+    {
+      "type": "serviceBus",
+      "direction": "out",
+      "connection": "AzureServiceBusConnectionString",
+      "name": "queuemsg",
+      "queueName": "sitecrawl"
+    }
+  ]
+}

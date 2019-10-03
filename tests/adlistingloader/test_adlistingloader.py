@@ -1,7 +1,7 @@
 import pytest
 from tests.fixtures.no_network import no_requests, no_azure_table_service
 
-from adlistingloader.adlistingloader import ad_listing_loader
+from __app__.adlistingloader.adlistingloader import ad_listing_loader
 
 
 def test_ad_listing_loader(monkeypatch):
@@ -11,7 +11,7 @@ def test_ad_listing_loader(monkeypatch):
         {"url": "test3", "metadata": {"meta": "data"}},
     ]
     monkeypatch.setattr(
-        "adlistingloader.adlistingloader.AdListingTable.ad_listings",
+        "__app__.adlistingloader.adlistingloader.AdListingTable.ad_listings",
         lambda _: mock_ad_listing,
     )
 

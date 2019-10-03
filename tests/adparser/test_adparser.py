@@ -2,14 +2,14 @@ from datetime import datetime
 import pytest
 from unittest.mock import MagicMock
 from tests.fixtures.no_network import *
-from adparser.adparser import (
+from __app__.adparser.adparser import (
     AD_PARSERS,
     parse_ads,
     build_image_url_msgs,
     build_ad_process_msg,
     parse_ad,
 )
-from adparser.sites.base_ad_parser import BaseAdParser
+from __app__.adparser.sites.base_ad_parser import BaseAdParser
 
 
 @pytest.fixture(autouse=True)
@@ -19,7 +19,7 @@ def patch_datetime_now(monkeypatch):
         def now(cls):
             return datetime(2525, 1, 1)
 
-    monkeypatch.setattr("adparser.adparser.datetime", mydatetime)
+    monkeypatch.setattr("__app__.adparser.adparser.datetime", mydatetime)
 
 
 class FakeParser(BaseAdParser):
@@ -101,7 +101,7 @@ def test_parse_ad(monkeypatch):
     }
     mock_parse = MagicMock()
     mock_parse.return_value = {"ad": "data"}, ["img-url"]
-    monkeypatch.setattr("adparser.adparser.parse_ads", mock_parse)
+    monkeypatch.setattr("__app__.adparser.adparser.parse_ads", mock_parse)
     expected_ad_processer_msg = {
         "ad-url": "ad-url1",
         "ad-page-blob": "test-blob",

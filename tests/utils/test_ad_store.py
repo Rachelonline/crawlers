@@ -2,13 +2,13 @@ import pytest
 from datetime import datetime
 from unittest.mock import ANY
 from tests.fixtures.no_network import *
-from utils.ads.adstore import save_ad_page, get_ad_page, _build_ad_page_url
+from __app__.utils.ads.adstore import save_ad_page, get_ad_page, _build_ad_page_url
 
 
 @pytest.fixture(autouse=True)
 def mock_uuid_storage_url(monkeypatch):
-    monkeypatch.setattr("utils.ads.adstore.uuid4", lambda: "uuid")
-    monkeypatch.setattr("utils.ads.adstore.STORAGE_URL", "blob.storage")
+    monkeypatch.setattr("__app__.utils.ads.adstore.uuid4", lambda: "uuid")
+    monkeypatch.setattr("__app__.utils.ads.adstore.STORAGE_URL", "blob.storage")
 
 
 def test_build_ad_page_url():

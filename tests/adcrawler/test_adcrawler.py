@@ -4,13 +4,13 @@ from unittest.mock import MagicMock
 from datetime import datetime
 from tests.fixtures.no_network import *
 
-from adcrawler.adcrawler import crawl_ad
+from __app__.adcrawler.adcrawler import crawl_ad
 
 
 @pytest.fixture(autouse=True)
 def mock_uuid_storage_url(monkeypatch):
-    monkeypatch.setattr("utils.ads.adstore.uuid4", lambda: "uuid")
-    monkeypatch.setattr("utils.ads.adstore.STORAGE_URL", "blob.storage")
+    monkeypatch.setattr("__app__.utils.ads.adstore.uuid4", lambda: "uuid")
+    monkeypatch.setattr("__app__.utils.ads.adstore.STORAGE_URL", "blob.storage")
 
 
 @pytest.fixture(autouse=True)
@@ -20,15 +20,15 @@ def patch_datetime_now(monkeypatch):
         def now(cls):
             return datetime(2525, 1, 1)
 
-    monkeypatch.setattr("adcrawler.adcrawler.datetime", mydatetime)
+    monkeypatch.setattr("__app__.adcrawler.adcrawler.datetime", mydatetime)
 
 
 def test_crawl_ad(monkeypatch):
     mock_get_url = MagicMock()
     mock_get_url.return_value.text = "test_page"
-    monkeypatch.setattr("adcrawler.adcrawler.get_url", mock_get_url)
+    monkeypatch.setattr("__app__.adcrawler.adcrawler.get_url", mock_get_url)
     mock_table = MagicMock()
-    monkeypatch.setattr("adcrawler.adcrawler.TABLE", mock_table)
+    monkeypatch.setattr("__app__.adcrawler.adcrawler.TABLE", mock_table)
     mock_table.is_crawled.return_value = False
 
     input_data = {
@@ -63,9 +63,9 @@ def test_crawl_ad(monkeypatch):
 
 def test_dont_crawl(monkeypatch):
     mock_get_url = MagicMock()
-    monkeypatch.setattr("adcrawler.adcrawler.get_url", mock_get_url)
+    monkeypatch.setattr("__app__.adcrawler.adcrawler.get_url", mock_get_url)
     mock_table = MagicMock()
-    monkeypatch.setattr("adcrawler.adcrawler.TABLE", mock_table)
+    monkeypatch.setattr("__app__.adcrawler.adcrawler.TABLE", mock_table)
     mock_table.is_crawled.return_value = True
 
     input_data = {

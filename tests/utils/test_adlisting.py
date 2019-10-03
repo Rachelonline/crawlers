@@ -3,7 +3,7 @@ import json
 from unittest.mock import MagicMock, call
 from tests.fixtures.no_network import no_requests, no_azure_table_service
 
-from utils.table.adlisting import AdListingTable
+from __app__.utils.table.adlisting import AdListingTable
 
 
 class Entity:
@@ -24,7 +24,7 @@ def mock_table_service(monkeypatch):
     def mock_table(*args, **kwargs):
         return mock_table_service
 
-    monkeypatch.setattr("utils.table.base_table.TableService", mock_table)
+    monkeypatch.setattr("__app__.utils.table.base_table.TableService", mock_table)
     return mock_table_service
 
 
@@ -84,7 +84,7 @@ def test_batch_merge_ad_listings(mock_table_service, monkeypatch):
     )
 
     # Test max batch size
-    monkeypatch.setattr("utils.table.adlisting.MAX_BATCH_SIZE", 1)
+    monkeypatch.setattr("__app__.utils.table.adlisting.MAX_BATCH_SIZE", 1)
     ad_listing_table.table_service.reset_mock()
     ad_listing_table.batch_merge_ad_listings(urls, domain, metadata)
 

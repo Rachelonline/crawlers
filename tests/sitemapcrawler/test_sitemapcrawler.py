@@ -1,8 +1,7 @@
 import pytest
 from unittest.mock import MagicMock
-from tests.fixtures.no_network import no_requests
-
-from sitemapcrawler.sitemapcrawler import sitemap, SITE_MAP_CRAWLERS
+from tests.fixtures.no_network import *
+from __app__.sitemapcrawler.sitemapcrawler import sitemap, SITE_MAP_CRAWLERS
 
 
 def domain_mock(monkeypatch, domain: str) -> MagicMock:
@@ -30,6 +29,8 @@ def test_sitemapping_jobs(mock_mappers):
 
     assert sitemap(input_data) == expected
 
-    input_data = {"domain": "no-parser-domain", "metadata": {"domain": "cityxguide.com"}}
+    input_data = {
+        "domain": "no-parser-domain",
+        "metadata": {"domain": "cityxguide.com"},
+    }
     assert sitemap(input_data) is None
-

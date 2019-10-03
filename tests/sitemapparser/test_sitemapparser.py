@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import MagicMock
 from tests.fixtures.no_network import *
-from sitemapparser.sitemapparser import (
+from __app__.sitemapparser.sitemapparser import (
     SITE_PARSERS,
     parse_ad_listing_page,
     parse_sitemap,
@@ -30,7 +30,7 @@ def test_parse_ad_listing_page(parsers):
 
 def test_parse_sitemap(parsers, monkeypatch):
     mock_table = MagicMock()
-    monkeypatch.setattr("sitemapparser.sitemapparser.TABLE", mock_table)
+    monkeypatch.setattr("__app__.sitemapparser.sitemapparser.TABLE", mock_table)
     # Happy path
     test_message = {
         "sitemapping-page": "<html>",
