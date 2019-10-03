@@ -98,7 +98,7 @@ def test_batch_merge_ad_listings_existing_url(mock_table_service, monkeypatch):
     mock_table_service.query_entities.side_effect = [ [], "test2", []]  # Only return value on 2nd call to query_entities
 
     ad_listing_table = AdListingTable()
-    ad_listing_table.batch_merge_ad_listings(urls, domain, metadata)
+    new_ad_listings = ad_listing_table.batch_merge_ad_listings(urls, domain, metadata)
 
     # This bit of uglyness is because we are using batch as a context manager so we need to do the __enter__ etc.
     ad_listing_table.table_service.batch.return_value.__enter__.return_value.insert_or_merge_entity.assert_has_calls(
@@ -119,3 +119,4 @@ def test_batch_merge_ad_listings_existing_url(mock_table_service, monkeypatch):
             ),
         ]
     )
+    assert new_ad_listings == 2

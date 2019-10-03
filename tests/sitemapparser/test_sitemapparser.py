@@ -25,7 +25,7 @@ def parsers(monkeypatch):
 def test_parse_ad_listing_page(parsers):
     assert parse_ad_listing_page("fake-parser", "<html>") == ["test-url1", "test-url2"]
     assert parse_ad_listing_page("no-urls-found-parser", "<html>") == []
-    assert parse_ad_listing_page("no domain", "<html>") is None
+    assert parse_ad_listing_page("no domain", "<html>") == []
 
 
 def test_parse_sitemap(parsers, monkeypatch):

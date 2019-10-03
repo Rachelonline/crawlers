@@ -8,7 +8,6 @@ SITE_MAP_CRAWLERS = {"cityxguide.com": CityXGuide}
 
 def sitemap(message: dict) -> dict:
     azure_tc = get_client()
-    logging.info(azure_tc)
     enable_logging()
 
     parse_message = {}

@@ -5,9 +5,10 @@
         "version": "[1.*, 2.0.0)"
     },
     "logging": {
+        "fileLoggingMode": "debugOnly",
         "applicationInsights": {
             "samplingSettings": {
-                "isEnabled": false
+                "isEnabled": true
             }
         }
     }

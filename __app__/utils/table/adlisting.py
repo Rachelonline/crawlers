@@ -37,7 +37,8 @@ class AdListingTable(BaseAzureTable):
 
     def batch_merge_ad_listings(
         self, ad_listing_urls: List, domain: str, metadata: dict
-    ) -> None:
+    ) -> int:
+        new_ad_listings = 0
         for ad_listing_url_chunk in chunk(ad_listing_urls):
             with self.table_service.batch(self._table_name) as batch:
                 for ad_listing_url in ad_listing_url_chunk:
@@ -49,6 +50,7 @@ class AdListingTable(BaseAzureTable):
                     logging.info(
                         "New ad listing url found for %s - %s", domain, ad_listing_url
                     )
+                    new_ad_listings += 1
                     batch.insert_or_merge_entity(
                         {
                             "PartitionKey": encode_url(domain),
@@ -56,3 +58,4 @@ class AdListingTable(BaseAzureTable):
                             "metadata": json.dumps(metadata),
                         }
                     )
+        return new_ad_listings

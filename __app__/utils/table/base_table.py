@@ -1,11 +1,10 @@
+import os
 import json
 from typing import List
 from azure.cosmosdb.table.tableservice import TableService, TableBatch
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 
-ACCOUNT_KEY = ""
 ACCOUNT_NAME = "picrawling"
-
 
 def encode_url(url: str) -> str:
     """ We encode urls because azure table RowKeys won't allow slashes (thus raw urls)"""
@@ -23,6 +22,7 @@ class BaseAzureTable:
     @property
     def table_service(self):
         if self._table_service is None:
+            ACCOUNT_KEY = os.getenv("TABLE_SERVICE_KEY")
             self._table_service = TableService(
                 account_name=ACCOUNT_NAME, account_key=ACCOUNT_KEY
             )

@@ -23,7 +23,6 @@ def main():
 
     args = parser.parse_args()
     site_map_parse_job = build_site_map_parse_msg(args.path, args.domain)
-    logging.info("Adding job to site map parse queue: %s", site_map_parse_job)
     client = ServiceBusClient.from_connection_string(CONNECTION)
     queue = client.get_queue("siteparse")
     queue.send(Message(json.dumps(site_map_parse_job)))

@@ -1,9 +1,9 @@
+# Tests and test data.
 ad*
 */tests/*
 tests/
 
 *__pycache__*
-sitemapp*
 
 bin
 obj
