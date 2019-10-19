@@ -69,7 +69,7 @@ def test_build_cont_listing_msgs():
             "url": "next-url3",
         },
     ]
-    assert build_cont_listing_msgs(test_msg, urls) == expected
+    assert build_cont_listing_msgs(test_msg, urls, MagicMock()) == expected
 
     test_msg = {"domain": "test", "metadata": {"meta": "data", "crawl-depth": 1}}
     urls = ["next-url4"]
@@ -80,13 +80,13 @@ def test_build_cont_listing_msgs():
             "url": "next-url4",
         }
     ]
-    assert build_cont_listing_msgs(test_msg, urls) == expected
+    assert build_cont_listing_msgs(test_msg, urls, MagicMock()) == expected
 
     # Beyond max crawl depth
     test_msg = {"domain": "test", "metadata": {"meta": "data", "crawl-depth": 10}}
     urls = ["next-url4"]
     expected = []
-    assert build_cont_listing_msgs(test_msg, urls) == expected
+    assert build_cont_listing_msgs(test_msg, urls, MagicMock()) == expected
 
 
 

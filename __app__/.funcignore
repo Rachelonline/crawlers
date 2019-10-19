@@ -1,7 +1,6 @@
 # Tests and test data.
 adc*
 adp*
-adlistingp*
 */tests/*
 tests/
 
