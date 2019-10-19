@@ -25,4 +25,5 @@ def sitemapping_jobs() -> List[dict]:
         )
         logging.info("queuing sitemapping for %s", domain)
     logging.info("queued total %s sitemapping jobs", len(jobs))
+    azure_tc.flush()
     return jobs
