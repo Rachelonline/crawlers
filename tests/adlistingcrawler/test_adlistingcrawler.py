@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import MagicMock
 from datetime import datetime
-from tests.fixtures.no_network import no_requests
+from tests.fixtures.no_network import *
 
 from __app__.adlistingcrawler.adlistingcrawler import crawl_ad_listing
 
