@@ -17,7 +17,9 @@ def crawl_ad_listing(message: dict) -> dict:
         {"ad-listing-crawled": datetime.now().replace(microsecond=0).isoformat()}
     )
     logging.info("crawled ad listing url: %s", message["ad-listing-url"])
-    azure_tc.track_metric("adlisting-crawl-success", 1, properties={"domain": message["domain"]})
+    azure_tc.track_metric(
+        "adlisting-crawl-success", 1, properties={"domain": message["domain"]}
+    )
     azure_tc.flush()
 
     return parse_message

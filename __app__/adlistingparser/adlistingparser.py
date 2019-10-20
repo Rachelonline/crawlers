@@ -13,6 +13,7 @@ TABLE = AdsTable()
 PERCENT_UNCRAWLED = 0.7
 MAX_CRAWL_DEPTH = 10
 
+
 def parse_ad_listings(domain, page):
     parser = AD_LISTING_PARSERS.get(domain)
     if parser is None:
@@ -47,22 +48,16 @@ def build_cont_listing_msgs(msg: dict, next_urls: List[str], azure_tc) -> List[d
     domain = msg["domain"]
     if crawl_depth >= MAX_CRAWL_DEPTH:
         logging.info(
-            "Crawl hit max crawl depth for domain %s, depth %s",
-            domain,
-            crawl_depth,
+            "Crawl hit max crawl depth for domain %s, depth %s", domain, crawl_depth
         )
-        azure_tc.track_metric(
-            "crawl-depth-max", 1, properties={"domain": domain}
-        )
+        azure_tc.track_metric("crawl-depth-max", 1, properties={"domain": domain})
         return []
     logging.info(
         "not enough ads crawled, enqueing next ad listing url for %s, depth %s",
         domain,
         crawl_depth,
     )
-    azure_tc.track_metric(
-        "crawl-depth", crawl_depth, properties={"domain": domain}
-    )
+    azure_tc.track_metric("crawl-depth", crawl_depth, properties={"domain": domain})
     for next_url in next_urls:
         next_listing_msg = {}
         next_listing_msg["domain"] = domain
@@ -83,9 +78,7 @@ def parse_ad_listing(message: dict) -> dict:
     ad_urls, continuation_urls = parse_ad_listings(domain, page)
     logging.info("Found %s ads on %s", len(ad_urls), domain)
     logging.info("Found %s continuation urls on %s", len(continuation_urls), domain)
-    azure_tc.track_metric(
-        "ads-found", len(ad_urls), properties={"domain": domain}
-    )
+    azure_tc.track_metric("ads-found", len(ad_urls), properties={"domain": domain})
 
     # Perf improvement: make this parallel
     uncrawled_ads = filter_uncrawled(ad_urls)
@@ -100,7 +93,9 @@ def parse_ad_listing(message: dict) -> dict:
     # Check to see if we need to get the next ad listing page
     continued_listing_msgs = []
     if len(uncrawled_ads) / len(ad_urls) >= PERCENT_UNCRAWLED:
-        continued_listing_msgs = build_cont_listing_msgs(message, continuation_urls, azure_tc)
+        continued_listing_msgs = build_cont_listing_msgs(
+            message, continuation_urls, azure_tc
+        )
 
     azure_tc.track_metric(
         "continuation-urls", len(continuation_urls), properties={"domain": domain}

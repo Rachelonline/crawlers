@@ -32,9 +32,13 @@ def parse_sitemap(message):
         new_ad_listings = TABLE.batch_merge_ad_listings(
             ad_listing_urls, message["domain"], message["metadata"]
         )
-        logging.info("Found %s new ad_listings on %s", new_ad_listings, message["domain"])
+        logging.info(
+            "Found %s new ad_listings on %s", new_ad_listings, message["domain"]
+        )
         azure_tc.track_metric(
-            "sitemap-new-ad-listings-found", new_ad_listings, properties={"domain": domain}
+            "sitemap-new-ad-listings-found",
+            new_ad_listings,
+            properties={"domain": domain},
         )
 
     azure_tc.flush()

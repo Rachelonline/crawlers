@@ -8,6 +8,7 @@ from __app__.adlistingparser.adlistingparser import parse_ad_listings
 TEST_DATA_LOCATION = "__app__/adlistingparser/tests/ad-listing-tests-data.json"
 TEST_HTML_FOLDER = "__app__/adlistingparser/tests/test-data"
 
+
 def id_func(item):
     return item["html"]
 
@@ -17,7 +18,6 @@ def pytest_generate_tests(metafunc):
         with open(TEST_DATA_LOCATION) as test_data_f:
             test_cases = json.load(test_data_f)
             metafunc.parametrize("test_case", [i for i in test_cases], ids=id_func)
-
 
 
 def test_site_map_parsers(test_case):

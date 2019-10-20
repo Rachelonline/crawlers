@@ -11,7 +11,11 @@ CONNECTION = os.environ["SB_CONN_STR"]
 
 
 def build_ad_listing_map_crawl_msg(url, domain):
-    return {'ad-listing-url': url, "domain": domain, "metadata": {"domain": domain, "manual-job": True}}
+    return {
+        "ad-listing-url": url,
+        "domain": domain,
+        "metadata": {"domain": domain, "manual-job": True},
+    }
 
 
 def main():

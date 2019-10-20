@@ -6,11 +6,13 @@ import logging
 
 MAX_RETRIES = 4
 
+
 def no_retry_get(url, params=None):
     headers = get_headers()
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
     return response
+
 
 def get_url(url):
     """
@@ -23,7 +25,7 @@ def get_url(url):
             return no_retry_get(url)
         except requests.exceptions.RequestException as e:
             # jittered expo backoff
-            sleeptime = random.uniform(0, 2**attempts)
+            sleeptime = random.uniform(0, 2 ** attempts)
             attempts += 1
             logging.info("attempt %s sleeping %s retrying %s", attempts, sleeptime, url)
             sleep(sleeptime)

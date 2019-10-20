@@ -16,7 +16,9 @@ def crawl_ad(message: dict) -> dict:
     domain = message["domain"]
     # We've already crawled this page
     if TABLE.is_crawled(ad_url):
-        azure_tc.track_metric("ad-already-crawled", 1, properties={"domain": message["domain"]})
+        azure_tc.track_metric(
+            "ad-already-crawled", 1, properties={"domain": message["domain"]}
+        )
         return None
 
     page = get_url(ad_url)
@@ -29,7 +31,9 @@ def crawl_ad(message: dict) -> dict:
     logging.info("crawled ad: %s", ad_url)
     TABLE.mark_crawled(ad_url, uri, message["metadata"])
 
-    azure_tc.track_metric("ad-crawl-success", 1, properties={"domain": message["domain"]})
+    azure_tc.track_metric(
+        "ad-crawl-success", 1, properties={"domain": message["domain"]}
+    )
     azure_tc.flush()
 
     return message

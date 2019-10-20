@@ -26,7 +26,9 @@ def sitemap(message: dict) -> dict:
     parse_message["domain"] = message["domain"]
     parse_message["metadata"] = message["metadata"]
     parse_message["metadata"].update(site_map_crawler.extra_metadata())
-    azure_tc.track_metric("sitemap-crawl-success", 1, properties={"domain": message["domain"]})
+    azure_tc.track_metric(
+        "sitemap-crawl-success", 1, properties={"domain": message["domain"]}
+    )
     logging.info("completed sitemapping for %s", message["domain"])
     azure_tc.flush()
     return parse_message

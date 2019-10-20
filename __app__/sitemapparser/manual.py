@@ -13,7 +13,11 @@ CONNECTION = os.environ["SB_CONN_STR"]
 def build_site_map_parse_msg(path, domain):
     with open(path) as html_f:
         url = html_f.read()
-    return {"sitemapping-page": url, "domain": domain, "metadata": {"domain": domain, "manual-job": True}}
+    return {
+        "sitemapping-page": url,
+        "domain": domain,
+        "metadata": {"domain": domain, "manual-job": True},
+    }
 
 
 def main():

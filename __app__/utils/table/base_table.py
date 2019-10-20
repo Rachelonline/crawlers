@@ -6,6 +6,7 @@ from base64 import urlsafe_b64encode, urlsafe_b64decode
 
 ACCOUNT_NAME = "picrawling"
 
+
 def encode_url(url: str) -> str:
     """ We encode urls because azure table RowKeys won't allow slashes (thus raw urls)"""
     return urlsafe_b64encode(bytes(url, "utf-8")).decode("utf-8")
