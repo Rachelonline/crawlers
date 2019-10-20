@@ -15,11 +15,11 @@ def no_azure_table_service(monkeypatch):
 def no_azure_blob_service(monkeypatch):
     mock_blob_client = MagicMock()
     monkeypatch.setattr("__app__.utils.ads.adstore.BlobClient", mock_blob_client)
-    return mock_blob_client
+    return mock_blob_client.from_blob_url
 
 @pytest.fixture(autouse=True)
 def no_azure_metrics(monkeypatch):
     mock_telem_client = MagicMock()
     monkeypatch.setattr("__app__.utils.metrics.metrics.TelemetryClient", mock_telem_client)
     monkeypatch.setattr("__app__.utils.metrics.metrics.enable", lambda _: None)
-    return mock_telem_client
+    return mock_telem_client.from_blob_url

@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 import json
 from uuid import uuid4
@@ -5,7 +6,6 @@ from azure.storage.blob import BlobClient
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 
 
-ACCOUNT_KEY = ""
 STORAGE_URL = "https://picrawling.blob.core.windows.net/test-ads"
 
 
@@ -14,12 +14,14 @@ def _build_ad_page_url(date: datetime, domain: str):
 
 
 def save_ad_page(html: str, crawled_on: datetime, domain: str) -> str:
+    ACCOUNT_KEY = os.getenv("BLOB_STORAGE_KEY")
     blob_uri = _build_ad_page_url(crawled_on, domain)
-    blob = BlobClient(blob_uri, credential=ACCOUNT_KEY)
+    blob = BlobClient.from_blob_url(blob_uri, credential=ACCOUNT_KEY)
     blob.upload_blob(html)
     return blob_uri
 
 
 def get_ad_page(blob_uri: str) -> str:
-    blob = BlobClient(blob_uri, credential=ACCOUNT_KEY)
+    ACCOUNT_KEY = os.getenv("BLOB_STORAGE_KEY")
+    blob = BlobClient.from_blob_url(blob_uri, credential=ACCOUNT_KEY)
     return blob.download_blob().content_as_text()
