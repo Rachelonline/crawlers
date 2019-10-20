@@ -72,7 +72,7 @@ class CityXGuide(BaseAdParser):
     def gender(self) -> str:
         category = self.soup.find("span", text="Category").next_sibling
         link = category.find("a").get("href")
-        gender = self.gender_lookup.get(link.split('/')[-1], "unknown")
+        gender = self.gender_lookup.get(link.split("/")[-1], "unknown")
         return gender
 
     def services(self) -> List:

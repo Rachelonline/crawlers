@@ -84,8 +84,4 @@ class BaseAdParser:
             "ad-text": self.ad_text(),
             "ad-title": self.ad_title(),
         }
-        #full_ad_dict.pop("ad-text")
-        print(full_ad_dict["name"])
-        print(full_ad_dict["ad-title"])
-        print(full_ad_dict["ad-text"])
         return {k: v for k, v in full_ad_dict.items() if v}
