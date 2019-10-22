@@ -9,7 +9,7 @@ MAX_RETRIES = 4
 
 def no_retry_get(url, params=None):
     headers = get_headers()
-    response = requests.get(url, headers=headers, params=params)
+    response = requests.get(url, headers=headers, params=params, timeout=0.7)
     response.raise_for_status()
     return response
 
