@@ -32,37 +32,40 @@ def test_is_crawled(mock_table_service):
 
 def test_mark_crawled(mock_table_service):
     ads_table = AdsTable()
-    ads_table.mark_crawled("test-url", "blob-uri", {"meta": "data"})
+    ads_table.mark_crawled("test-url", "blob-uri", {"ad-crawled": "now"})
     mock_table_service.insert_or_merge_entity.assert_called_with(
         "ads",
         {
             "PartitionKey": "dGVzdC11cmw=",
             "RowKey": "dGVzdC11cmw=",
             "blob": "blob-uri",
-            "metadata": '{"meta": "data"}',
+            "crawledon": "now",
+            "metadata": '{"ad-crawled": "now"}',
         },
     )
 
 
 def test_mark_parsed(mock_table_service):
     ads_table = AdsTable()
-    ads_table.mark_parsed("test-url", "parsed-on", [])
+    ads_table.mark_parsed("test-url", {"ad-parsed": "now"}, [])
     mock_table_service.merge_entity.assert_called_with(
         "ads",
         {
             "PartitionKey": "dGVzdC11cmw=",
             "RowKey": "dGVzdC11cmw=",
-            "parsed-on": "parsed-on",
+            "parsedon": "now",
+            "metadata": '{"ad-parsed": "now"}',
         },
     )
 
-    ads_table.mark_parsed("test-url", "parsed-on", ["test-img", "test-img2"])
+    ads_table.mark_parsed("test-url", {"ad-parsed": "now"}, ["test-img", "test-img2"])
     mock_table_service.merge_entity.assert_called_with(
         "ads",
         {
             "PartitionKey": "dGVzdC11cmw=",
             "RowKey": "dGVzdC11cmw=",
-            "parsed-on": "parsed-on",
-            "image-urls": ["test-img", "test-img2"],
+            "parsedon": "now",
+            "metadata": '{"ad-parsed": "now"}',
+            "imageurls": '["test-img", "test-img2"]',
         },
     )
