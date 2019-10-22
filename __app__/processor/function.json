@@ -1,0 +1,21 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "inmsg",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "queueName": "process",
+      "connection": "AzureServiceBusConnectionString"
+    },
+    {
+      "direction": "out",
+      "type": "cosmosDB",
+      "name": "doc",
+      "databaseName": "crawling",
+      "collectionName": "ads",
+      "connectionStringSetting": "AzureCosmosDBConnectionString", 
+      "createIfNotExists": "true"
+    }
+  ]
+}
