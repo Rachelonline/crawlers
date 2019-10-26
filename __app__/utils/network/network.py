@@ -1,35 +1,59 @@
 import requests
-import random
-from time import sleep
+from urllib.parse import urlparse
 from __app__.utils.network.headers import get_headers
-import logging
+from __app__.utils.metrics.metrics import get_client
 
 MAX_RETRIES = 4
+CONNECTION_TIMEOUT = 0.7
 
 
-def no_retry_get(url, params=None):
-    headers = get_headers()
-    response = requests.get(url, headers=headers, params=params, timeout=0.7)
-    response.raise_for_status()
-    return response
+class BaseCrawlError(Exception):
+    def __init__(self, code, url):
+        self.code = code
+        self.url = url
+
+    def __str__(self):
+        return f"{self.code}: {self.url}"
 
 
-def get_url(url):
-    """
-    This is a pretty basic backoff with jitter. We can't use the backoff module
-    because it's a sync function inside a co-routine.
-    """
-    attempts = 0
-    while True:
-        try:
-            return no_retry_get(url)
-        except requests.exceptions.RequestException as e:
-            # jittered expo backoff
-            sleeptime = random.uniform(0, 2 ** attempts)
-            attempts += 1
-            logging.info("attempt %s sleeping %s retrying %s", attempts, sleeptime, url)
-            sleep(sleeptime)
+class CrawlError(BaseCrawlError):
+    pass
 
-            if attempts >= MAX_RETRIES:
-                logging.info("giving up after attempt %s url %s", attempts, url)
-                raise e
+
+class NotFound(BaseCrawlError):
+    pass
+
+
+def get_url(url, params={}):
+    azure_tc = get_client()
+    domain = "{uri.scheme}://{uri.netloc}".format(uri=urlparse(url))
+
+    try:
+        headers = get_headers()
+        response = requests.get(
+            url, headers=headers, params=params, timeout=CONNECTION_TIMEOUT
+        )
+        response.raise_for_status()
+        azure_tc.track_event("crawl", {"code": 200, "domain": domain})
+        azure_tc.flush()
+        return response
+    except requests.exceptions.HTTPError as err:
+        status_code = err.response.status_code
+        azure_tc.track_event("crawl", {"code": status_code, "domain": domain})
+        azure_tc.flush()
+        if status_code == 404:
+            raise NotFound(status_code, url)
+        if status_code == 400 or status_code > 404:
+            raise CrawlError(status_code, url)
+        raise
+    except requests.exceptions.ReadTimeout as err:
+        status_code = 999
+        azure_tc.track_event("crawl", {"code": status_code, "domain": domain})
+        azure_tc.flush()
+        raise CrawlError(status_code, url)
+    except requests.exceptions.ConnectTimeout as err:
+        status_code = 888
+        azure_tc.track_event("crawl", {"code": status_code, "domain": domain})
+        azure_tc.flush()
+        raise CrawlError(status_code, url)
+

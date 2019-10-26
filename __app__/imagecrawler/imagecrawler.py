@@ -1,6 +1,6 @@
 from datetime import datetime
 import logging
-from __app__.utils.network.network import no_retry_get as get_url
+from __app__.utils.network.network import get_url
 from __app__.utils.table.images import ImagesTable
 from __app__.utils.images.imagestore import save_image
 from __app__.utils.metrics.metrics import get_client, enable_logging
@@ -10,7 +10,7 @@ TABLE = ImagesTable()
 
 def crawl_image(message: dict) -> dict:
     azure_tc = get_client()
-#    enable_logging()
+    enable_logging()
 
     image_url = message["image-url"]
     logging.info("starting image url: %s", image_url)

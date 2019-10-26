@@ -25,7 +25,7 @@ def save_image(html: str, url: str) -> str:
 
 
 def get_image(url: str) -> str:
-    blob_url = _build_image_url(url)
+    blob_uri = _build_image_url(url)
     ACCOUNT_KEY = os.getenv("BLOB_STORAGE_KEY")
     blob = BlobClient.from_blob_url(blob_uri, credential=ACCOUNT_KEY)
     return blob.download_blob().content_as_text()
