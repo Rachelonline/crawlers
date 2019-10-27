@@ -21,7 +21,7 @@ def build_site_map_parse_msg(path, domain):
 
 
 def main():
-    parser = ArgumentParser(description="Manually load a site map parse job")
+    parser = ArgumentParser(description="Manually load a site map parse job queue")
     parser.add_argument("domain", type=str, help="Domain to parse the site map.")
     parser.add_argument("path", type=str, help="Path (local) for file to parse")
 

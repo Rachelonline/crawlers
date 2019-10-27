@@ -4,7 +4,22 @@ from __app__.utils.metrics.metrics import get_client, enable_logging
 from __app__.utils.network.network import get_url
 from __app__.utils.throttle.throttle import check_throttle
 
-SITEMAP_URL = {"cityxguide.com": "https://cityxguide.com"}
+SITEMAP_URL = {
+    "cityxguide.com": "https://cityxguide.com",
+    "capleasures.com": "https://capleasures.com",
+    # "backpage.ly": None,
+    # "gfemonkey.com": None,
+    # "eccie.net": None,
+    # "megapersonals.com": None,
+    # "tnaboard.com": None,
+    # "switter.at": None,
+    # "tryst.link": None,
+    # "eroticmonkey.ch": None,
+    # "eros.com": None,
+    # "adultsearch.com": None,
+    # "slixa.com": None,
+    # "escortdirectory.com": None,
+}
 
 
 def get_sitemap_page(sitemap_url):
