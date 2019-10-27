@@ -36,7 +36,7 @@ def check_throttle(url, azure_tc=None):
         total = conn.rpushx(f"{domain}-max", domain)
         estimated_delay = (total // REQUESTS_PER_BUCKET) * BUCKET_LENGTH
         if azure_tc:
-            azure_tc.track_metric("throttled", 1, properites={"domain": domain})
+            azure_tc.track_metric("throttled", 1, properties={"domain": domain})
         raise Throttled(estimated_delay, domain)
 
     if not conn.exists(domain):
