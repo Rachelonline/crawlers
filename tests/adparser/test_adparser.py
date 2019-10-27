@@ -100,17 +100,14 @@ def test_parse_ad(monkeypatch):
         "metadata": {"meta": "data"},
     }
     mock_ad_parse = MagicMock()
-    mock_ad_parse.return_value = {"ad": "data"}
+    mock_ad_parse.return_value = {"ad": "data", "image-urls": ["img-url"]}
     monkeypatch.setattr("__app__.adparser.adparser.parse_ads", mock_ad_parse)
-    mock_img_parse = MagicMock()
-    mock_img_parse.return_value = ["img-url"]
-    monkeypatch.setattr("__app__.adparser.adparser.parse_imgs", mock_img_parse)
     expected_ad_processer_msg = {
         "ad-url": "ad-url1",
         "ad-page-blob": "test-blob",
         "domain": "test",
         "metadata": {"meta": "data", "ad-parsed": "2525-01-01T00:00:00"},
-        "ad-data": {"ad": "data"},
+        "ad-data": {"ad": "data", "image-urls": ["img-url"]},
     }
     expected_img_url_msgs = [{
         "image-url": "img-url",

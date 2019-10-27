@@ -8,12 +8,11 @@ from __app__.utils.network.network import CrawlError, NotFound
 from __app__.utils.throttle.throttle import Throttled
 
 
-CONNECTION = os.environ["SB_CONN_STR"]
 MAX_CRAWL_RETRIES = 5
 
 
 def throttle(message, queue_name, delay=0):
-    raw_message = Message(message)
+    raw_message = Message(json.dumps(message))
     requeue_job(raw_message, queue_name, delay=delay)
 
 
@@ -25,17 +24,18 @@ def error_retry(message, queue_name):
     delay = random.uniform(0, 2 ** retry_count)
 
     message["crawl_retries"] = retry_count
-    raw_message = Message(message)
+    raw_message = Message(json.dumps(message))
     is_final = retry_count > MAX_CRAWL_RETRIES
     requeue_job(raw_message, queue_name, delay=delay, final=is_final)
 
 
 def not_found(message, queue_name):
-    raw_message = Message(message)
+    raw_message = Message(json.dumps(message))
     requeue_job(raw_message, queue_name, final=True)
 
 
 def requeue_job(raw_message, queue_name, delay=0, final=False):
+    CONNECTION = os.environ["SB_CONN_STR"]
     client = ServiceBusClient.from_connection_string(CONNECTION)
     if final:
         queue_name = f"{queue_name}-failed"

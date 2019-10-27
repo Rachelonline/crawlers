@@ -23,3 +23,16 @@ def no_azure_metrics(monkeypatch):
     monkeypatch.setattr("__app__.utils.metrics.metrics.TelemetryClient", mock_telem_client)
     monkeypatch.setattr("__app__.utils.metrics.metrics.enable", lambda _: None)
     return mock_telem_client.from_blob_url
+
+@pytest.fixture(autouse=True)
+def no_service_bus(monkeypatch):
+    mock_sb_client = MagicMock()
+    monkeypatch.setattr("__app__.utils.crawling.crawl_job.ServiceBusClient", mock_sb_client)
+    return mock_sb_client
+
+@pytest.fixture(autouse=True)
+def no_redis_throttle(monkeypatch):
+    mock_redis = MagicMock()
+    mock_redis.llen.return_value = 0  # Throttles are wide open!
+    monkeypatch.setattr("__app__.utils.throttle.throttle.get_connection", lambda: mock_redis)
+    return mock_redis

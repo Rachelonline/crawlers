@@ -1,8 +1,43 @@
-# crawlers!
+# Crawlers
 
-This repo covers the crawlers - specifically the code that actually goes out on the web and fetches data. 
 
-## Overview
+## TOC:
+
+* Getting started
+* Runbook 
+* High Level Design
+* Crawler Design
+* Rough Edges
+
+## High level crawling process
+
+Gathering data from the across the web is a dynamic and continually evolving challenge. 
+
+To make things manageable the problem is broken up into 4 different stages:
+1. Collecting sitemaps
+2. Crawling ad listings
+3. Crawling individual ads
+4. Processing ad data and crawling ad images
+
+Each stage of the process feeds into the next. 
+
+A sitemap is a collection of all the ad listing urls on a page. This is generally slow changing so we only check for new listings once per day.
+
+Ad listings are pages that list links to individual ads. We depth crawl those once an hour to get new ads to crawl. Depth crawling means we will crawl ad listings, find the url for the "next" ad listings then crawl the new ad listing url. We continue the process of crawling ad listings, gather ads, then find the next set of ads until we hit a max depth or until we've already crawled "enough" ads on the page. Think of this as going back in time on sites like craigslist.
+
+Once we have the individual ad urls we then crawl those ads. Raw ads are saved in blobstore and structured ad data is sent to the processing step. 
+
+In the final processing step we ad the structured ad data into CosmosDB and save ad images to blobstore. 
+
+To be good web citizens we also have a per-domain shared throttle so we will limit the rate which we crawl any website. 
+
+
+
+
+
+
+
+
 
 Crawling is broken up into 3 different problems:
 1. Collecting ads
