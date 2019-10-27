@@ -5,10 +5,7 @@ import logging
 from azure.servicebus import ServiceBusClient, Message
 from datetime import datetime, timedelta
 from __app__.utils.network.network import CrawlError, NotFound
-
-# TODO: Move to throttle
-class Throttled(Exception):
-    delay = 0
+from __app__.utils.throttle.throttle import Throttled
 
 
 CONNECTION = os.environ["SB_CONN_STR"]
@@ -46,13 +43,13 @@ def requeue_job(raw_message, queue_name, delay=0, final=False):
 
     with queue.get_sender() as sender:
         sender.schedule(datetime.utcnow() + timedelta(seconds=delay), raw_message)
+        sender.send_pending_messages()
 
 
 def crawl_job(raw_message, queue_name, crawl_f):
     """ Wraps a crawl job to manage retries and throttles """
     message = json.loads(raw_message.get_body().decode("utf-8"))
     try:
-        # TODO: Check throttle
         return crawl_f(message)
     except Throttled as err:
         throttle(message, queue_name, delay=err.delay)

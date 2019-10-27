@@ -2,6 +2,7 @@ from datetime import datetime
 import logging
 from __app__.utils.network.network import get_url
 from __app__.utils.metrics.metrics import get_client, enable_logging
+from __app__.utils.throttle.throttle import check_throttle
 
 
 def crawl_ad_listing(message: dict) -> dict:
@@ -9,7 +10,9 @@ def crawl_ad_listing(message: dict) -> dict:
     enable_logging()
 
     parse_message = {}
-    page = get_url(message["ad-listing-url"])
+    ad_listing_url = message["ad-listing-url"]
+    check_throttle(ad_listing_url, azure_tc=azure_tc)
+    page = get_url(ad_listing_url)
     parse_message["ad-listing-page"] = page.text
     parse_message["domain"] = message["domain"]
     parse_message["metadata"] = message["metadata"]

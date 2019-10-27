@@ -34,12 +34,14 @@ def get_url(url, params={}):
             url, headers=headers, params=params, timeout=CONNECTION_TIMEOUT
         )
         response.raise_for_status()
-        azure_tc.track_event("crawl", {"code": 200, "domain": domain})
+        azure_tc.track_metric("crawl", 1, properties={"code": 200, "domain": domain})
         azure_tc.flush()
         return response
     except requests.exceptions.HTTPError as err:
         status_code = err.response.status_code
-        azure_tc.track_event("crawl", {"code": status_code, "domain": domain})
+        azure_tc.track_metric(
+            "crawl", 1, properties={"code": status_code, "domain": domain}
+        )
         azure_tc.flush()
         if status_code == 404:
             raise NotFound(status_code, url)
@@ -48,12 +50,15 @@ def get_url(url, params={}):
         raise
     except requests.exceptions.ReadTimeout as err:
         status_code = 999
-        azure_tc.track_event("crawl", {"code": status_code, "domain": domain})
+        azure_tc.track_metric(
+            "crawl", 1, properties={"code": status_code, "domain": domain}
+        )
         azure_tc.flush()
         raise CrawlError(status_code, url)
     except requests.exceptions.ConnectTimeout as err:
         status_code = 888
-        azure_tc.track_event("crawl", {"code": status_code, "domain": domain})
+        azure_tc.track_metric(
+            "crawl", 1, properties={"code": status_code, "domain": domain}
+        )
         azure_tc.flush()
         raise CrawlError(status_code, url)
-

@@ -4,6 +4,7 @@ from __app__.utils.network.network import get_url
 from __app__.utils.table.ads import AdsTable
 from __app__.utils.ads.adstore import save_ad_page
 from __app__.utils.metrics.metrics import get_client, enable_logging
+from __app__.utils.throttle.throttle import check_throttle
 
 TABLE = AdsTable()
 
@@ -21,6 +22,7 @@ def crawl_ad(message: dict) -> dict:
         )
         return None
 
+    check_throttle(ad_url, azure_tc=azure_tc)
     page = get_url(ad_url)
     crawled_on = datetime.now().replace(microsecond=0)
     uri = save_ad_page(page, crawled_on, domain)
