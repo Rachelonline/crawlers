@@ -3,35 +3,11 @@ from unittest.mock import MagicMock
 from tests.fixtures.no_network import *
 from __app__.adlistingparser.adlistingparser import (
     AD_LISTING_PARSERS,
-    parse_ad_listings,
     filter_uncrawled,
+    build_cont_listing_msg,
     build_ad_url_msgs,
-    build_cont_listing_msgs,
     parse_ad_listing,
 )
-
-
-def fake_parser(page):
-    return ["ad-url1", "ad-url2"], ["cont-url"]
-
-
-def not_found_parser(page):
-    return [], []
-
-
-@pytest.fixture
-def parsers(monkeypatch):
-    monkeypatch.setitem(AD_LISTING_PARSERS, "fake-parser", fake_parser)
-    monkeypatch.setitem(AD_LISTING_PARSERS, "no-urls-found-parser", not_found_parser)
-
-
-def test_parse_ad_listing_page(parsers):
-    assert parse_ad_listings("fake-parser", "<html>") == (
-        ["ad-url1", "ad-url2"],
-        ["cont-url"],
-    )
-    assert parse_ad_listings("no-urls-found-parser", "<html>") == ([], [])
-    assert parse_ad_listings("no domain", "<html>") == ([], [])
 
 
 def test_filter_uncrawled(monkeypatch):
@@ -55,50 +31,38 @@ def test_build_ad_url_msgs():
 
 def test_build_cont_listing_msgs():
     test_msg = {"domain": "test", "metadata": {"meta": "data"}}
-    urls = ["next-url1", "next-url3"]
+    urls = "next-url1"
 
-    expected = [
-        {
-            "domain": "test",
-            "metadata": {"meta": "data", "crawl-depth": 1},
-            "url": "next-url1",
-        },
-        {
-            "domain": "test",
-            "metadata": {"meta": "data", "crawl-depth": 1},
-            "url": "next-url3",
-        },
-    ]
-    assert build_cont_listing_msgs(test_msg, urls, MagicMock()) == expected
-
-    test_msg = {"domain": "test", "metadata": {"meta": "data", "crawl-depth": 1}}
-    urls = ["next-url4"]
-    expected = [
-        {
-            "domain": "test",
-            "metadata": {"meta": "data", "crawl-depth": 2},
-            "url": "next-url4",
-        }
-    ]
-    assert build_cont_listing_msgs(test_msg, urls, MagicMock()) == expected
+    expected = {
+        "domain": "test",
+        "metadata": {"meta": "data", "crawl-depth": 1},
+        "ad-listing-url": "next-url1",
+    }
+    assert build_cont_listing_msg(test_msg, urls, MagicMock()) == expected
 
     # Beyond max crawl depth
     test_msg = {"domain": "test", "metadata": {"meta": "data", "crawl-depth": 10}}
-    urls = ["next-url4"]
-    expected = []
-    assert build_cont_listing_msgs(test_msg, urls, MagicMock()) == expected
+    urls = "next-url4"
+    expected = {}
+    assert build_cont_listing_msg(test_msg, urls, MagicMock()) == expected
 
 
+@pytest.fixture
+def fake_parser(monkeypatch):
+    mock_parser = MagicMock()
+    mock_parser.return_value.ad_listings.return_value = [
+        "ad-url1",
+        "ad-url2",
+        "ad-url3",
+        "ad-url4",
+    ]
+    mock_parser.continuation_url.return_value = "next-url"
+    monkeypatch.setitem(AD_LISTING_PARSERS, "test-domain", mock_parser)
+    return mock_parser
 
-def test_parse_ad_listing(monkeypatch):
+
+def test_parse_ad_listing(monkeypatch, fake_parser):
     msg = {"ad-listing-page": "<html>", "domain": "test-domain"}
-
-    parse_mock = MagicMock()
-    parse_mock.return_value = (
-        ["ad-url1", "ad-url2", "ad-url3", "ad-url4"],
-        ["next-url"],
-    )
-    monkeypatch.setattr("__app__.adlistingparser.adlistingparser.parse_ad_listings", parse_mock)
 
     uncrawled_mock = MagicMock()
     monkeypatch.setattr(
@@ -112,19 +76,19 @@ def test_parse_ad_listing(monkeypatch):
     )
 
     cont_msg_mock = MagicMock()
-    cont_msg_mock.return_value = ["cont-mgs"]
+    cont_msg_mock.return_value = {"cont-mgs": "test"}
     monkeypatch.setattr(
-        "__app__.adlistingparser.adlistingparser.build_cont_listing_msgs", cont_msg_mock
+        "__app__.adlistingparser.adlistingparser.build_cont_listing_msg", cont_msg_mock
     )
 
     # no ads have been crawled - be sure we're going to keep crawling
     uncrawled_mock.return_value = ["ad-url1", "ad-url2", "ad-url3", "ad-url4"]
-    assert parse_ad_listing(msg) == (["ad-mgs"], ["cont-mgs"])
+    assert parse_ad_listing(msg) == (["ad-mgs"], {"cont-mgs": "test"})
 
     # not enough ads have been crawled - be sure we're going to keep crawling
     uncrawled_mock.return_value = ["ad-url1", "ad-url2", "ad-url3"]
-    assert parse_ad_listing(msg) == (["ad-mgs"], ["cont-mgs"])
+    assert parse_ad_listing(msg) == (["ad-mgs"], {"cont-mgs": "test"})
 
     # enough ads have been crawled - we don't want to continue
     uncrawled_mock.return_value = ["ad-url1", "ad-url3"]
-    assert parse_ad_listing(msg) == (["ad-mgs"], [])
+    assert parse_ad_listing(msg) == (["ad-mgs"], {})

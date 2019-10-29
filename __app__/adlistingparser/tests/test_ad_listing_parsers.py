@@ -2,7 +2,7 @@ import pytest
 import json
 import os
 from tests.fixtures.no_network import *
-from __app__.adlistingparser.adlistingparser import parse_ad_listings
+from __app__.adlistingparser.adlistingparser import AD_LISTING_PARSERS
 
 
 TEST_DATA_LOCATION = "__app__/adlistingparser/tests/ad-listing-tests-data.json"
@@ -23,6 +23,9 @@ def pytest_generate_tests(metafunc):
 def test_site_map_parsers(test_case):
     with open(os.path.join(TEST_HTML_FOLDER, test_case["html"])) as html:
         page = html.read()
-    ad_listing_urls, next_urls = parse_ad_listings(test_case["domain"], page)
-    assert ad_listing_urls == test_case["ad-urls"]
-    assert next_urls == test_case["next-urls"]
+
+    test_case["ad-listing-page"] = page
+    parser = AD_LISTING_PARSERS[test_case["domain"]]
+    parser = parser(test_case)
+    assert parser.ad_listings() == test_case["ad-urls"]
+    assert parser.continuation_url() == test_case["next-url"]

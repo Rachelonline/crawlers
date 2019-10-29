@@ -9,14 +9,12 @@ def crawl_ad_listing(message: dict) -> dict:
     azure_tc = get_client()
     enable_logging()
 
-    parse_message = {}
     ad_listing_url = message["ad-listing-url"]
     check_throttle(ad_listing_url, azure_tc=azure_tc)
     page = get_url(ad_listing_url)
-    parse_message["ad-listing-page"] = page.text
-    parse_message["domain"] = message["domain"]
-    parse_message["metadata"] = message["metadata"]
-    parse_message["metadata"].update(
+    message["ad-listing-page"] = page.text
+    message["domain"] = message["domain"]
+    message["metadata"].update(
         {"ad-listing-crawled": datetime.now().replace(microsecond=0).isoformat()}
     )
     logging.info("crawled ad listing url: %s", message["ad-listing-url"])
@@ -25,4 +23,4 @@ def crawl_ad_listing(message: dict) -> dict:
     )
     azure_tc.flush()
 
-    return parse_message
+    return message
