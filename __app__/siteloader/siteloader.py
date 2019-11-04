@@ -9,7 +9,7 @@ SITES_TO_MAP = [
     # ("backpage.ly", {"domain": "backpage.ly"}),
     # ("gfemonkey.com", {"domain": "gfemonkey.com"}),
     # ("eccie.net", {"domain": "eccie.net"}),
-    # ("megapersonals.com", {"domain": "megapersonals.com"}),
+    # ("megapersonals.com", {"domain": "megapersonals.com"}), maybe the same as "listcrawler"
     # ("tnaboard.com", {"domain": "tnaboard.com"}),
     # ("switter.at", {"domain": "switter.at"}),
     # ("tryst.link", {"domain": "tryst.link"}),
