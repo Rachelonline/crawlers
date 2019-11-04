@@ -6,10 +6,11 @@ from __app__.utils.metrics.metrics import get_client, enable_logging
 SITES_TO_MAP = [
     ("cityxguide.com", {"domain": "cityxguide.com"}),
     ("capleasures.com", {"domain": "capleasures.com"}),
+    ("vipgirlfriend.com", {"domain": "vipgirlfriend.com"})
     # ("backpage.ly", {"domain": "backpage.ly"}),
     # ("gfemonkey.com", {"domain": "gfemonkey.com"}),
     # ("eccie.net", {"domain": "eccie.net"}),
-    # ("megapersonals.com", {"domain": "megapersonals.com"}),
+    # ("megapersonals.com", {"domain": "megapersonals.com"}), maybe the same as "listcrawler"
     # ("tnaboard.com", {"domain": "tnaboard.com"}),
     # ("switter.at", {"domain": "switter.at"}),
     # ("tryst.link", {"domain": "tryst.link"}),

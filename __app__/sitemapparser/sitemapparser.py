@@ -8,6 +8,7 @@ from __app__.utils.metrics.metrics import get_client, enable_logging
 SITE_PARSERS = {
     "cityxguide.com": cityxguide_com,
     "capleasures.com": capleasures_com,
+    "vipgirlfriend.xxx": vipgirlfriend_xxx,
 }
 
 TABLE = AdListingTable()
