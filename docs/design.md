@@ -1,5 +1,9 @@
 # Architecture:
 
+The Basic archicecture has 4 stages. 
+
+![Stages](./imgs/stages.png)
+
 ## Stage 1: Sitemapping
 
 Site mapping is where we figure out where lists of ads live on a site. It stores those ad listing urls in an Azure Table which is used in the next stage. 
@@ -37,5 +41,27 @@ If we've not crawled the ad then it will put the ad on the ad crawl queue for th
 Ad Crawlers are all about collecting and processing the ad data. It starts with the ad crawl queue and ends with the processing queue. 
 
 ![Ads](./imgs/adarch.png)
+
+This starts with the ad crawler pulling a job from the ad crawl queue. First it checks to see if we have already crawled. If the ad url has already been crawled the job is done.
+
+If we need to crawl the ad url the crawler will get the ad html, store it in Blob Storage, mark the ad crawled in the azure ad table then put the job on the ad parser queue.
+
+The ad parsers are where we extract the data from the ads. This is the key step in turning raw html into structured data. The parsers pull the job from the queue, mark it as parsed. It puts the exacted data on the processing queue for the final stage.
+
+If there are images in the ad, the parsers will check to see if the images have already been crawled, if they haven't it will add them to the image crawl queue. 
+
+Image crawlers will check to see if we've crawled the images, and if not it will crawl the image and save it into blob store. The images are saved by encoding the url and can be pulled from blob store by their url. 
+
+## Stage 4: Processing
+
+This is the simplest of all the stages, but can be developed further.
+
+![Processing](./imgs/processingarch.png)
+
+The processor will pull from the processing queue and store the raw data into the CosmosDB as a document. 
+
+Right now it's just pass through, but this is where we can control what data we trust more. 
+
+For example, we could have logic that says "use the gender from the ad, then fall back to the ad listing gender, then fall back to the sitemap gender". 
 
 
