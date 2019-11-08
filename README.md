@@ -2,11 +2,19 @@
 
 ## TOC:
 
+<<<<<<< HEAD
 - Getting started
 - Runbook
 - [High Level Design](./docs/design.md)
 - Crawler Design
 - Rough Edges
+=======
+* Getting started
+* Runbook 
+* [High Level Design](./docs/design.md)
+* Crawler Design
+* Rough Edges
+>>>>>>> 475bd40... minor doc updates (#20)
 
 ## High level crawling process
 

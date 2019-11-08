@@ -4,6 +4,13 @@ The Basic archicecture has 4 stages.
 
 ![Stages](./imgs/stages.png)
 
+
+## Data flow:
+
+The core piece of data is the message dictionary. This dictionary is updated at each step of the way with information from each stage and then saved to cosmosdb. It contains `ad-data` which is the data extracted from the ad and `metadata` which is data that we've collected along the way. This could include crawl timestamps, gender/location from ad-listing-urls etc. 
+
+We prefer to append rather than mutate data.
+
 ## Stage 1: Sitemapping
 
 Site mapping is where we figure out where lists of ads live on a site. It stores those ad listing urls in an Azure Table which is used in the next stage. 
