@@ -5,7 +5,7 @@
 
 * Getting started
 * Runbook 
-* High Level Design
+* [High Level Design](./docs/design.md)
 * Crawler Design
 * Rough Edges
 
