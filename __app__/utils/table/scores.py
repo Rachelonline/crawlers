@@ -1,7 +1,6 @@
 import json
 from datetime import datetime
 from typing import List
-from azure.common import AzureMissingResourceHttpError
 from __app__.utils.table.base_table import BaseAzureTable, encode_url
 
 

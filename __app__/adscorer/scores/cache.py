@@ -1,5 +1,3 @@
-import os
-from urllib.parse import urlparse
 import redis
 
 REDIS_HOST = "picrawling.redis.cache.windows.net"
@@ -11,11 +9,12 @@ class RedisCache(object):
         )
         self.redis.ping()
 
-    def get_cached_score(self, phone_number, score_key):
+    def get_cached_score(self, phone_number, score_key, default_score=None):
         """
         Return the cached score for a phone number and score key
+        if it doesn't exist, then return the default_score argument
         """
-        return self.redis.mget(f"{phone_number}:{score_key}")
+        return self.redis.get(f"{phone_number}:{score_key}") or default_score
         
 
     def put_cached_score(self, phone_number, score_key, score, expire=False):
@@ -27,4 +26,15 @@ class RedisCache(object):
             score,
             nx=False, # Always set the value
             ex=expire
+        )
+    
+    def increment_cached_score(self, phone_number, score_key, amount=1):
+        """
+        Increment the cached score by a certain amount and return
+        the incremeneted score
+        """
+        # If the key doesnt exist and is incremented then there is no expiration
+        return self.redis.incr(
+            f"{phone_number}:{score_key}",
+            amount
         )

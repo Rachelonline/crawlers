@@ -19,14 +19,19 @@ def days_since_seen(msg: dict):
     """
     raise NotImplementedError
 
-def frequency_scores(msg: dict, attribute_list: str):
+def frequency_scores(msg: dict, attribute_list: str, rc: RedisCache) -> dict:
     """
     Calls frequency_score_helper on a list of attributes
     Aggregates scores in a dictionary and returns
     """
-    rc = RedisCache()
     frequencies = {}
-    phone_number = msg["primary-phone-number"]
+    phone_number = msg.get("primary-phone-number")
+
+    if not phone_number:
+        logger.error(
+            "No primary-phone-number in message...returning no frequency scores"
+        )
+        return frequencies
 
     for attribute in attribute_list:
         attributes = msg.get(attribute)
@@ -49,24 +54,15 @@ def frequency_score_helper(phone_number: str, attribute: str, cache: RedisCache)
     Takes in a phone number and an attribute, outputs how many times that number
     has corresponded to the attribute
     """
-    cached_score = cache.get_cached_score(
-        phone_number=phone_number,
-        score_key=f"frequency_score_{attribute}"
-    )
-    cached_score = cached_score or 0
-
-    freq_score = cached_score + 1
-
-    cache.put_cached_score(
+    freq_score = cache.increment_cached_score(
         phone_number=phone_number,
         score_key=f"frequency_score_{attribute}",
-        score=freq_score,
-        expire=False # Never expire
+        amount=0
     )
     return freq_score
 
 
-def twilio_score(msg: dict, account_sid: str, auth_token: str, cache: bool = False) -> dict:
+def twilio_score(msg: dict, account_sid: str, auth_token: str, rc: RedisCache = None) -> dict:
     """
     Takes in a phone number and returns a twilio spam score
 
@@ -76,7 +72,13 @@ def twilio_score(msg: dict, account_sid: str, auth_token: str, cache: bool = Fal
 
     :returns scores: {"spam_score": score, "spam_database_match": bool}
     """
-    phone_number = msg["primary-phone-number"]
+    phone_number = msg.get("primary-phone-number")
+
+    if not phone_number:
+        logger.error(
+            "No primary-phone-number in message...returning no twilio scores"
+        )
+        return {}
     
     client = Client(account_sid, auth_token)
 
@@ -90,8 +92,8 @@ def twilio_score(msg: dict, account_sid: str, auth_token: str, cache: bool = Fal
     # This response would need to get changed if there is a need for other add-ons
     scores = resp.add_ons.get("results").get("truecnam_truespam").get("result")
     
-    if cache:
-        rc = RedisCache()
+    if rc:
+        
         rc.put_cached_score(
             phone_number=phone_number,
             score_key="twilio_score",
