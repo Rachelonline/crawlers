@@ -1,6 +1,5 @@
 from datetime import datetime
 from copy import deepcopy
-from functools import partial
 import logging
 from __app__.utils.table.scores import ScoresTable
 from __app__.utils.metrics.metrics import get_client, enable_logging
@@ -23,6 +22,12 @@ def build_score_message(msg: str, score_data: dict) -> dict:
     return score_msg
 
 def score_ad(message: dict, functions={}) -> dict:
+    """
+    Takes in a message and a dictionary of scoring functions 
+    and the function arguments. Please see the README for a
+    sample argument for functions
+    """
+
     azure_tc = get_client()
     enable_logging()
 
@@ -36,23 +41,29 @@ def score_ad(message: dict, functions={}) -> dict:
         return {}
 
     score_data = {}
-    for f,args in functions.items():
-        scorer = partial(
-            PHONE_SCORERS[f],
-            **args
-        )
+
+    for func, args in functions.items():
         try:
-            score_data[f] = scorer(message)
-        except Exception as e :
-            logging.warning(
-                f"Error while running {f} scorer. Error: {e}"
+            score = func(
+                msg=message,
+                **args
             )
-            azure_tc.track_metric(
-                "ad-score-failure", 1, properties={
-                    "primary-phone-number": ppn,
-                    "scorer": f
-                }
+            if score:
+                score_data[func] = score
+            else:
+                azure_tc.track_metric(
+                    "ad-score-failure", 1, properties={
+                        "primary-phone-number": ppn,
+                        "scorer": func
+                    }
+                )
+
+        except Exception as e:
+            logging.error(
+                f"Error while running {func} scorer. Error: {e}"
             )
+            raise e
+
     score_msg = build_score_message(message, score_data)
     score_msg["scored_on"] = datetime.now().replace(microsecond=0)
     score_msg["phone"] = ppn
@@ -64,8 +75,5 @@ def score_ad(message: dict, functions={}) -> dict:
     )
     azure_tc.flush()
     return score_msg
-        
-
-        
             
 
