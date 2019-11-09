@@ -12,7 +12,7 @@ def crawl_mocks(monkeypatch):
 
     mock_datetime = MagicMock()
     monkeypatch.setattr("__app__.sitemapcrawler.sitemapcrawler.datetime", mock_datetime)
-    mock_datetime.now.return_value.replace.return_value.isoformat.return_value = "test-time-stamp"
+    mock_datetime.utcnow.return_value.replace.return_value.isoformat.return_value = "test-time-stamp"
 
     monkeypatch.setitem(SITEMAP_URL, "test-domain", "test-url")
 

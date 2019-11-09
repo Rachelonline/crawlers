@@ -15,7 +15,7 @@ def crawl_ad_listing(message: dict) -> dict:
     message["ad-listing-page"] = page.text
     message["domain"] = message["domain"]
     message["metadata"].update(
-        {"ad-listing-crawled": datetime.now().replace(microsecond=0).isoformat()}
+        {"ad-listing-crawled": datetime.utcnow().replace(microsecond=0).isoformat()}
     )
     logging.info("crawled ad listing url: %s", message["ad-listing-url"])
     azure_tc.track_metric(
