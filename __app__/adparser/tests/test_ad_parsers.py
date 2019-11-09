@@ -5,7 +5,6 @@ from operator import attrgetter
 from tests.fixtures.no_network import *
 from __app__.adparser.adparser import parse_ads
 
-
 TEST_DATA_LOCATION = "__app__/adparser/tests/ad-test-data.json"
 TEST_HTML_FOLDER = "__app__/adparser/tests/test-data"
 

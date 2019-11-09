@@ -3,13 +3,13 @@ from typing import List
 from __app__.adparser.sites.base_ad_parser import BaseAdParser
 
 
-class VipGirlfriend(BaseAdParser):
-    gender_lookup = {"female-escorts": "female", "male-escorts": "male", "ts": "trans"}
+class VIPGirlfriend(BaseAdParser):
+    gender_lookup = {"female-escort": "female", "male-escort": "male"}
 
     def primary_phone_number(self) -> str:
-        phone_str = self.soup.find("span", class_="_phone").string
-        if phone_str != "Not Available":
-            return phone_str
+        phone_div = self.soup.find("li", class_="lp-listing-phone")
+        if phone_div:
+          return next(phone_div.stripped_strings)
 
     def phone_numbers(self) -> List:
         phone_numbers_found = []
@@ -21,75 +21,87 @@ class VipGirlfriend(BaseAdParser):
         return phone_numbers_found
 
     def date_posted(self) -> str:
-        posted = self.soup.find("span", text="Last Updated").next_sibling
-        return posted.string
+        return None
 
     def name(self) -> str:
-        name_str = self.soup.find("span", class_="_name").text
-        if "not available" not in name_str.lower():
-            return name_str
+        return self.soup.find("h1").string.strip()
 
     def primary_email(self) -> str:
-        email_str = self.soup.find("span", class_="_email").string
-        if email_str != "Not Available":
-            return email_str
+        return None
 
     def emails(self) -> List:
         emails_found = []
-        prim_email = self.primary_email()
-        if prim_email:
-            emails_found.append(prim_email)
         matches = self.email_re.findall(self.ad_text())
         emails_found.extend(["".join(match) for match in matches])
         return emails_found
 
     def social(self) -> List:
-        return None
+        social = []
+        social_div = self.soup.find("div", class_="widget-social")
+        if social_div:
+          links = social_div.find_all("a", href=True) or []
+          for link in links:
+            social.append(link["href"])
+        return social
 
     def age(self) -> str:
-        age_str = self.soup.find("span", class_="_age").string
-        if age_str != "Not Available":
-            return age_str
+        return None
 
     def image_urls(self) -> List:
         urls = []
-        image_div = self.soup.find("div", class_="swiper-wrapper")
+        image_div = self.soup.find("div", class_="listing-slide")
         images = image_div("img", src=True) or []
         for image in images:
             urls.append(urljoin("http:", image["src"]))
         return urls
 
     def location(self) -> str:
-        location_str = self.soup.find("span", class_="_location").string
-        if location_str != "Not Available":
-            return location_str
+        location_div = self.soup.find("li", class_="lp-details-address")
+        if location_div:
+            return next(location_div.stripped_strings)
 
     def ethnicity(self) -> str:
-        ethnicity_span = self.soup.find("span", class_="_ethnicity")
-        if ethnicity_span and ethnicity_span.string != "Not Available":
-            return ethnicity_span.string
+        return None
 
     def gender(self) -> str:
-        category = self.soup.find("span", text="Category").next_sibling
-        link = category.find("a").get("href")
-        gender = self.gender_lookup.get(link.split("/")[-1], "unknown")
+        gender = None
+        categories = self.soup.find("ul", class_="features")
+        if categories:
+          link = categories.find("a").get("href")
+          gender = self.gender_lookup.get(link.split("/")[-2], "unknown")
         return gender
 
     def services(self) -> List:
-        return None
+        services = None
+        categories = self.soup.find("ul", class_="breadcrumbs").find_all("a")
+        if categories:
+          services = []
+        for category in categories:
+          if category.text != "Home":
+            services.append(category.text)
+        return services
 
     def website(self) -> str:
-        website_span = self.soup.find("span", class_="_website")
-        if website_span and website_span.string != "Not Available":
-            return website_span.string
+        website_span = self.soup.find("li", class_="lp-user-web")
+        if website_span:
+          return next(website_span.stripped_strings)
 
     def ad_text(self) -> str:
         content = "\n".join(
             string
-            for string in self.soup.find("div", class_="section-page").stripped_strings
+            for string in self.soup.find("div", class_="post-detail-content").stripped_strings
         )
         if content:
             return content
 
     def ad_title(self) -> str:
-        return self.soup.find("h1", itemprop="name").string
+        content = ""
+        subheadings = self.soup.find("h1").next_siblings
+        for subheading in subheadings:
+          if type(subheading).__name__ == 'Tag':
+            content += subheading.text
+          else:
+            content += subheading.strip()
+        if content:
+            content = content.rjust(len(content)+1)
+        return self.name() + content

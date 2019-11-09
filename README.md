@@ -4,7 +4,7 @@
 
 - Getting started
 - Runbook
-- High Level Design
+- [High Level Design](./docs/design.md)
 - Crawler Design
 - Rough Edges
 
@@ -64,23 +64,13 @@ There's also a `utils/` folder for some common code (mostly networking).
 
 ## Setting up local dev
 
-Set up the Azure core tools [locally](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local#brew)
+Setup the core tools [locally](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local#brew)
 
-For Macs:
+`brew tap azure/functions brew install azure-functions-core-tools`
 
-1. Ensure you have virtualenvs set up following [this guide](https://sourabhbajaj.com/mac-setup/Python/virtualenv.html).
-2. Install Azure Function Core Tools:
+You'll also need to get the connection strings so you can get the right queues. (check with Liz for that)
 
-```
-brew tap azure/functions
-brew install azure-functions-core-tools
-```
-
-3. Intstall local requirements: `python -m pip install -r __app__/requirements.txt`
-
-You'll also need to get the connection strings so you can get the right queues. (check with [Liz](liz@seattleagainstslavery.org) for that)
-
-`#TODO: Windows install instructions`
+`#TODO: More details here`
 
 ## Siteloader
 
