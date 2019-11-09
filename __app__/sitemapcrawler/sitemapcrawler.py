@@ -44,7 +44,7 @@ def sitemap(message: dict) -> dict:
     parse_message["domain"] = message["domain"]
     parse_message["metadata"] = message["metadata"]
     parse_message["metadata"].update(
-        {"site-map": datetime.now().replace(microsecond=0).isoformat()}
+        {"site-map": datetime.utcnow().replace(microsecond=0).isoformat()}
     )
 
     azure_tc.track_metric("sitemap-crawl-success", 1, properties={"domain": domain})

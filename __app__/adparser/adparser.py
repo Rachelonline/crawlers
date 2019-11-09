@@ -53,7 +53,7 @@ def parse_ad(message: dict) -> dict:
         )
         return {}, []
 
-    parsed_on = datetime.now().replace(microsecond=0)
+    parsed_on = datetime.utcnow().replace(microsecond=0)
     message["metadata"].update({"ad-parsed": parsed_on.isoformat()})
     TABLE.mark_parsed(message["ad-url"], message["metadata"], image_urls)
 

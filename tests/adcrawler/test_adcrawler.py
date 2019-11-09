@@ -17,7 +17,7 @@ def mock_uuid_storage_url(monkeypatch):
 def patch_datetime_now(monkeypatch):
     class mydatetime:
         @classmethod
-        def now(cls):
+        def utcnow(cls):
             return datetime(2525, 1, 1)
 
     monkeypatch.setattr("__app__.adcrawler.adcrawler.datetime", mydatetime)

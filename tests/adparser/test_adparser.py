@@ -16,7 +16,7 @@ from __app__.adparser.sites.base_ad_parser import BaseAdParser
 def patch_datetime_now(monkeypatch):
     class mydatetime:
         @classmethod
-        def now(cls):
+        def utcnow(cls):
             return datetime(2525, 1, 1)
 
     monkeypatch.setattr("__app__.adparser.adparser.datetime", mydatetime)

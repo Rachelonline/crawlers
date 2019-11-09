@@ -10,7 +10,7 @@ from __app__.adlistingcrawler.adlistingcrawler import crawl_ad_listing
 def patch_datetime_now(monkeypatch):
     class mydatetime:
         @classmethod
-        def now(cls):
+        def utcnow(cls):
             return datetime(2525, 1, 1)
 
     monkeypatch.setattr("__app__.adlistingcrawler.adlistingcrawler.datetime", mydatetime)

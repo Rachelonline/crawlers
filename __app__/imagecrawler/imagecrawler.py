@@ -26,7 +26,7 @@ def crawl_image(message: dict) -> dict:
         return None
 
     image = get_url(image_url)
-    crawled_on = datetime.now().replace(microsecond=0)
+    crawled_on = datetime.utcnow().replace(microsecond=0)
     uri = save_image(image, image_url)
 
     message["metadata"].update({"image-crawled": crawled_on.isoformat()})

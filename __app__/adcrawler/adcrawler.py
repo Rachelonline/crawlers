@@ -24,7 +24,7 @@ def crawl_ad(message: dict) -> dict:
 
     check_throttle(ad_url, azure_tc=azure_tc)
     page = get_url(ad_url)
-    crawled_on = datetime.now().replace(microsecond=0)
+    crawled_on = datetime.utcnow().replace(microsecond=0)
     uri = save_ad_page(page, crawled_on, domain)
 
     message["ad-page-blob"] = uri
