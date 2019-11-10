@@ -1,25 +1,17 @@
 from datetime import datetime
 from copy import deepcopy
 import logging
-from __app__.utils.table.scores import ScoresTable
 from __app__.utils.metrics.metrics import get_client, enable_logging
-from __app__.phonescorer.scores.functions import (
+from __app__.processor.scorers.functions import (
     twilio_score,
-    frequency_score
+    frequency_scores
 )
-
-TABLE = ScoresTable()
 
 PHONE_SCORERS = {
     "twilio": twilio_score,
-    "frequency": frequency_score
+    "frequency": frequency_scores
 }
 
-
-def build_score_message(msg: str, score_data: dict) -> dict:
-    score_msg = deepcopy(msg)
-    score_msg["scores"] = score_data
-    return score_msg
 
 def score_ad(message: dict, functions={}) -> dict:
     """
@@ -31,7 +23,16 @@ def score_ad(message: dict, functions={}) -> dict:
     azure_tc = get_client()
     enable_logging()
 
-    ppn = message.get("primary-phone-number")
+    ad_data = message.get("ad-data")
+
+    if not ad_data:
+        logging.warning(
+            "No ad-data in message"
+        )
+        azure_tc.track_metric("ad-score-no-data", 1)
+        return {}
+    
+    ppn = ad_data.get("primary-phone-number")
     
     if not ppn:
         logging.warning(
@@ -40,16 +41,16 @@ def score_ad(message: dict, functions={}) -> dict:
         azure_tc.track_metric("ad-score-no-number", 1)
         return {}
 
-    score_data = {}
-
+    score_msg = {}
+    
     for func, args in functions.items():
         try:
-            score = func(
-                msg=message,
+            score = PHONE_SCORERS[func](
+                msg=ad_data,
                 **args
             )
             if score:
-                score_data[func] = score
+                score_msg[func] = score
             else:
                 azure_tc.track_metric(
                     "ad-score-failure", 1, properties={
@@ -64,11 +65,8 @@ def score_ad(message: dict, functions={}) -> dict:
             )
             raise e
 
-    score_msg = build_score_message(message, score_data)
-    score_msg["scored_on"] = datetime.now().replace(microsecond=0)
+    score_msg["scored_on"] = datetime.utcnow().replace(microsecond=0)
     score_msg["phone"] = ppn
-
-    TABLE.save_score(ppn, score_msg)
     
     azure_tc.track_metric(
         "ad-score-success", 1, properties={"primary-phone-number": ppn}

@@ -1,4 +1,5 @@
 import redis
+import os
 
 REDIS_HOST = "picrawling.redis.cache.windows.net"
 
