@@ -16,6 +16,15 @@
       "collectionName": "ads",
       "connectionStringSetting": "AzureCosmosDBConnectionString", 
       "createIfNotExists": "true"
+    },
+    {
+      "direction": "out",
+      "type": "cosmosDB",
+      "name": "sdoc",
+      "databaseName": "crawling",
+      "collectionName": "scores",
+      "connectionStringSetting": "AzureCosmosDBConnectionString", 
+      "createIfNotExists": "true"
     }
   ]
 }
