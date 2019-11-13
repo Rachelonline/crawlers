@@ -104,7 +104,7 @@ Now you can use `load-test-in-queue.py` to add a message to the test-in-queue. Y
 
 If you created the test message you want to send in `tools\testing-queues\input.json` then you'd
 
-```python
+```bash
 python3 tools\testing-queues\load-test-in-queue.py tools\testing-queues\input.json
 ```
 
