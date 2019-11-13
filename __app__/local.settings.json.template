@@ -1,0 +1,32 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsStorage": "",
+    "AzureServiceBusConnectionString": "",
+    "FUNCTIONS_EXTENSION_VERSION": "~2",
+    "APPINSIGHTS_INSTRUMENTATIONKEY": "",
+    "WEBSITE_MOUNT_ENABLED": "1",
+    "WEBSITE_NODE_DEFAULT_VERSION": "10.14.1",
+    "WEBSITE_RUN_FROM_PACKAGE": "",
+    "SB_CONN_STR": "",
+    "TABLE_ACCESS_KEY": "",
+    "TABLE_SERVICE_KEY": "",
+    "BLOB_STORAGE_KEY": "",
+    "REDIS_KEY": ""
+  },
+  "ConnectionStrings": {
+    "AzureServiceBusConnectionString": {
+      "ConnectionString": "",
+      "ProviderName": "System.Data.SqlClient"
+    },
+    "AzureWebJobsServiceBus": {
+      "ConnectionString": "",
+      "ProviderName": "System.Data.SqlClient"
+    },
+    "AzureCosmosDBConnectionString": {
+      "ConnectionString": "",
+      "ProviderName": "System.Data.SqlClient"
+    }
+  }
+}
