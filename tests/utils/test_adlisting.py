@@ -17,6 +17,7 @@ class Entity:
         # Hack for testing the enabled
         return getattr(self, prop, False)
 
+
 @pytest.fixture
 def mock_table_service(monkeypatch):
     mock_table_service = MagicMock()
@@ -30,14 +31,31 @@ def mock_table_service(monkeypatch):
 
 def test_ad_listings(mock_table_service, monkeypatch):
     entites = [
-        Entity("Y2l0eXhndWlkZS5jb20=", "aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data1"}),
-        Entity("Y2l0eXhndWlkZS5jb20=", "aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data2"}, enabled=False),
-        Entity("Y2l0eXhndWlkZS5jb20=", "aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data3"}),
+        Entity(
+            "Y2l0eXhndWlkZS5jb20=", "aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data1"}
+        ),
+        Entity(
+            "Y2l0eXhndWlkZS5jb20=",
+            "aHR0cDovL3d3dy5nb29nbGUuY29t",
+            {"meta": "data2"},
+            enabled=False,
+        ),
+        Entity(
+            "Y2l0eXhndWlkZS5jb20=", "aHR0cDovL3d3dy5nb29nbGUuY29t", {"meta": "data3"}
+        ),
     ]
     mock_table_service.query_entities.return_value = entites
     expected = [
-        {"ad-listing-url": "http://www.google.com", "domain": "cityxguide.com", "metadata": {"meta": "data1"}},
-        {"ad-listing-url": "http://www.google.com", "domain": "cityxguide.com", "metadata": {"meta": "data3"}},
+        {
+            "ad-listing-url": "http://www.google.com",
+            "domain": "cityxguide.com",
+            "metadata": {"meta": "data1"},
+        },
+        {
+            "ad-listing-url": "http://www.google.com",
+            "domain": "cityxguide.com",
+            "metadata": {"meta": "data3"},
+        },
     ]
 
     ad_listing_table = AdListingTable()
@@ -91,11 +109,16 @@ def test_batch_merge_ad_listings(mock_table_service, monkeypatch):
     # The max batch size is 1 so we should see 3 commit batches
     assert ad_listing_table.table_service.batch.call_count == 3
 
+
 def test_batch_merge_ad_listings_existing_url(mock_table_service, monkeypatch):
     urls = ["test1", "test2", "test3"]
     domain = "test-domain"
     metadata = {"meta": "data"}
-    mock_table_service.query_entities.side_effect = [ [], "test2", []]  # Only return value on 2nd call to query_entities
+    mock_table_service.query_entities.side_effect = [
+        [],
+        "test2",
+        [],
+    ]  # Only return value on 2nd call to query_entities
 
     ad_listing_table = AdListingTable()
     new_ad_listings = ad_listing_table.batch_merge_ad_listings(urls, domain, metadata)

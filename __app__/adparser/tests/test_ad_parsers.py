@@ -22,7 +22,9 @@ def pytest_generate_tests(metafunc):
 
 
 def test_site_map_parsers(test_case):
-    with open(os.path.join(TEST_HTML_FOLDER, test_case["html"]), encoding="utf8") as html:
+    with open(
+        os.path.join(TEST_HTML_FOLDER, test_case["html"]), encoding="utf8"
+    ) as html:
         page = html.read()
     ad_data = parse_ads(test_case["domain"], page)
     assert ad_data == test_case["ad-data"]
