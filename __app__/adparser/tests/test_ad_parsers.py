@@ -16,13 +16,13 @@ def id_func(item):
 
 def pytest_generate_tests(metafunc):
     if "test_case" in metafunc.fixturenames:
-        with open(TEST_DATA_LOCATION) as test_data_f:
+        with open(TEST_DATA_LOCATION, encoding="utf8") as test_data_f:
             test_cases = json.load(test_data_f)
             metafunc.parametrize("test_case", [i for i in test_cases], ids=id_func)
 
 
 def test_site_map_parsers(test_case):
-    with open(os.path.join(TEST_HTML_FOLDER, test_case["html"])) as html:
+    with open(os.path.join(TEST_HTML_FOLDER, test_case["html"]), encoding="utf8") as html:
         page = html.read()
     ad_data = parse_ads(test_case["domain"], page)
     assert ad_data == test_case["ad-data"]
