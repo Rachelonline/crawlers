@@ -81,6 +81,41 @@ If you run `pytest` directly you might get import errors `ModuleNotFoundError: N
 
 This is because the code isn't on your python path. The best way to avoid is by using `python3 -m` because it will automatically add the current directory to your path.
 
+## Testing a single function
+
+When you need to experiment and test out your code without adding it to the pipeline, you can use the `test-in-queue`. 
+
+First change your function to point the input to the `test-in-queue`:
+
+```git
+-      "queueName": "foo", 
++      "queueName": "test-in-queue",
+```
+
+Then you'll want to change your outputs to be a log/or print. This way your locally running function won't put data on the next queue. It's not the end of the world if that happens - the only really dangerous place for that is in the processor function because it writes to the database. Other queue will generally just error and cause on-call issues. 
+
+Here's an example using the processor.py:
+```python
+    # doc.set(func.Document.from_json(json.dumps(out_messag)))
+    print(out_message)
+```
+
+Now you can use `load-test-in-queue.py` to add a message to the test-in-queue. You'll have to export the service bus connection string (from your local.settings.json) and then give it a path to the json message you want to send the the queue. 
+
+If you created the test message you want to send in `tools\testing-queues\input.json` then you'd
+
+```python
+python3 tools\testing-queues\load-test-in-queue.py tools\testing-queues\input.json
+```
+
+Then start just your function locally using the azure func tools:
+
+```bash
+cd __app__
+func start --functions <folder/function name>
+```
+
+There it will start consuming off the test queue and printing the output of your step! Huzzah!
 
 ## Running the app locally
 
