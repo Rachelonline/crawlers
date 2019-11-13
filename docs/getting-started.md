@@ -68,6 +68,13 @@ To run all the tests (from the top level folder):
 python3 -m pytest
 ```
 
+#### Code formatting
+
+We'd like to run the code through black before commiting. 
+
+To do that we can use a black pre-commit hook. 
+
+
 #### Code coverage
 
 Code coverage can be seen with 
