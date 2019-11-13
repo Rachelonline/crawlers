@@ -72,8 +72,21 @@ python3 -m pytest
 
 We'd like to run the code through black before commiting. 
 
-To do that we can use a black pre-commit hook. 
+To do that we can use a black pre-commit hook.
 
+To install pre-commit do the following:
+
+```
+pip install pre-commit
+```
+
+Then to install the pre-commit configuration:
+
+```
+pre-commit install
+```
+
+Now when you commit to this repo, your code will get formatted with black.
 
 #### Code coverage
 
