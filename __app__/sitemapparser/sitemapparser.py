@@ -2,12 +2,14 @@ import logging
 from __app__.utils.table.adlisting import AdListingTable
 from __app__.sitemapparser.sites.cityxguide_com import cityxguide_com
 from __app__.sitemapparser.sites.capleasures_com import capleasures_com
+from __app__.sitemapparser.sites.vipgirlfriend_com import vipgirlfriend_com
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 
 SITE_PARSERS = {
     "cityxguide.com": cityxguide_com,
     "capleasures.com": capleasures_com,
+    "vipgirlfriend.com": vipgirlfriend_com,
 }
 
 TABLE = AdListingTable()

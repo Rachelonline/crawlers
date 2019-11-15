@@ -21,6 +21,8 @@ project.lock.json
 .secrets
 appsettings.json
 local.settings.json
+.coverage
+.vscode
 
 node_modules
 dist
