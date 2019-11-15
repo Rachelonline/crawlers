@@ -2,12 +2,11 @@
 
 ## TOC:
 
-- # Getting started
-- [Getting started](./docs/getting-started.md)
-- Runbook
-- [High Level Design](./docs/design.md)
-- Crawler Design
-- Rough Edges
+* [Getting started](./docs/getting-started.md)
+* Runbook 
+* [High Level Design](./docs/design.md)
+* Crawler Design
+* Rough Edges
 
 ## High level crawling process
 
@@ -62,22 +61,6 @@ There's also a `utils/` folder for some common code (mostly networking).
 ## General crawl issues:
 
 `TODO: docs on this`
-
-<<<<<<< HEAD
-
-## Setting up local dev
-
-Setup the core tools [locally](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local#brew)
-
-`brew tap azure/functions brew install azure-functions-core-tools`
-
-You'll also need to get the connection strings so you can get the right queues. (check with Liz for that)
-
-`#TODO: More details here`
-
-=======
-
-> > > > > > > 7047d30... getting started first draft (#22)
 
 ## Siteloader
 
