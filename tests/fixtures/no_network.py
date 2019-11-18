@@ -19,6 +19,8 @@ def no_azure_table_service(monkeypatch):
 def no_azure_blob_service(monkeypatch):
     mock_blob_client = MagicMock()
     monkeypatch.setattr("__app__.utils.ads.adstore.BlobClient", mock_blob_client)
+    monkeypatch.setattr("__app__.utils.images.imagestore.BlobClient", mock_blob_client)
+    monkeypatch.setattr("__app__.utils.queue.message.BlobClient", mock_blob_client)
     return mock_blob_client.from_blob_url
 
 

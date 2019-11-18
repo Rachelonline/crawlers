@@ -59,9 +59,7 @@ def parse_ad_listing(message: dict) -> dict:
         logging.error("No ad listing parser for %s", domain)
         return [], {}
     parser = parser(message)
-    print(parser)
     ad_url_data = parser.ad_listings()
-    print(ad_url_data)
     # Perf improvement: make filtering parallel
     uncrawled_ads = filter_uncrawled(ad_url_data)
     azure_tc.track_metric("ads-found", len(ad_url_data), properties={"domain": domain})
@@ -73,7 +71,7 @@ def parse_ad_listing(message: dict) -> dict:
     # Check to see if we need to get the next ad listing page
     continuation_url = parser.continuation_url()
     continued_listing_msg = {}
-    if len(uncrawled_ads) / len(ad_url_data) >= PERCENT_UNCRAWLED:
+    if ad_url_data and len(uncrawled_ads) / len(ad_url_data) >= PERCENT_UNCRAWLED:
         continued_listing_msg = build_cont_listing_msg(
             message, continuation_url, azure_tc
         )

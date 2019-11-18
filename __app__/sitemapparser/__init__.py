@@ -1,10 +1,8 @@
-import logging
-import json
 import azure.functions as func
-
 from __app__.sitemapparser.sitemapparser import parse_sitemap
+from __app__.utils.queue.message import decode_message
 
 
 def main(inmsg: func.ServiceBusMessage) -> None:
-    message = json.loads(inmsg.get_body().decode("utf-8"))
+    message = decode_message(inmsg)
     parse_sitemap(message)

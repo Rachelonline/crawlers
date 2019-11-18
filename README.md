@@ -6,6 +6,7 @@
 * Runbook 
 * [High Level Design](./docs/design.md)
 * Crawler Design
+* [Interesting Bits](./docs/interesting-bits.md)
 * Rough Edges
 
 ## High level crawling process
