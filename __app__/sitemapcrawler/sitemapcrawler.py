@@ -19,7 +19,7 @@ SITEMAP_URL = {
     # "eros.com": None,
     # "adultsearch.com": None,
     # "slixa.com": None,
-    # "escortdirectory.com": None,
+    "escortdirectory.com": "https://www.escortdirectory.com",
 }
 
 

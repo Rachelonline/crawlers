@@ -9,7 +9,7 @@ class VIPGirlfriend(BaseAdParser):
     def primary_phone_number(self) -> str:
         phone_div = self.soup.find("li", class_="lp-listing-phone")
         if phone_div:
-          return next(phone_div.stripped_strings)
+            return next(phone_div.stripped_strings)
 
     def phone_numbers(self) -> List:
         phone_numbers_found = []
@@ -39,9 +39,9 @@ class VIPGirlfriend(BaseAdParser):
         social = []
         social_div = self.soup.find("div", class_="widget-social")
         if social_div:
-          links = social_div.find_all("a", href=True) or []
-          for link in links:
-            social.append(link["href"])
+            links = social_div.find_all("a", href=True) or []
+            for link in links:
+                social.append(link["href"])
         return social
 
     def age(self) -> str:
@@ -67,41 +67,46 @@ class VIPGirlfriend(BaseAdParser):
         gender = None
         categories = self.soup.find("ul", class_="features")
         if categories:
-          link = categories.find("a").get("href")
-          gender = self.gender_lookup.get(link.split("/")[-2], "unknown")
+            link = categories.find("a").get("href")
+            gender = self.gender_lookup.get(link.split("/")[-2], "unknown")
         return gender
 
     def services(self) -> List:
         services = None
         categories = self.soup.find("ul", class_="breadcrumbs").find_all("a")
         if categories:
-          services = []
+            services = []
         for category in categories:
-          if category.text != "Home":
-            services.append(category.text)
+            if category.text != "Home":
+                services.append(category.text)
         return services
 
     def website(self) -> str:
         website_span = self.soup.find("li", class_="lp-user-web")
         if website_span:
-          return next(website_span.stripped_strings)
+            return next(website_span.stripped_strings)
 
     def ad_text(self) -> str:
         content = "\n".join(
             string
-            for string in self.soup.find("div", class_="post-detail-content").stripped_strings
+            for string in self.soup.find(
+                "div", class_="post-detail-content"
+            ).stripped_strings
         )
         if content:
             return content
+
+    def orientation(self) -> str:
+        return None
 
     def ad_title(self) -> str:
         content = ""
         subheadings = self.soup.find("h1").next_siblings
         for subheading in subheadings:
-          if type(subheading).__name__ == 'Tag':
-            content += subheading.text
-          else:
-            content += subheading.strip()
+            if type(subheading).__name__ == "Tag":
+                content += subheading.text
+            else:
+                content += subheading.strip()
         if content:
-            content = content.rjust(len(content)+1)
+            content = content.rjust(len(content) + 1)
         return self.name() + content
