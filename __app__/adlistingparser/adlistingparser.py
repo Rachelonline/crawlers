@@ -67,10 +67,6 @@ def parse_ad_listing(message: dict) -> dict:
     ad_url_data = parser.ad_listings()
     # Perf improvement: make filtering parallel
     uncrawled_ads = filter_uncrawled(ad_url_data)
-    azure_tc.track_metric("ads-found", len(ad_url_data), properties={"domain": domain})
-    azure_tc.track_metric(
-        "new-ads-found", len(uncrawled_ads), properties={"domain": domain}
-    )
 
     # Remove the ad-listing-page html
     message.pop("ad-listing-page", None)
@@ -87,6 +83,10 @@ def parse_ad_listing(message: dict) -> dict:
         continued_listing_msg = build_cont_listing_msg(
             message, continuation_url, azure_tc
         )
+    azure_tc.track_metric("ads-found", len(ad_url_data), properties={"domain": domain})
+    azure_tc.track_metric(
+        "new-ads-found", len(uncrawled_ads), properties={"domain": domain}
+    )
 
     azure_tc.flush()
 
