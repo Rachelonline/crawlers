@@ -40,21 +40,22 @@ class EscortDirectory(BaseAdListingParser):
         # Find location
         location = self.soup.find(
             "div", class_="myCountry-mobile-place"
-        ).stripped_strings
-        metadata["location"] = " ".join(location)
+        )
+        if location:
+            metadata["location"] = " ".join(location.stripped_strings)
 
         # Gender can be from the listing!
         category = self.soup.find(
             "span", class_="lookingFor-mobile-place"
-        ).stripped_strings
-        category = " ".join(category)
-        print(category)
-        gender = GENDER_MAPPING.get(category)
-        if gender:
-            metadata["gender"] = gender
+        )
+        if category:
+            category = " ".join(category.stripped_strings)
+            gender = GENDER_MAPPING.get(category)
+            if gender:
+                metadata["gender"] = gender
 
-        # Services
-        service = SERVICE_MAPPING.get(category)
-        if service:
-            metadata["services"] = [service]
+            # Services
+            service = SERVICE_MAPPING.get(category)
+            if service:
+                metadata["services"] = [service]
         return metadata
