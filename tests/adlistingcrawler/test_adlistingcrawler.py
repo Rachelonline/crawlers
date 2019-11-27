@@ -20,7 +20,7 @@ def patch_datetime_now(monkeypatch):
 
 def test_crawl_ad_listing(monkeypatch):
     mock_get_url = MagicMock()
-    mock_get_url.return_value.text = "test_page"
+    mock_get_url.return_value = "test_page"
 
     monkeypatch.setattr(
         "__app__.adlistingcrawler.adlistingcrawler.get_url", mock_get_url

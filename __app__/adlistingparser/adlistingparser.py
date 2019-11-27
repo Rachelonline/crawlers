@@ -71,6 +71,13 @@ def parse_ad_listing(message: dict) -> dict:
     azure_tc.track_metric(
         "new-ads-found", len(uncrawled_ads), properties={"domain": domain}
     )
+
+    # Remove the ad-listing-page html
+    message.pop("ad-listing-page", None)
+
+    # Get metadata
+    message["ad-listing-data"] = parser.ad_listing_data()
+
     ad_url_msgs = build_ad_url_msgs(message, uncrawled_ads)
 
     # Check to see if we need to get the next ad listing page

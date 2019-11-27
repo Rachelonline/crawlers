@@ -5,6 +5,18 @@ from __app__.adlistingparser.sites.base_adlisting_parser import BaseAdListingPar
 
 PAGE_NUM_RE = re.compile(r"(.*cityxguide.com.*/page/)([0-9]+)/?$")
 
+# We dont wan't to include these in the extracted location string
+REMOVE_FROM_LOCATATION_STR = set(
+    [
+        "HOME",
+        "Africa",
+        "Asia, Pacific & Middle East",
+        "Australia & Oceania",
+        "Europe",
+        "Latin America & Caribbean",
+    ]
+)
+
 
 class CityXGuide_com(BaseAdListingParser):
     def ad_listings(self):
@@ -26,3 +38,20 @@ class CityXGuide_com(BaseAdListingParser):
         if new_url != current_url:
             return new_url
         return f"{current_url}/page/2/"
+
+    def ad_listing_data(self) -> dict:
+        metadata = {}
+
+        # Find location
+        locations = []
+        breadcrumb = self.soup.find("div", class_="breadcrumbs")
+        for span in breadcrumb.find_all("span", {"itemprop": "name"}):
+            span_text = span.text
+            if span_text not in REMOVE_FROM_LOCATATION_STR:
+                locations.append(span_text)
+        if locations:
+            metadata["location"] = ", ".join(locations)
+
+        # CityXGuide is mostly all females, we check ad itself for others
+        metadata["gender"] = "female"
+        return metadata

@@ -31,3 +31,4 @@ def test_site_map_parsers(test_case):
     parser = parser(test_case)
     assert parser.ad_listings() == test_case["ad-urls"]
     assert parser.continuation_url() == test_case["next-url"]
+    assert parser.ad_listing_data() == test_case["ad-listing-data"]
