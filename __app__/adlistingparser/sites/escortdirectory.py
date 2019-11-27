@@ -4,6 +4,18 @@ from bs4 import BeautifulSoup
 from __app__.adlistingparser.sites.base_adlisting_parser import BaseAdListingParser
 
 
+GENDER_MAPPING = {
+    "Female Massage": "female",
+    "Female Escorts": "female",
+    "Female BDSM": "female",
+    "Men": "male",
+    "Male Escorts": "male",
+    "Trans": "trans",
+}
+
+SERVICE_MAPPING = {"Female Massage": "massage", "Female BDSM": "bsdm"}
+
+
 class EscortDirectory(BaseAdListingParser):
     DOMAIN = "https://www.escortdirectory.com"
 
@@ -17,9 +29,10 @@ class EscortDirectory(BaseAdListingParser):
 
     def continuation_url(self):
         current = self.soup.find(class_="page-number grey active")
-        next_page = current.find_next_sibling("a")
-        if next_page:
-            return urljoin(self.DOMAIN, next_page["href"])
+        if current:
+            next_page = current.find_next_sibling("a")
+            if next_page:
+                return urljoin(self.DOMAIN, next_page["href"])
 
     def ad_listing_data(self) -> dict:
         metadata = {}
@@ -31,13 +44,17 @@ class EscortDirectory(BaseAdListingParser):
         metadata["location"] = " ".join(location)
 
         # Gender can be from the listing!
-        gender = self.soup.find(
+        category = self.soup.find(
             "span", class_="lookingFor-mobile-place"
         ).stripped_strings
-        gender = " ".join(gender).lower()
-        gender = gender.replace(" escorts", "")
-        # TODO: Do this better
-        if gender == "men":
-            gender = "male"
-        metadata["gender"] = gender
+        category = " ".join(category)
+        print(category)
+        gender = GENDER_MAPPING.get(category)
+        if gender:
+            metadata["gender"] = gender
+
+        # Services
+        service = SERVICE_MAPPING.get(category)
+        if service:
+            metadata["services"] = [service]
         return metadata
