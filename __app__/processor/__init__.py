@@ -31,10 +31,12 @@ def main(
 
     message = json.loads(inmsg.get_body().decode("utf-8"))
     score_msg = score_ad(message, functions=DEFAULT_FUNCTIONS)
-    if score_msg:
-        sdoc.set(func.Document.from_json(score_msg))
+    
+    print(score_msg)
+    # if score_msg:
+    #     sdoc.set(func.Document.from_json(score_msg))
 
-    doc.set(func.Document.from_json(inmsg.get_body()))
+    # doc.set(func.Document.from_json(inmsg.get_body()))
 
     azure_tc.track_metric(
         "ad-processed", 1, properties={"domain": message["domain"]}
