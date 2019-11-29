@@ -7,6 +7,7 @@ from __app__.utils.throttle.throttle import check_throttle
 SITEMAP_URL = {
     "cityxguide.com": "https://cityxguide.com",
     "capleasures.com": "https://capleasures.com",
+    "vipgirlfriend.com": "https://vipgirlfriend.com",
     # "backpage.ly": None,
     # "gfemonkey.com": None,
     # "eccie.net": None,
@@ -18,7 +19,7 @@ SITEMAP_URL = {
     # "eros.com": None,
     # "adultsearch.com": None,
     # "slixa.com": None,
-    # "escortdirectory.com": None,
+    "escortdirectory.com": "https://www.escortdirectory.com",
 }
 
 
@@ -44,7 +45,7 @@ def sitemap(message: dict) -> dict:
     parse_message["domain"] = message["domain"]
     parse_message["metadata"] = message["metadata"]
     parse_message["metadata"].update(
-        {"site-map": datetime.now().replace(microsecond=0).isoformat()}
+        {"site-map": datetime.utcnow().replace(microsecond=0).isoformat()}
     )
 
     azure_tc.track_metric("sitemap-crawl-success", 1, properties={"domain": domain})

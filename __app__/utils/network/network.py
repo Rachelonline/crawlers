@@ -36,7 +36,7 @@ def get_url(url, params={}):
         response.raise_for_status()
         azure_tc.track_metric("crawl", 1, properties={"code": 200, "domain": domain})
         azure_tc.flush()
-        return response
+        return response.text
     except requests.exceptions.HTTPError as err:
         status_code = err.response.status_code
         azure_tc.track_metric(

@@ -16,7 +16,7 @@ from __app__.adparser.sites.base_ad_parser import BaseAdParser
 def patch_datetime_now(monkeypatch):
     class mydatetime:
         @classmethod
-        def now(cls):
+        def utcnow(cls):
             return datetime(2525, 1, 1)
 
     monkeypatch.setattr("__app__.adparser.adparser.datetime", mydatetime)
@@ -26,10 +26,10 @@ class FakeParser(BaseAdParser):
     def ad_dict(self) -> dict:
         return {"ad": "data"}
 
+
 class NotFoundParser(BaseAdParser):
     def ad_dict(self) -> dict:
         return {}
-
 
 
 def not_found_parser(page):
@@ -78,16 +78,8 @@ def test_build_image_url_msgs():
     urls = ["img-url1", "img-url3"]
 
     expected = [
-        {
-            "image-url": "img-url1",
-            "domain": "test",
-            "metadata": {"meta": "data"},
-        },
-        {
-            "image-url": "img-url3",
-            "domain": "test",
-            "metadata": {"meta": "data"},
-        },
+        {"image-url": "img-url1", "domain": "test", "metadata": {"meta": "data"},},
+        {"image-url": "img-url3", "domain": "test", "metadata": {"meta": "data"},},
     ]
     assert build_image_url_msgs(test_msg, urls) == expected
 
@@ -109,10 +101,12 @@ def test_parse_ad(monkeypatch):
         "metadata": {"meta": "data", "ad-parsed": "2525-01-01T00:00:00"},
         "ad-data": {"ad": "data", "image-urls": ["img-url"]},
     }
-    expected_img_url_msgs = [{
-        "image-url": "img-url",
-        "domain": "test",
-        "metadata": {"meta": "data", "ad-parsed": "2525-01-01T00:00:00"},
-    }]
+    expected_img_url_msgs = [
+        {
+            "image-url": "img-url",
+            "domain": "test",
+            "metadata": {"meta": "data", "ad-parsed": "2525-01-01T00:00:00"},
+        }
+    ]
 
     assert parse_ad(test_msg) == (expected_ad_processer_msg, expected_img_url_msgs)

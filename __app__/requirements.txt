@@ -1,3 +1,5 @@
+cffi
+azure-core==1.0.0b4
 azure-functions
 # azure-storage-blob . Azure hasn't promoted the latest to prod it's stuck in pre. The problem is that we can't pass --pre into the docker build :/ so we're using the wheel url directly. 
 https://files.pythonhosted.org/packages/66/25/1919070ec8d09b20ee068e14b05a8dcac6f12a63d736935089197dbd4f0f/azure_storage_blob-12.0.0b4-py2.py3-none-any.whl
