@@ -14,3 +14,7 @@ class BaseAdListingParser:
     def continuation_url(self) -> str:
         """ returns the next url for depth crawling """
         raise NotImplementedError
+
+    def ad_listing_data(self) -> dict:
+        """ returns metadata for the ad listing page. Such as location, gender, etc """
+        raise NotImplementedError

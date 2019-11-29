@@ -6,6 +6,7 @@ from __app__.utils.metrics.metrics import get_client, enable_logging
 SITES_TO_MAP = [
     ("cityxguide.com", {"domain": "cityxguide.com"}),
     ("capleasures.com", {"domain": "capleasures.com"}),
+    ("vipgirlfriend.com", {"domain": "vipgirlfriend.com"}),
     # ("backpage.ly", {"domain": "backpage.ly"}),
     # ("gfemonkey.com", {"domain": "gfemonkey.com"}),
     # ("eccie.net", {"domain": "eccie.net"}),
@@ -17,7 +18,7 @@ SITES_TO_MAP = [
     # ("eros.com", {"domain": "eros.com"}),
     # ("adultsearch.com", {"domain": "adultsearch.com"}),
     # ("slixa.com", {"domain": "slixa.com"}),
-    # ("escortdirectory.com", {"domain": "escortdirectory.com"}),
+    ("escortdirectory.com", {"domain": "escortdirectory.com"}),
 ]
 
 

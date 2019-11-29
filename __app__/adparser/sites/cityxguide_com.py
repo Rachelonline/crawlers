@@ -93,3 +93,6 @@ class CityXGuide(BaseAdParser):
 
     def ad_title(self) -> str:
         return self.soup.find("h1", itemprop="name").string
+
+    def orientation(self) -> str:
+        return None

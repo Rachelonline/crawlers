@@ -26,4 +26,3 @@ class ImagesTable(BaseAzureTable):
                 "metadata": json.dumps(metadata),
             },
         )
-

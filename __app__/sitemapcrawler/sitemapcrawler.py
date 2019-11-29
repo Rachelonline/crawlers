@@ -7,6 +7,7 @@ from __app__.utils.throttle.throttle import check_throttle
 SITEMAP_URL = {
     "cityxguide.com": "https://cityxguide.com",
     "capleasures.com": "https://capleasures.com",
+    "vipgirlfriend.com": "https://vipgirlfriend.com",
     # "backpage.ly": None,
     # "gfemonkey.com": None,
     # "eccie.net": None,
@@ -18,7 +19,7 @@ SITEMAP_URL = {
     # "eros.com": None,
     # "adultsearch.com": None,
     # "slixa.com": None,
-    # "escortdirectory.com": None,
+    "escortdirectory.com": "https://www.escortdirectory.com",
 }
 
 

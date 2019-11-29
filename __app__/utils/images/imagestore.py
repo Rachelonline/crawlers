@@ -8,9 +8,11 @@ from base64 import urlsafe_b64encode, urlsafe_b64decode
 
 STORAGE_URL = "https://picrawling.blob.core.windows.net/test-images"
 
+
 def encode_url(url: str) -> str:
     """ We're b64 encoding the URLs so that we can get the images if we ever need to."""
     return urlsafe_b64encode(bytes(url, "utf-8")).decode("utf-8")
+
 
 def _build_image_url(url: str):
     return f"{STORAGE_URL}/{encode_url(url)}"
