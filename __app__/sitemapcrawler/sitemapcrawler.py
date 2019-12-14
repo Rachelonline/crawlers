@@ -8,6 +8,7 @@ SITEMAP_URL = {
     "cityxguide.com": "https://cityxguide.com",
     "capleasures.com": "https://capleasures.com",
     "vipgirlfriend.com": "https://vipgirlfriend.com",
+    "megapersonals.eu": "https://megapersonals.eu",
     # "backpage.ly": None,
     # "gfemonkey.com": None,
     # "eccie.net": None,

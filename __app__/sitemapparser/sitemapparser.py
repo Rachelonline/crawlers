@@ -4,6 +4,7 @@ from __app__.sitemapparser.sites.cityxguide_com import cityxguide_com
 from __app__.sitemapparser.sites.capleasures_com import capleasures_com
 from __app__.sitemapparser.sites.escortdirectory import escortdirectory
 from __app__.sitemapparser.sites.vipgirlfriend_com import vipgirlfriend_com
+from __app__.sitemapparser.sites.megapersonals_eu import megapersonals_eu
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 
@@ -12,6 +13,7 @@ SITE_PARSERS = {
     "capleasures.com": capleasures_com,
     "escortdirectory.com": escortdirectory,
     "vipgirlfriend.com": vipgirlfriend_com,
+    "megapersonals.eu": megapersonals_eu,
 }
 
 TABLE = AdListingTable()

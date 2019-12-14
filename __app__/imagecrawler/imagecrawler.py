@@ -14,6 +14,8 @@ def crawl_image(message: dict) -> dict:
     enable_logging()
 
     image_url = message["image-url"]
+    if image_url.endswith(".mp4"):
+        raise Exception("not pulling mp4s")
     logging.info("starting image url: %s", image_url)
     check_throttle(image_url, azure_tc=azure_tc)
     domain = message["domain"]

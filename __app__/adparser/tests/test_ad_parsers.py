@@ -15,7 +15,7 @@ def id_func(item):
 
 def pytest_generate_tests(metafunc):
     if "test_case" in metafunc.fixturenames:
-        with open(TEST_DATA_LOCATION, encoding="utf8") as test_data_f:
+        with open(TEST_DATA_LOCATION, encoding="utf-8") as test_data_f:
             test_cases = json.load(test_data_f)
             metafunc.parametrize("test_case", [i for i in test_cases], ids=id_func)
 
