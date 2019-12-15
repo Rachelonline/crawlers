@@ -1,12 +1,14 @@
 import redis
 import os
 
-REDIS_HOST = "picrawling.redis.cache.windows.net"
 
 class RedisCache(object):
-    def __init__(self, redis_host=REDIS_HOST, password=os.environ["REDIS_KEY"]):
+    def __init__(
+        self, redis_host=os.environ.get("REDIS_HOST", "localhost"),
+        password=os.environ.get("REDIS_KEY", None), port=os.environ.get("REDIS_PORT", 6379)
+        ):
         self.redis = redis.Redis(
-            host=redis_host, port=6380, db=0, password=password, ssl=True
+            host=redis_host, port=port, password=password
         )
         self.redis.ping()
 
@@ -17,6 +19,13 @@ class RedisCache(object):
         """
         return self.redis.get(f"{phone_number}:{score_key}") or default_score
         
+
+    def get_values_at_attribute(self, phone_number, score_type, attribute):
+        _, keys = self.redis.scan(match=f"{phone_number}:{score_type}_{attribute}_*")
+        data = self.redis.mget(keys)
+        keys = [k.decode().split("_")[-1] for k in keys]
+        return {k:d.decode() for k,d in zip(keys, data)}
+
 
     def put_cached_score(self, phone_number, score_key, score, expire=False):
         """

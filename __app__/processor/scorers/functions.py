@@ -25,7 +25,6 @@ def frequency_scores(msg: dict, attribute_list: str, cache: RedisCache) -> dict:
     Calls frequency_score_helper on a list of attributes
     Aggregates scores in a dictionary and returns
     """
-    #TODO: will we have a problem here with default dicts?
     frequencies = defaultdict(dict)
     phone_number = msg.get("primary-phone-number")
 
@@ -49,8 +48,15 @@ def frequency_scores(msg: dict, attribute_list: str, cache: RedisCache) -> dict:
                 value=attribute_value,
                 cache=cache
             )
+            attribute_history = cache.get_values_at_attribute(
+                phone_number=phone_number,
+                score_type="frequency_score",
+                attribute=attribute
+            )
+            for ah_key, ah_val in attribute_history.items():
+                frequencies[attribute][ah_key] = ah_val
 
-    return frequencies
+    return dict(frequencies)
 
 def frequency_score_helper(phone_number: str, attribute: str, value: str, cache: RedisCache) -> int:
     """
@@ -88,7 +94,7 @@ def twilio_score(msg: dict, account_sid: str, auth_token: str, cache: RedisCache
         score_key="twilio_score"
     )
     if cached_score:
-        return cached_score
+        return cached_score.decode()
 
     if not phone_number:
         logger.error(
@@ -108,7 +114,7 @@ def twilio_score(msg: dict, account_sid: str, auth_token: str, cache: RedisCache
         return None
 
     # This response would need to get changed if there is a need for other add-ons
-    scores = resp.add_ons.get("results").get("truecnam_truespam").get("result")
+    scores = resp.add_ons.get("results").get("truecnam_truespam").get("result").get("spam_score")
         
     cache.put_cached_score(
         phone_number=phone_number,
