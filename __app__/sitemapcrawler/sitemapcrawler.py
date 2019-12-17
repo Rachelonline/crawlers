@@ -9,6 +9,8 @@ SITEMAP_URL = {
     "capleasures.com": "https://capleasures.com",
     "vipgirlfriend.com": "https://vipgirlfriend.com",
     "megapersonals.eu": "https://megapersonals.eu",
+    "escortdirectory.com": "https://www.escortdirectory.com",
+    "2backpage.com": "https://2backpage.com",
     # "backpage.ly": None,
     # "gfemonkey.com": None,
     # "eccie.net": None,
@@ -20,7 +22,6 @@ SITEMAP_URL = {
     # "eros.com": None,
     # "adultsearch.com": None,
     # "slixa.com": None,
-    "escortdirectory.com": "https://www.escortdirectory.com",
 }
 
 

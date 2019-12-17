@@ -8,6 +8,7 @@ from __app__.adlistingparser.sites.cityxguide_com import CityXGuide_com
 from __app__.adlistingparser.sites.escortdirectory import EscortDirectory
 from __app__.adlistingparser.sites.vipgirlfriend_com import VIPGirlfriend_com
 from __app__.adlistingparser.sites.megapersonals_eu import MegaPersonals_eu
+from __app__.adlistingparser.sites.twobackpage_com import TwoBackpage_com
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 AD_LISTING_PARSERS = {
@@ -15,6 +16,7 @@ AD_LISTING_PARSERS = {
     "vipgirlfriend.com": VIPGirlfriend_com,
     "escortdirectory.com": EscortDirectory,
     "megapersonals.eu": MegaPersonals_eu,
+    "2backpage.com": TwoBackpage_com,
 }
 
 
