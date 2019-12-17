@@ -1,16 +1,16 @@
-import os
-import json
-import logging
+"""
+This is used to disable crawling on a domain.
+"""
+
+from argparse import ArgumentParser
 from base64 import urlsafe_b64encode, urlsafe_b64decode
-from base64 import b64encode
-from argparse import ArgumentParser, ArgumentTypeError
+import json
+import os
 from azure.cosmosdb.table.tableservice import TableService
-from azure.servicebus import ServiceBusClient, Message
-from azure.storage.blob import BlobClient
+from azure.servicebus import ServiceBusClient
 from azure.servicebus.common.errors import MessageAlreadySettled
 
 CONNECTION = os.environ["SB_CONN_STR"]
-DOMAIN_TO_DISABLE = "vipgirlfriend.com"
 TABLE_NAME = "adlistings"
 QUEUE_NAME = "regioncrawl"
 
@@ -66,8 +66,16 @@ def clear_adlisting_crawl_queue(domain_to_disable: str) -> None:
 
 
 def main():
-    disable_ad_listing(DOMAIN_TO_DISABLE)
-    clear_adlisting_crawl_queue(DOMAIN_TO_DISABLE)
+    parser = ArgumentParser(
+        description="Temporary disable crawling on a domain"
+    )
+    parser.add_argument(
+        "domain", type=str, help=f"domain to disable"
+    )
+    args = parser.parse_args()
+
+    disable_ad_listing(args.domain)
+    clear_adlisting_crawl_queue(args.domain)
 
 
 if __name__ == "__main__":
