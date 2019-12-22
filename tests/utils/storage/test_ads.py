@@ -1,8 +1,8 @@
 import pytest
-from datetime import datetime
 from unittest.mock import ANY
+from datetime import datetime
 from tests.fixtures.no_network import *
-from __app__.utils.ads.adstore import save_ad_page, get_ad_page
+from __app__.utils.storage.ads import save_ad_page, get_ad_page
 
 
 @pytest.fixture(autouse=True)
@@ -10,12 +10,11 @@ def mock_uuid_storage_url(monkeypatch):
     monkeypatch.setattr("__app__.utils.storage.ads.uuid4", lambda: "uuid")
 
 
-
 def test_save_ad_page(no_azure_blob_service):
     expected = "https://blob.store/ads/uuid"
-    actual = save_ad_page("<html>", datetime(2525, 1, 1), "test-domain")
-
+    actual = save_ad_page("<html>")
     assert expected == actual
+    no_azure_blob_service.assert_called_with(expected, credential=ANY)
     no_azure_blob_service.return_value.upload_blob.assert_called_with("<html>")
 
 

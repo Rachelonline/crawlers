@@ -9,8 +9,7 @@ from __app__.adcrawler.adcrawler import crawl_ad
 
 @pytest.fixture(autouse=True)
 def mock_uuid_storage_url(monkeypatch):
-    monkeypatch.setattr("__app__.utils.ads.adstore.uuid4", lambda: "uuid")
-    monkeypatch.setattr("__app__.utils.ads.adstore.STORAGE_URL", "blob.storage")
+    monkeypatch.setattr("__app__.utils.storage.ads.uuid4", lambda: "uuid")
 
 
 @pytest.fixture(autouse=True)
@@ -39,7 +38,7 @@ def test_crawl_ad(monkeypatch):
 
     expected = {
         "ad-url": "test_url",
-        "ad-page-blob": "blob.storage/2525/01/01/test-domain/uuid",
+        "ad-page-blob": "https://blob.store/ads/uuid",
         "domain": "test-domain",
         "metadata": {
             "ad-crawled": "2525-01-01T00:00:00",
@@ -52,7 +51,7 @@ def test_crawl_ad(monkeypatch):
     mock_table.is_crawled.assert_called()
     mock_table.mark_crawled.assert_called_with(
         "test_url",
-        "blob.storage/2525/01/01/test-domain/uuid",
+        "https://blob.store/ads/uuid",
         {
             "ad-crawled": "2525-01-01T00:00:00",
             "domain": "test-domain",

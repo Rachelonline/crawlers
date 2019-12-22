@@ -42,24 +42,23 @@ def test_encode_small_msg():
 @pytest.fixture
 def large_msg(monkeypatch):
     monkeypatch.setattr("__app__.utils.queue.message.MAX_MESSAGE_BYTES", 100)
-    monkeypatch.setattr("__app__.utils.queue.message.STORAGE_URL", "blob-storage")
     monkeypatch.setattr("__app__.utils.queue.message.uuid4", lambda: "uuid")
     return {"very large message": "that should go to blob yo!"}  # should be 101 bytes
 
 
 def test_encode_large_msg(large_msg, no_azure_blob_service):
-    expected = '{"blob-message": "blob-storage/uuid"}'
+    expected = '{"blob-message": "https://blob.store/oversized-msgs/uuid"}'
     actual = encode_message(large_msg)
 
     assert expected == actual
-    no_azure_blob_service.assert_called_with("blob-storage/uuid", credential=ANY)
+    no_azure_blob_service.assert_called_with("https://blob.store/oversized-msgs/uuid", credential=ANY)
     no_azure_blob_service.return_value.upload_blob.assert_called()
 
 
 def test_send_list_of_msgs(large_msg, no_azure_blob_service):
-    expected = '[{"small": "msg"}, {"blob-message": "blob-storage/uuid"}]'
+    expected = '[{"small": "msg"}, {"blob-message": "https://blob.store/oversized-msgs/uuid"}]'
     actual = encode_message([{"small": "msg"}, large_msg])
 
     assert expected == actual
-    no_azure_blob_service.assert_called_with("blob-storage/uuid", credential=ANY)
+    no_azure_blob_service.assert_called_with("https://blob.store/oversized-msgs/uuid", credential=ANY)
     no_azure_blob_service.return_value.upload_blob.assert_called()
