@@ -59,8 +59,8 @@ def get_location(location: str) -> List:
         return {
             "type": "Point",
             "coordinates": [
-                location["geometry"]["location"]["lat"],
                 location["geometry"]["location"]["lng"],
+                location["geometry"]["location"]["lat"],
             ],
             "placeid": location["place_id"],
         }
