@@ -64,3 +64,4 @@ def get_location(location: str) -> List:
             ],
             "placeid": location["place_id"],
         }
+
