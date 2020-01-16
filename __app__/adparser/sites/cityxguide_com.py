@@ -60,9 +60,19 @@ class CityXGuide(BaseAdParser):
         return urls
 
     def location(self) -> str:
+        area_str = ""
+        bread_crumb = self.soup.find("div", class_="breadcrumbs")
+        if bread_crumb:
+            spans = bread_crumb.find_all("span", attrs={"property": "name"})
+            if len(spans) > 2:
+                area_str = " ".join(span.string for span in spans[1:-1])
+
+
         location_str = self.soup.find("span", class_="_location").string
-        if location_str != "Not Available":
-            return location_str
+        if location_str == "Not Available":
+            location_str = ""
+        if area_str or location_str:
+            return f"{area_str} {location_str}"
 
     def ethnicity(self) -> str:
         ethnicity_span = self.soup.find("span", class_="_ethnicity")

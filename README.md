@@ -3,7 +3,7 @@
 ## TOC:
 
 * [Getting started](./docs/getting-started.md)
-* Runbook 
+* [Runbook](./docs/runbook.md)
 * [High Level Design](./docs/design.md)
 * Crawler Design
 * [Interesting Bits](./docs/interesting-bits.md)

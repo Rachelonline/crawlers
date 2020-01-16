@@ -1,7 +1,7 @@
 from urllib.parse import urljoin
 import re
 from bs4 import BeautifulSoup
-from __app__.adlistingparser.sites.base_adlisting_parser import BaseAdListingParser
+from __app__.adlistingparser.sites.base_adlisting_parser import BaseAdListingParser, AdListing
 
 PAGE_NUM_RE = re.compile(r"(.*cityxguide.com.*/page/)([0-9]+)/?$")
 
@@ -26,7 +26,7 @@ class CityXGuide_com(BaseAdListingParser):
         for post in self.soup("ul", class_="postlist"):
             for ad_link in post("a"):
                 url = urljoin("https://cityxguide.com/", ad_link.get("href"))
-                ad_listings.append(url)
+                ad_listings.append(AdListing(url))
         return ad_listings
 
     def continuation_url(self):

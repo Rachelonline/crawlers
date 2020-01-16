@@ -4,33 +4,19 @@ import os
 from sys import getsizeof
 from uuid import uuid4
 import azure.functions as func
-from azure.storage.blob import BlobClient
+from __app__.utils.storage.blob_store import save_blob, get_blob
 
 
 MAX_MESSAGE_BYTES = 256_000 * 0.85  # 256kb azure max msg size with a 15% margin.
-STORAGE_URL = "https://picrawling.blob.core.windows.net/oversized-msgs"
-
-
-def _build_blob_uri():
-    return f"{STORAGE_URL}/{str(uuid4())}"
 
 
 def get_blob_msg(message: dict) -> dict:
-    ACCOUNT_KEY = os.getenv("BLOB_STORAGE_KEY")
-    blob_uri = message["blob-message"]
-    blob = BlobClient.from_blob_url(blob_uri, credential=ACCOUNT_KEY)
-    raw_msg = blob.download_blob().content_as_text()
-
-    return json.loads(raw_msg)
+    return json.loads(get_blob(message["blob-message"]))
 
 
 def put_blob_msg(message: dict) -> dict:
-    ACCOUNT_KEY = os.getenv("BLOB_STORAGE_KEY")
-    blob_uri = _build_blob_uri()
-    blob = BlobClient.from_blob_url(blob_uri, credential=ACCOUNT_KEY)
-    blob.upload_blob(json.dumps(message))
+    blob_uri = save_blob(f"oversized-msgs/{str(uuid4())}", json.dumps(message))
     message = {"blob-message": blob_uri}
-
     return message
 
 

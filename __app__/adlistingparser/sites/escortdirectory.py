@@ -1,7 +1,7 @@
 from urllib.parse import urljoin
 import re
 from bs4 import BeautifulSoup
-from __app__.adlistingparser.sites.base_adlisting_parser import BaseAdListingParser
+from __app__.adlistingparser.sites.base_adlisting_parser import BaseAdListingParser, AdListing
 
 
 GENDER_MAPPING = {
@@ -24,7 +24,7 @@ class EscortDirectory(BaseAdListingParser):
 
         for ad_link in self.soup("a", class_="escort-item"):
             url = urljoin(self.DOMAIN, ad_link.get("href"))
-            ad_listings.append(url)
+            ad_listings.append(AdListing(url))
         return ad_listings
 
     def continuation_url(self):

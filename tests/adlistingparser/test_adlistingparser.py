@@ -5,9 +5,10 @@ from __app__.adlistingparser.adlistingparser import (
     AD_LISTING_PARSERS,
     filter_uncrawled,
     build_cont_listing_msg,
-    build_ad_url_msgs,
+    build_ad_listing_msgs,
     parse_ad_listing,
 )
+from __app__.adlistingparser.sites.base_adlisting_parser import AdListing
 
 
 def test_filter_uncrawled(monkeypatch):
@@ -15,18 +16,25 @@ def test_filter_uncrawled(monkeypatch):
     monkeypatch.setattr("__app__.adlistingparser.adlistingparser.TABLE", mock_table)
 
     mock_table.is_crawled.side_effect = [False, True, False]
-    assert ["ad-url1", "ad-url3"] == filter_uncrawled(["ad-url1", "ad-url2", "ad-url3"])
+    assert [AdListing("ad-url1"), AdListing("ad-url3")] == filter_uncrawled(
+        [AdListing("ad-url1"), AdListing("ad-url2"), AdListing("ad-url3")]
+    )
 
 
-def test_build_ad_url_msgs():
+def test_build_ad_listing_msgs():
     test_msg = {"domain": "test", "metadata": {"meta": "data"}}
-    urls = ["ad-url1", "ad-url3"]
+    urls = [AdListing("ad-url1"), AdListing("ad-url3", {"extra": "metadata"})]
 
     expected = [
         {"domain": "test", "metadata": {"meta": "data"}, "ad-url": "ad-url1"},
-        {"domain": "test", "metadata": {"meta": "data"}, "ad-url": "ad-url3"},
+        {
+            "domain": "test",
+            "metadata": {"meta": "data"},
+            "ad-listing-data": {"extra": "metadata"},
+            "ad-url": "ad-url3",
+        },
     ]
-    assert build_ad_url_msgs(test_msg, urls) == expected
+    assert build_ad_listing_msgs(test_msg, urls) == expected
 
 
 def test_build_cont_listing_msgs():
@@ -72,7 +80,7 @@ def test_parse_ad_listing(monkeypatch, fake_parser):
     ad_msg_mock = MagicMock()
     ad_msg_mock.return_value = ["ad-mgs"]
     monkeypatch.setattr(
-        "__app__.adlistingparser.adlistingparser.build_ad_url_msgs", ad_msg_mock
+        "__app__.adlistingparser.adlistingparser.build_ad_listing_msgs", ad_msg_mock
     )
 
     cont_msg_mock = MagicMock()

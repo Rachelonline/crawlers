@@ -1,6 +1,7 @@
 import requests
 from urllib.parse import urlparse
 from __app__.utils.network.headers import get_headers
+from __app__.utils.network.cookies import get_cookies
 from __app__.utils.metrics.metrics import get_client
 
 MAX_RETRIES = 4
@@ -30,8 +31,13 @@ def get_url(url, params={}):
 
     try:
         headers = get_headers()
+        cookies = get_cookies(domain)
         response = requests.get(
-            url, headers=headers, params=params, timeout=CONNECTION_TIMEOUT
+            url,
+            headers=headers,
+            params=params,
+            timeout=CONNECTION_TIMEOUT,
+            cookies=cookies,
         )
         response.raise_for_status()
         azure_tc.track_metric("crawl", 1, properties={"code": 200, "domain": domain})
@@ -57,6 +63,13 @@ def get_url(url, params={}):
         raise CrawlError(status_code, url)
     except requests.exceptions.ConnectTimeout as err:
         status_code = 888
+        azure_tc.track_metric(
+            "crawl", 1, properties={"code": status_code, "domain": domain}
+        )
+        azure_tc.flush()
+        raise CrawlError(status_code, url)
+    except ConnectionError as err:
+        status_code = 998
         azure_tc.track_metric(
             "crawl", 1, properties={"code": status_code, "domain": domain}
         )

@@ -68,7 +68,15 @@ def format_message(data: dict) -> dict:
 
 
 def main(timer: func.TimerRequest) -> None:
-    metric_names = ["new-ads-found", "ad-crawl-success", "ad-processed"]
+    metric_names = [
+        "new-ads-found",
+        "ad-crawl-success",
+        "ad-parse-success",
+        "ad-processed",
+        "images-found",
+        "image-crawl-success",
+        "image-already-crawled",
+    ]
     data = defaultdict(list)
     for metric_name in metric_names:
         raw_data = get_metric(metric_name)

@@ -1,6 +1,6 @@
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-from __app__.adlistingparser.sites.base_adlisting_parser import BaseAdListingParser
+from __app__.adlistingparser.sites.base_adlisting_parser import BaseAdListingParser, AdListing
 
 
 IGNORE_LOCATIONS = set(["Home"])
@@ -15,7 +15,7 @@ class VIPGirlfriend_com(BaseAdListingParser):
 
         for post in posts:
             link = post.find("a")
-            ad_listings.append(link.get("href"))
+            ad_listings.append(AdListing(link.get("href")))
 
         return ad_listings
 

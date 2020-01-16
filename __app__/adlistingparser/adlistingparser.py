@@ -3,15 +3,20 @@ from typing import List
 import logging
 from copy import deepcopy
 from __app__.utils.table.ads import AdsTable
+from __app__.adlistingparser.sites.base_adlisting_parser import AdListing
 from __app__.adlistingparser.sites.cityxguide_com import CityXGuide_com
 from __app__.adlistingparser.sites.escortdirectory import EscortDirectory
 from __app__.adlistingparser.sites.vipgirlfriend_com import VIPGirlfriend_com
+from __app__.adlistingparser.sites.megapersonals_eu import MegaPersonals_eu
+from __app__.adlistingparser.sites.twobackpage_com import TwoBackpage_com
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 AD_LISTING_PARSERS = {
     "cityxguide.com": CityXGuide_com,
     "vipgirlfriend.com": VIPGirlfriend_com,
     "escortdirectory.com": EscortDirectory,
+    "megapersonals.eu": MegaPersonals_eu,
+    "2backpage.com": TwoBackpage_com,
 }
 
 
@@ -20,21 +25,26 @@ PERCENT_UNCRAWLED = 0.7
 MAX_CRAWL_DEPTH = 10
 
 
-def filter_uncrawled(ad_urls: List[str]) -> List[str]:
+def filter_uncrawled(ad_listings: List[AdListing]) -> List[AdListing]:
     uncrawled_ads = []
-    for ad_url in ad_urls:
-        if not TABLE.is_crawled(ad_url):
-            uncrawled_ads.append(ad_url)
+    for ad_listing in ad_listings:
+        if not TABLE.is_crawled(ad_listing.ad_url):
+            uncrawled_ads.append(ad_listing)
     return uncrawled_ads
 
 
-def build_ad_url_msgs(msg: dict, ad_urls: List[str]) -> List[dict]:
-    ad_url_msgs = []
-    for url in ad_urls:
+def build_ad_listing_msgs(msg: dict, ad_listings: List[AdListing]) -> List[AdListing]:
+    ad_listing_msgs = []
+    for ad_listing in ad_listings:
         ad_msg = deepcopy(msg)
-        ad_msg["ad-url"] = url
-        ad_url_msgs.append(ad_msg)
-    return ad_url_msgs
+        ad_msg["ad-url"] = ad_listing.ad_url
+        if ad_listing.metadata:
+            if "ad-listing-data" in ad_msg:
+                ad_msg["ad-listing-data"].update(ad_listing.metadata)
+            else:
+                ad_msg["ad-listing-data"] = ad_listing.metadata
+        ad_listing_msgs.append(ad_msg)
+    return ad_listing_msgs
 
 
 def build_cont_listing_msg(message: dict, continuation_url: str, azure_tc) -> dict:
@@ -74,7 +84,7 @@ def parse_ad_listing(message: dict) -> dict:
     # Get metadata
     message["ad-listing-data"] = parser.ad_listing_data()
 
-    ad_url_msgs = build_ad_url_msgs(message, uncrawled_ads)
+    ad_url_msgs = build_ad_listing_msgs(message, uncrawled_ads)
 
     # Check to see if we need to get the next ad listing page
     continuation_url = parser.continuation_url()
