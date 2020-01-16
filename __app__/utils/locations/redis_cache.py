@@ -47,10 +47,12 @@ def cache_location(function):
     return wrapper
 
 
-def get_place(placeid: str) -> dict:
+def get_place(place_id: str) -> dict:
     """
     Gets the geo data for a place from our cache
     """
+    if not place_id:
+        return
     conn = get_connection()
     data = conn.get(place_id)
     if data:
