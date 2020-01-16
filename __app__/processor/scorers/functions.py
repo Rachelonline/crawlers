@@ -103,7 +103,7 @@ def twilio_score(
         phone_number=phone_number, score_key="truespam"
     )
     if cached_score:
-        return cached_score.decode()
+        return cached_score
 
     if not phone_number:
         logger.error("No primary-phone-number in message...returning no twilio scores")

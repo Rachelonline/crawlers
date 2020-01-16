@@ -52,3 +52,7 @@ def no_redis_throttle(monkeypatch):
         "__app__.utils.throttle.throttle.get_connection", lambda: mock_redis
     )
     return mock_redis
+
+@pytest.fixture(autouse=True)
+def no_twilio_connections(monkeypatch):
+    monkeypatch.delattr("twilio.rest.Client.lookups")
