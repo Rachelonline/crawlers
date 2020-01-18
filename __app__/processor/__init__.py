@@ -21,18 +21,21 @@ def geocode(message: dict) -> dict:
 
 
 def spam_detection(message: dict) -> dict:
-    if not in_customer_region(message):
-        return
     CACHE = RedisCache()
-    DEFAULT_FUNCTIONS = {
-        "frequency": {"attribute_list": ["age", "location", "gender"], "cache": CACHE},
-        "twilio": {
-            "account_sid": os.environ["TWILIO_ACCOUNT_SID"],
-            "auth_token": os.environ["TWILIO_AUTH_TOKEN"],
-            "cache": CACHE,
-        },
+    score_fns = {
+        "frequency": {"attribute_list": ["age", "location", "gender"], "cache": CACHE}
     }
-    return score_ad(message, functions=DEFAULT_FUNCTIONS)
+    if in_customer_region(message):
+        score_fns.update(
+            {
+                "twilio": {
+                    "account_sid": os.environ["TWILIO_ACCOUNT_SID"],
+                    "auth_token": os.environ["TWILIO_AUTH_TOKEN"],
+                    "cache": CACHE,
+                }
+            }
+        )
+    return score_ad(message, functions=score_fns)
 
 
 def main(
