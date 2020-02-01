@@ -1,6 +1,7 @@
 from __app__.processor.scorers.cache import RedisCache
 from twilio.rest import Client
 from collections import defaultdict
+from datetime import datetime
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -26,7 +27,8 @@ def days_since_seen(msg: dict):
 def frequency_scores(msg: dict, attribute_list: str, cache: RedisCache) -> dict:
     """
     Calls frequency_score_helper on a list of attributes
-    Aggregates scores in a dictionary and returns
+    Aggregates scores in a dictionary and returns the total
+    number of times seen and a list of when
     """
     frequencies = defaultdict(dict)
     phone_number = msg.get("primary-phone-number")
@@ -51,13 +53,11 @@ def frequency_scores(msg: dict, attribute_list: str, cache: RedisCache) -> dict:
                 value=attribute_value,
                 cache=cache,
             )
-            attribute_history = cache.get_values_at_attribute(
-                phone_number=phone_number,
-                score_type="frequency_score",
-                attribute=attribute,
+            attribute_history = cache.get_hset_values(
+                phone_number=phone_number, attribute=f"frequency_score_{attribute}",
             )
             for ah_key, ah_val in attribute_history.items():
-                frequencies[attribute][ah_key] = ah_val
+                frequencies[attribute][ah_key] = len(ah_val)
 
     return dict(frequencies)
 
@@ -69,12 +69,12 @@ def frequency_score_helper(
     Takes in a phone number and an attribute, outputs how many times that number
     has corresponded to the attribute
     """
-    freq_score = cache.increment_cached_score(
+    freq_scores = cache.add_to_cached_list(
         phone_number=phone_number,
         score_key=f"frequency_score_{attribute}_{value}",
-        amount=1,
+        value=str(datetime.utcnow().replace(microsecond=0)),
     )
-    return freq_score
+    return len(freq_scores)
 
 
 def twilio_request(client: Client, number: str):
