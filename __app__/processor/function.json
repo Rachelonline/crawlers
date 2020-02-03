@@ -5,7 +5,7 @@
       "name": "inmsg",
       "type": "serviceBusTrigger",
       "direction": "in",
-      "queueName": "process",
+      "queueName": "test-in-queue",
       "connection": "AzureServiceBusConnectionString"
     },
     {
@@ -14,6 +14,15 @@
       "name": "doc",
       "databaseName": "crawling",
       "collectionName": "ads",
+      "connectionStringSetting": "AzureCosmosDBConnectionString", 
+      "createIfNotExists": "true"
+    },
+    {
+      "direction": "out",
+      "type": "cosmosDB",
+      "name": "sdoc",
+      "databaseName": "crawling",
+      "collectionName": "scores",
       "connectionStringSetting": "AzureCosmosDBConnectionString", 
       "createIfNotExists": "true"
     }

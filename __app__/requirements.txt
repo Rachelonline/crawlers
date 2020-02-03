@@ -10,3 +10,4 @@ requests
 applicationinsights
 azure-servicebus
 redis
+twilio
