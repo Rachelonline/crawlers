@@ -10,7 +10,9 @@ class RedisCache(object):
         password=os.environ.get("REDIS_KEY", None),
         port=os.environ.get("REDIS_PORT", 6379),
     ):
-        self.redis = redis.Redis(host=redis_host, port=port, password=password)
+        #TODO: Fix to a singleton global, single redis connection
+        self.redis = redis.Redis(host="picrawling.redis.cache.windows.net", port=6380, password=password, ssl=True)
+
         self.redis.ping()
 
     def get_cached_score(self, phone_number, score_key, default_score=None):
@@ -21,13 +23,14 @@ class RedisCache(object):
         return self.redis.get(f"{phone_number}:{score_key}") or default_score
 
     def get_hset_values(self, phone_number, attribute):
-        keys, data = [
-            (key.decode(), value.decode())
-            for key, value in self.redis.hscan_iter(phone_number, attribute)
-        ]
-
-        keys = [k.decode().split("_")[-1] for k in keys]
-        return {k: d for k, d in zip(keys, data)}
+        # TODO: refactor this
+        pairs = self.redis.hscan_iter(phone_number, attribute)
+        for result in pairs:
+            keys = result[0].decode()
+            data = result[0].decode()
+            keys = [k.decode().split("_")[-1] for k in keys]
+            return {k: d for k, d in zip(keys, data)}
+        return {}
 
     def get_values_at_attribute(self, phone_number, score_type, attribute):
         _, keys = self.redis.scan(match=f"{phone_number}:{score_type}_{attribute}_*")

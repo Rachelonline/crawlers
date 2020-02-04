@@ -34,6 +34,9 @@ def parse_ads(domain, page):
 def build_image_url_msgs(msg: str, img_urls):
     img_url_msgs = []
     for url in img_urls:
+        # TODO: disabling mp4s
+        if url.endswith(".mp4"):
+            continue
         img_url_msg = {}
         img_url_msg["image-url"] = url
         img_url_msg["domain"] = msg["domain"]
