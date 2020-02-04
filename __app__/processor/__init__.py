@@ -55,7 +55,7 @@ def main(
     # spam scoring
     score_msg = spam_detection(message)
     if score_msg:
-        sdoc.set(func.Document.from_json(json.dumps(score_msg))
+        sdoc.set(func.Document.from_json(json.dumps(score_msg)))
 
     azure_tc.track_metric("ad-processed", 1, properties={"domain": message["domain"]})
     azure_tc.flush()
