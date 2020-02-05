@@ -65,7 +65,7 @@ def score_ad(message: dict, functions={}) -> dict:
             )
             raise e
 
-    score_msg["scored_on"] = datetime.utcnow().replace(microsecond=0)
+    score_msg["scored_on"] = datetime.utcnow().replace(microsecond=0).isoformat()
     score_msg["phone"] = ppn
     
     azure_tc.track_metric(
