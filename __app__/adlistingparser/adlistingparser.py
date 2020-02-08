@@ -11,6 +11,7 @@ from __app__.adlistingparser.sites.megapersonals_eu import MegaPersonals_eu
 from __app__.adlistingparser.sites.twobackpage_com import TwoBackpage_com
 from __app__.adlistingparser.sites.onebackpage_com import OneBackPage_com
 from __app__.adlistingparser.sites.bedpage_com import BedPage_com
+from __app__.adlistingparser.sites.gfemonkey_com import GfeMonkey_com
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 AD_LISTING_PARSERS = {
@@ -21,6 +22,7 @@ AD_LISTING_PARSERS = {
     "2backpage.com": TwoBackpage_com,
     "onebackpage.com": OneBackPage_com,
     "bedpage.com": BedPage_com,
+    "gfemonkey.com": GfeMonkey_com,
 }
 
 
