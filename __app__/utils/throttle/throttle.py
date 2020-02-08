@@ -1,8 +1,8 @@
 import os
 from urllib.parse import urlparse
-import redis
+from __app__.utils.storage.redis import get_connection
 
-REDIS_HOST = "picrawling.redis.cache.windows.net"
+
 REQUESTS_PER_BUCKET = 5
 BUCKET_LENGTH = 4  # seconds
 
@@ -15,11 +15,6 @@ class Throttled(Exception):
     def __str__(self):
         return f"{self.delay}: {self.domain}"
 
-
-def get_connection():
-    return redis.Redis(
-        host=REDIS_HOST, port=6380, db=0, password=os.environ["REDIS_KEY"], ssl=True
-    )
 
 
 def check_throttle(url, azure_tc=None):

@@ -1,18 +1,12 @@
 import redis
 import json
 import os
+from __app__.utils.storage.redis import get_connection
 
 
 class RedisCache(object):
-    def __init__(
-        self,
-        redis_host=os.environ.get("REDIS_HOST", "localhost"),
-        password=os.environ.get("REDIS_KEY", None),
-        port=os.environ.get("REDIS_PORT", 6379),
-    ):
-        #TODO: Fix to a singleton global, single redis connection
-        self.redis = redis.Redis(host="picrawling.redis.cache.windows.net", port=6380, password=password, ssl=True)
-
+    def __init__(self):
+        self.redis = get_connection()
         self.redis.ping()
 
     def get_cached_score(self, phone_number, score_key, default_score=None):
