@@ -26,12 +26,18 @@ def test_build_ad_listing_msgs():
     urls = [AdListing("ad-url1"), AdListing("ad-url3", {"extra": "metadata"})]
 
     expected = [
-        {"domain": "test", "metadata": {"meta": "data"}, "ad-url": "ad-url1"},
+        {
+            "domain": "test",
+            "metadata": {"meta": "data"},
+            "ad-url": "ad-url1",
+            "ad-id": "f13322a1bd1b2c9b9f24bafd7fe3bcd939e1c7d2",
+        },
         {
             "domain": "test",
             "metadata": {"meta": "data"},
             "ad-listing-data": {"extra": "metadata"},
             "ad-url": "ad-url3",
+            "ad-id": "9a4c16e4b72d0e1add05e54af28788682e5a122a",
         },
     ]
     assert build_ad_listing_msgs(test_msg, urls) == expected

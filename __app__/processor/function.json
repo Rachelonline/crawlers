@@ -25,6 +25,13 @@
       "collectionName": "scores",
       "connectionStringSetting": "AzureCosmosDBConnectionString", 
       "createIfNotExists": "true"
+    },
+    {
+      "name": "pvmsg",
+      "type": "serviceBus",
+      "direction": "out",
+      "queueName": "process-pv",
+      "connection": "PVAzureServiceBusConnectionString"
     }
   ]
 }

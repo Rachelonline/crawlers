@@ -24,6 +24,10 @@
       "ConnectionString": "",
       "ProviderName": "System.Data.SqlClient"
     },
+    "PVAzureServiceBusConnectionString": {
+      "ConnectionString": "",
+      "ProviderName": "System.Data.SqlClient"
+    },
     "AzureWebJobsServiceBus": {
       "ConnectionString": "",
       "ProviderName": "System.Data.SqlClient"

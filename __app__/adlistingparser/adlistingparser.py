@@ -38,6 +38,7 @@ def build_ad_listing_msgs(msg: dict, ad_listings: List[AdListing]) -> List[AdLis
     for ad_listing in ad_listings:
         ad_msg = deepcopy(msg)
         ad_msg["ad-url"] = ad_listing.ad_url
+        ad_msg["ad-id"] = ad_listing.hash()
         if ad_listing.metadata:
             if "ad-listing-data" in ad_msg:
                 ad_msg["ad-listing-data"].update(ad_listing.metadata)
