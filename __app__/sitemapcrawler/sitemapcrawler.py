@@ -12,7 +12,7 @@ SITEMAP_URL = {
     "escortdirectory.com": "https://www.escortdirectory.com",
     "2backpage.com": "https://2backpage.com",
     # "backpage.ly": None,
-    # "gfemonkey.com": None,
+    "gfemonkey.com": "https://www.gfemonkey.com",
     # "eccie.net": None,
     # "megapersonals.com": None,
     # "tnaboard.com": None,
