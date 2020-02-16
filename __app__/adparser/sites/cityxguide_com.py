@@ -54,9 +54,10 @@ class CityXGuide(BaseAdParser):
     def image_urls(self) -> List:
         urls = []
         image_div = self.soup.find("div", class_="swiper-wrapper")
-        images = image_div("img", src=True) or []
-        for image in images:
-            urls.append(urljoin("http:", image["src"]))
+        if image_div:
+            images = image_div("img", src=True) or []
+            for image in images:
+                urls.append(urljoin("http:", image["src"]))
         return urls
 
     def location(self) -> str:
@@ -76,6 +77,9 @@ class CityXGuide(BaseAdParser):
 
     def ethnicity(self) -> str:
         ethnicity_span = self.soup.find("span", class_="_ethnicity")
+        if ethnicity_span and ethnicity_span.string != "Not Available":
+            return ethnicity_span.string
+        ethnicity_span = self.soup.find("span", class_="Ethnicity")
         if ethnicity_span and ethnicity_span.string != "Not Available":
             return ethnicity_span.string
 

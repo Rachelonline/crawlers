@@ -12,6 +12,7 @@ from __app__.utils.metrics.metrics import get_client, enable_logging
 
 AD_PARSERS = {
     "cityxguide.com": CityXGuide,
+    "cityxguide.net": CityXGuide,  # We can reuse this parser
     "vipgirlfriend.com": VIPGirlfriend,
     "escortdirectory.com": EscortDirectory,
     "megapersonals.eu": MegaPersonals,
