@@ -76,3 +76,7 @@ The sitemapper gathers a page where we can gather the ad listings urls.
 It takes jobs from the sitemappercrawling queue and outputs jobs onto the sitemappingparser queue.
 
 More details here
+
+## Data Definitions
+
+We have a [living document of the definitions of all fields](https://docs.google.com/spreadsheets/d/15dozBkEIOvezsNphgZzVHFDKuCnPkxPiji-0aSTbw1s/edit?usp=sharing) that are pulled out of the ads in the parsers. Please review these before creating a new parser so that you have a good sense of what the data means. If you add a new field to the parsers, please also add it to this document.
