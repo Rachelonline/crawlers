@@ -30,7 +30,7 @@ brew install python3
 Then you'll want to set your virtual environment:
 
 ```bash
-python -m pip install virtualenv
+python3 -m pip install virtualenv
 ```
 
 Create and activate your virtual environment:
