@@ -11,19 +11,24 @@ class OneBackPage_com(BaseAdListingParser):
     def ad_listings(self):
         ad_listings = []
 
-        for post in self.soup.find_all("a", class_="list-title"):
-            for ad_link in post("a"):
-                url = ad_link["href"]
-                details = post.find_next_sibling("div", class_="locatio")
-                location = details.find_all("span", class_="regionzen hidden-ari-down")[
-                    0
-                ].text
-                date = details.find_all("span", class_="utc_time")[0].text
-                ad_listings.append(
-                    AdListing(
-                        url, metadata={"ad-date-posted": date, "location": location}
-                    )
+        for post in self.soup.find_all("div", class_="thumbnail lister"):
+            link = post.find("a", class_="list-title")
+            url = link["href"]
+            details = link.find_next_sibling("div", class_="locatio")
+            city = details.find("span", class_="cityzen").text.strip()
+            state = (details.find("span", class_="regionzen").text)[1:].strip()
+            date = details.find("span", class_="utc_time")
+            if (date is None):
+                continue #skip adsense
+
+            date = date.text.strip()
+
+            ad_listings.append(
+                AdListing(
+                    url, metadata={"ad-date-posted": date,
+                                   "location": city + ", " + state}
                 )
+            )
 
         return ad_listings
 

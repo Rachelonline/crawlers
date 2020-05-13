@@ -5,14 +5,16 @@ from __app__.adparser.sites.base_ad_parser import BaseAdParser
 
 
 class OneBackPage_com(BaseAdParser):
-    gender_lookup = {"female-escorts": "female", "male-escorts": "male", "ts": "trans"}
+    gender_lookup = {"female escorts": "female", "trans escorts": "trans"}
 
     def primary_phone_number(self) -> str:
-        return (
-            self.soup.find_all("i", class_="fa fa-user-circle")[1]
-            .next.replace(":", "")
-            .strip()
-        )
+        tags = self.soup.find_all("i", class_="fa fa-user-circle")
+
+        if len(tags) > 1:
+            return (
+                tags[1].next.replace(":", "")
+                .strip()
+            )
 
     def phone_numbers(self) -> List:
         phone_numbers_found = []
@@ -29,22 +31,25 @@ class OneBackPage_com(BaseAdParser):
     def name(self) -> str:
         return None
 
+    def primary_email(self) -> str:
+        return None
+
     def emails(self) -> List:
         emails_found = []
-        prim_email = self.primary_email()
-        if prim_email:
-            emails_found.append(prim_email)
         matches = self.email_re.findall(self.ad_text())
         emails_found.extend(["".join(match) for match in matches])
         return emails_found
 
     def social(self) -> List:
-        return None
+        text = self.soup.find(text=re.compile(f"Social Link.*:.*"))
+        print(text)
+
+        if text:
+            links = text.parent.find_all("a")
+            return list(map(lambda a: a["href"], links))
 
     def age(self) -> str:
-        age = re.search(r"Age:\s+(\d+)", self.ad_text(), re.MULTILINE)
-        if age:
-            return age.group(1)
+        return self.__attributes("Age")
 
     def image_urls(self) -> List:
         urls = []
@@ -54,35 +59,41 @@ class OneBackPage_com(BaseAdParser):
         return urls
 
     def location(self) -> str:
-        return self.soup.find_all("i", class_="fa fa-user-circle")[0].next.strip()
+        return self.__attributes("Location")
 
     def ethnicity(self) -> str:
         return None
 
     def gender(self) -> str:
-        gender = (
-            self.soup.find_all("i", class_="fa fa-chevron-down")[0]
-            .next.replace("Category: ", "")
-            .strip()
-        )
-        if "female" in gender.lower():
-            return "female"
-        elif "male" in gender.lower():
-            return "male"
-        else:
-            return None
+        gender = self.__attributes("Category")
+        return self.gender_lookup.get(gender.lower(), "unknown")
 
     def services(self) -> List:
-        return None
+        return [self.__attributes("Category")]
 
     def website(self) -> str:
         return None
 
     def ad_text(self) -> str:
-        return self.soup.find_all("h4", class_="desss")[0].next.next.next.text.strip()
+        header = self.soup.find(class_="desss")
+        if header:
+            tags = header.parent.find_all("p")
+            description = ""
+            for tag in tags:
+                if tag.find("script"):
+                    continue
+                description += "\n".join(string for string in tag.stripped_strings).replace(u"\xa0", "") + "\n"
+            return description
 
     def ad_title(self) -> str:
         return self.soup.find_all("h1", class_="judul")[0].text
 
     def orientation(self) -> str:
         return None
+
+    def __attributes(self, fieldName) -> str:
+        text = self.soup.find(text=re.compile(f"{fieldName}:.*"))
+        if text:
+            value = re.search(r".*:\s+(.+)\s+", text, re.MULTILINE)
+            if value:
+                return value.group(1).strip()
