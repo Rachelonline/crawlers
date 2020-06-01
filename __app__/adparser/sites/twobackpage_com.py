@@ -149,7 +149,6 @@ class TwoBackpage(BaseAdParser):
             for string in self.soup.find("div", class_="mainBody").stripped_strings
         ).replace(u"\xa0", "")
         if content:
-            print(repr(content))
             return content
 
 

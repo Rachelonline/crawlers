@@ -11,7 +11,7 @@ Please read the [design](./design.md) to understand the structure of the code. T
         ```
             import os
             import re
-            import from bs4 import BeautifulSoup
+            from bs4 import BeautifulSoup
 
             file_path = "__app__/adparser/tests/test-html/20191106-escortdirectory_com.html"
             html = open(file_path, encoding="utf8").read()
