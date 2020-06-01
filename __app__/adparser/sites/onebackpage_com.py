@@ -11,10 +11,7 @@ class OneBackPage_com(BaseAdParser):
         tags = self.soup.find_all("i", class_="fa fa-user-circle")
 
         if len(tags) > 1:
-            return (
-                tags[1].next.replace(":", "")
-                .strip()
-            )
+            return tags[1].next.replace(":", "").strip()
 
     def phone_numbers(self) -> List:
         phone_numbers_found = []
@@ -82,7 +79,12 @@ class OneBackPage_com(BaseAdParser):
             for tag in tags:
                 if tag.find("script"):
                     continue
-                description += "\n".join(string for string in tag.stripped_strings).replace(u"\xa0", "") + "\n"
+                description += (
+                    "\n".join(string for string in tag.stripped_strings).replace(
+                        "\xa0", ""
+                    )
+                    + "\n"
+                )
             return description
 
     def ad_title(self) -> str:
