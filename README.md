@@ -2,12 +2,11 @@
 
 ## TOC:
 
-* [Getting started](./docs/getting-started.md)
-* [Runbook](./docs/runbook.md)
-* [High Level Design](./docs/design.md)
-* Crawler Design
-* [Interesting Bits](./docs/interesting-bits.md)
-* Rough Edges
+- [Getting started](./docs/getting-started.md)
+- [Writing a new parser](./docs/new-parser.md)
+- [Runbook](./docs/runbook.md)
+- [High Level Design](./docs/design.md)
+- [Interesting Bits](./docs/interesting-bits.md)
 
 ## High level crawling process
 
