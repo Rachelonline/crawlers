@@ -1,18 +1,22 @@
-# New Parser
+# A Walkthrough Guide to Creating a New Parser
 
-Before you get started, be sure to check out the [design doc](./design.md) to understand the set up and provide context for your new parser.This doc is intended as a guide to go step-by-step through all the things you need to do to open a complete pull request for a new crawler.
+Before you get started, be sure to check out the [design doc](./design.md) to understand the set up and provide context for your new parser. This doc is intended as a guide to go step-by-step through all the things you need to do to open a complete pull request for a new crawler.
 
 ![walkthrough](./imgs/walkthrough.gif)
 
 Before we begin there are some overall concepts to understand:
 
-- First, you will download some sample pages from the site you are targeting. - You will need the "site map" page, i.e. the page where all the different categories or locations are listed out. - You will also need a few examples of those listing pages. The listing page is where there is a collection of links to individual ads. - Be sure to grab a few ads to get a good sample. Choose some from different categories, as well as varying levels of detail included in the ads.
+- First, you will download some sample pages from the site you are targeting.
+
+  - You will need the "site map" page, i.e. the page where all the different categories or locations are listed out.
+  - You will also need a few examples of those listing pages. The listing page is where there is a collection of links to individual ads.
+  - Be sure to grab a few ads to get a good sample. Choose some from different categories, as well as varying levels of detail included in the ads.
 
 - Then you will use Beautiful Soup to parse out relevant information from the ad. Not all ads will have all the fields! We really recommend starting with the ad parser itself, as it is usually the bulk of the work and also allows you to get a good understanding of code be referencing other ad parsers.
 
 - After the ad parser, then move on to the ad listings page and site map.
 
-💡Pro-tip: you can disable images in your browser before doing this work if you are going to use the devtools to inspect elements to grab ids or classnames. This will help limit your exposure if you are sensitive to the imagery.
+💡 Pro-tip: you can disable images in your browser before doing this work if you are going to use the devtools to inspect elements to grab ids or classnames. This will help limit your exposure if you are sensitive to the imagery.
 
 ### Step 1: Creating an Ad Parser
 
@@ -22,7 +26,7 @@ Before we begin there are some overall concepts to understand:
 
 3. Create a new file for the parser in `__app__/adparser/sites`. Check out the other parsers in the directory. You'll see they all have the same methods. One great way to ensure that you are getting all the fields is to copy the methods in `base_ad_parser` so that you can be sure you got them all.
 
-4) If you want to test out the parser to see if it gets the HTML tag you wanted, you can load the HTML in the repl and test it first. Open the repl in your terminal by typing `python`. Then type each of these command individually in the repl.
+4) If you want to test out the parser to see if it gets the HTML tag you wanted, you can load the HTML in the repl and test it first. Open the repl in your terminal by typing `python`. Then type each of these commands individually in the repl.
 
 `import os`
 
