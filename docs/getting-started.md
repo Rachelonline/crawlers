@@ -162,10 +162,10 @@ brew install azure-functions-core-tools
 You'll also need the local.settings.json file and add in the connection secrets.
 
 ```bash
-cp __app__/local.settings.json.template __app__/local.settings.json
+touch __app__/local.settings.json
 ```
 
-Ask Liz for the connection secrets. Be sure to add them to `local.settings.json` and not the template. 🙂
+You need get the correct contents for [that file](https://seattleagainstslavery.1password.com/vaults/w7thy5yzefbs2ktmljr3hapjde/allitems/iiwajonqqvhgramy5yksmdyiba) from our 1Password tech vault (Search for `Crawlers local.settings.json`). Be sure to add them to `local.settings.json` and not the template. 🙂
 
 Run single function
 
