@@ -55,7 +55,15 @@ From there you'll be able to do local development and testing.
 
 ### Windows
 
-?
+1. Download [Python](https://www.python.org/downloads/) (>3.5)
+2. Install pip if it's not installed (check by running `pip -V`)
+3. Install venv by running the following in the terminal
+    1. `pip install virtualenv`
+    2. `virtualenv venv`
+    3. Activate venv `source venv/Scripts/activate`
+4. From the app root folder, install the requirements `python -m pip install -r **app**/requirements.txt`
+5. Run the test `python -m pytest`
+6. Now you're ready to add or edit the code
 
 ## Running tests
 
