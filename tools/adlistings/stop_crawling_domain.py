@@ -24,7 +24,7 @@ def decode_url(b64_string: str) -> str:
 
 def disable_ad_listing(domain_to_disable: str) -> None:
     table_service = TableService(
-        account_name="picrawling", account_key=os.environ["TABLE_ACCESS_KEY"]
+        account_name="picrawling", account_key=os.environ["TABLE_SERVICE_KEY"]
     )
     print(f"disabling ad listing crawling on {domain_to_disable}")
     count = 0

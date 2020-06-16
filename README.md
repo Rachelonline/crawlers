@@ -4,7 +4,7 @@
 
 - [Getting started](./docs/getting-started.md)
 - [Writing a new parser](./docs/new-parser.md)
-- [Runbook](./docs/runbook.md)
+- [Troubleshooting](./docs/troubleshooting.md)
 - [High Level Design](./docs/design.md)
 - [Interesting Bits](./docs/interesting-bits.md)
 
