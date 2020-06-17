@@ -11,7 +11,8 @@ SITEMAP_URL = {
     "megapersonals.eu": "https://megapersonals.eu",
     "escortdirectory.com": "https://www.escortdirectory.com",
     "2backpage.com": "https://2backpage.com",
-    "cityxguide.net": "https://cityxguide.net"
+    "cityxguide.net": "https://cityxguide.net",
+    "usaadultclassified.nl": "https://usaadultclassified.nl/c/united-states/"
     # "onebackpage.com": "https://onebackpage.com" # Disabled using stop_crawling_domain.py 20200615
     # "backpage.ly": None,
     # "gfemonkey.com": None,

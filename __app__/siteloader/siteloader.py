@@ -10,7 +10,8 @@ SITES_TO_MAP = [
     ("megapersonals.eu", {"domain": "megapersonals.eu"}),
     ("escortdirectory.com", {"domain": "escortdirectory.com"}),
     ("2backpage.com", {"domain": "2backpage.com"}),
-    ("onebackpage.com", {"domain": "onebackpage.com"})
+    ("onebackpage.com", {"domain": "onebackpage.com"}),
+    ("usaadultclassified.nl", {"domain": "usaadultclassified.nl"}),
     # ("backpage.ly", {"domain": "backpage.ly"}),
     # ("gfemonkey.com", {"domain": "gfemonkey.com"}),
     # ("eccie.net", {"domain": "eccie.net"}),
