@@ -1,6 +1,5 @@
 import re
 from typing import List
-import pprint
 from __app__.adparser.sites.base_ad_parser import BaseAdParser
 
 
@@ -17,17 +16,12 @@ class AdultLookParser(BaseAdParser):
 
     def _get_contact_info(self):
         # Gets second element on page, assumes it contains main contact info
-        expecting_one = self.soup.select("#ppage > div > div > div:nth-child(6) > div:nth-child(2)")
-        assert (len(expecting_one) == 1)
-
-        contact_info, *_ = expecting_one
+        contact_info = self.soup.select_one("#ppage > div > div > div:nth-child(6) > div:nth-child(2)")
         return contact_info
 
     def _get_profile(self):
         # Gets fourth element on page, assumes it contains profile-based information (in a key: value format)
-        expecting_one = self.soup.select("#ppage > div > div > div:nth-child(6) > div:nth-child(4)")
-        assert (len(expecting_one) == 1)
-        profile_elem, *_ = expecting_one
+        profile_elem = self.soup.select_one("#ppage > div > div > div:nth-child(6) > div:nth-child(4)")
 
         profile_info = {mat.group(1).strip(): mat.group(2).strip() for mat in
                         re.finditer(r"(.*):(.*)", profile_elem.text)}
@@ -80,19 +74,12 @@ class AdultLookParser(BaseAdParser):
 
     def image_urls(self) -> List:
         # Gets First element on page, assumes every link is to an image
-        expecting_one = self.soup.select("#ppage > div > div > div:nth-child(6) > div:nth-child(1)")
-        assert (len(expecting_one) == 1)
-
-        images_set, *_ = expecting_one
-
+        images_set = self.soup.select_one("#ppage > div > div > div:nth-child(6) > div:nth-child(1)")
         return [img['src'] for img in images_set.select("img")]
 
     def location(self) -> str:
         # Gets Third element on page, assumes city name is first group of string.
-        expecting_one = self.soup.select("#ppage > div > div > div:nth-child(6) > div:nth-child(3)")
-        assert (len(expecting_one) == 1)
-        location_elem, *_ = expecting_one
-
+        location_elem = self.soup.select_one("#ppage > div > div > div:nth-child(6) > div:nth-child(3)")
         loc = location_elem.find('div')
         if loc:
             loc_string = loc.text.strip()
@@ -119,9 +106,7 @@ class AdultLookParser(BaseAdParser):
             return ""
 
     def ad_text(self) -> str:
-        expecting_one = self.soup.select("#ppage > div > div > div:nth-child(8)")
-        assert (len(expecting_one) == 1)
-        ad_text, *_ = expecting_one
+        ad_text = self.soup.select_one("#ppage > div > div > div:nth-child(8)")
         return ad_text.text.replace('\n', '').strip()
 
     def ad_title(self) -> str:

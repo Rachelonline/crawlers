@@ -7,9 +7,7 @@ class AdultLook(BaseAdListingParser):
         return [AdListing(listing.select_one("a")["href"]) for listing in listings]
 
     def continuation_url(self):
-        # There is no pagination; the "view more" button on this site
-        # takes you to another region listing page
-        next_btn = self.soup.find(class_="next_page").select("a")
+        next_btn = self.soup.find(class_="next_page").select_one("a")
         return next_btn["href"]
 
     def ad_listing_data(self) -> dict:
