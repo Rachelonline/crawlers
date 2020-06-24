@@ -1,50 +1,70 @@
-[
-    {
-        "html": "20200623-usaadultclassified_nl1.html",
-        "domain": "usaadultclassified.nl",
-        "metadata": {},
-        "ad-data": {
-            "primary-phone-number": "+1-3476675191",
-            "phone-numbers": ["+1-3476675191"],
-            "image-urls": [
-                "https://ella.fotki.ch/20200430/1592/3884/8420/0524/delaware-female-escorts_3799975_0496220-m.jpeg",
-                "https://ella.fotki.ch/20200430/1592/3810/8757/9492/delaware-female-escorts_3799975_0532481-m.jpeg",
-                "https://ella.fotki.ch/20200430/1592/3896/7274/7376/delaware-female-escorts_3799975_0570980-m.jpeg"
-            ],
-            "location": "Delaware",
-            "ad-text": "🌟Exotic+13476675191playmate for Generous Gentlemen that want to escape into the erotic pleasures of their fantasies! Relax and unwind in my upscale hosting suite or we can have the ultimate erotic adventure in the comfort of your home! I am also available for CarPlay...I am an Independent provider so you'll never worry of unsafe situations and our time together will be discreet and uninterrupted. Your satisfaction is always my priority 💋13476675191",
-            "ad-title": "🆕️🌹Speacial All Day|5🌟13476675191 EroticPlaymate🌟Luxury Location 🚫Rush🌟13476675191",
-            "name": "Roseline  🌟",
-            "services": [
-                  "Breast relief / Russian",
-                  "Deep throat",
-                  "Domination - mild (BDSM)",
-                  "Domination - severe",
-                  "Face sitting",
-                  "Fantasy outfits (on request)",
-                  "Girlfriend experience (GFE)",
-                  "Intercourse - Anal (Greek)",
-                  "Intercourse - Oral",
-                  "Intercourse - Vaginal (FS)",
-                  "Kissing - closed lips",
-                  "Kissing - deep (DFK)",
-                  "Lunch / dinner dates",
-                  "Massage - sensual",
-                  "Massage - therapeutic",
-                  "Multiple sessions within date time (MSOG)",
-                  "Oral - CIM",
-                  "Oral - receiving (DATY)",
-                  "Oral - without condom (BBBJ)",
-                  "Pornstar experience (PSE)",
-                  "Prostate massage",
-                  "Rimming - receiving",
-                  "Role-playing",
-                  "Service by two providers",
-                  "Submission",
-                  "Toy show",
-                  "Travel / extended dates",
-                  "Water sports - giving"
-            ]
-        }
-    }
-]
+from urllib.parse import urljoin
+from typing import List
+import re
+import copy
+from __app__.adparser.sites.base_ad_parser import BaseAdParser
+
+class USAAdultClassified(BaseAdParser):
+
+    def primary_phone_number(self) -> str:
+        return self.soup.select('._phone>a')[0].text
+
+    def phone_numbers(self) -> List:
+        return [self.primary_phone_number()]
+
+    def _get_header(self) -> str:
+        return copy.copy(self.soup.find_all(class_='postheader')[0].find('td'))
+
+    def date_posted(self) -> str:
+        header = self._get_header()
+        header.b.decompose()
+        date = header.text.replace('|', '').replace('\n', '').strip()
+        return date
+
+    def name(self) -> str:
+        name_soup = self.soup.select('._name')[0]
+        name_soup.b.decompose()
+        return name_soup.text.strip()
+
+    def primary_email(self) -> str:
+        return self.soup.select('._email')[0].text
+
+    def emails(self) -> List:
+        return [self.primary_email()]
+
+    def social(self) -> List:
+        return []
+
+    def age(self) -> str:
+        return self.soup.select('._age')[0].text
+
+    def image_urls(self) -> List:
+        return ['https:' + x['src'] for x in self.soup.select('img')]
+
+    def location(self) -> str:
+        b = self.soup.find('b', text=re.compile('Current Filters:'))
+        return ', '.join([x.text for x in b.find_next_siblings('a')])
+        # return self.soup.select('._location')[0].text
+
+    def ethnicity(self) -> str:
+        return self.soup.select('.Ethnicity')[0].text
+
+    def gender(self) -> str:
+        return ""
+
+    def services(self) -> List:
+        return self.soup.select('.Intimate_Activities')[0].text.split(', ')
+
+    def website(self) -> str:
+        return ""
+
+    def ad_text(self) -> str:
+        return self.soup.select('#wrap>p')[0].text
+
+    def ad_title(self) -> str:
+        return self._get_header().find('b').text
+
+    def orientation(self) -> str:
+        return ""
+
+
