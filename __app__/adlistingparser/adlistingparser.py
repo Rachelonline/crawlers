@@ -10,6 +10,7 @@ from __app__.adlistingparser.sites.vipgirlfriend_com import VIPGirlfriend_com
 from __app__.adlistingparser.sites.megapersonals_eu import MegaPersonals_eu
 from __app__.adlistingparser.sites.twobackpage_com import TwoBackpage_com
 from __app__.adlistingparser.sites.onebackpage_com import OneBackPage_com
+from __app__.adlistingparser.sites.usaadultclassified_nl import USAAdultClassified
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 AD_LISTING_PARSERS = {
@@ -19,6 +20,7 @@ AD_LISTING_PARSERS = {
     "megapersonals.eu": MegaPersonals_eu,
     "2backpage.com": TwoBackpage_com,
     "onebackpage.com": OneBackPage_com,
+    "usaadultclassified.nl": USAAdultClassified,
 }
 
 
