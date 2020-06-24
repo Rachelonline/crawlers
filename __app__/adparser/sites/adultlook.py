@@ -29,7 +29,7 @@ class AdultLookParser(BaseAdParser):
 
     def ad_dict(self) -> dict:
         self._load_common_components()
-        return super(self.__class__, self).ad_dict()
+        return super().ad_dict()
 
     # Implemented Methods
     def primary_phone_number(self) -> str:
@@ -63,11 +63,11 @@ class AdultLookParser(BaseAdParser):
 
     def emails(self) -> List:
         emails = self.soup.findAll(text=self.email_re)
-        return list(set([re.search(self.email_re, email).group(0) for email in emails]))
+        return sorted(set([re.search(self.email_re, email).group(0) for email in emails]))
 
     def social(self) -> List:
         twitter_accts = self._contact_info.findAll(text=re.compile(r"^@\S+"))
-        return list(set([re.search(r"^@\S+", acct).group(0) for acct in twitter_accts]))
+        return sorted(set([re.search(r"^@\S+", acct).group(0) for acct in twitter_accts]))
 
     def age(self) -> str:
         return self._profile.get('Age', "")
