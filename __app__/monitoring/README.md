@@ -1,6 +1,6 @@
 # Monitoring
 
-This provides a basic monitoring service which checks the number of new ads found in the last 24 hours and posts the results to the #crawling-monitoring slack channel.
+This provides a basic monitoring service which checks the number of new ads found in the last 24 hours and posts the results to the #tech-alerting-and-monitoring slack channel.
 
 It uses slack webhook and a basic POST to slack.
 
@@ -15,5 +15,3 @@ The entire function lives in `__init__.py` and can be run locally with
 ```bash
 python3 monitoring/__init__.py
 ```
-
-
