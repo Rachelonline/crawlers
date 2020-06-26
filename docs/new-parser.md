@@ -41,7 +41,7 @@ Something like this:
 
 ### Another helpful page
 
-Though we don't crawl this page directly or need to download it, it is often will be useful to go to it to get the links for categories of interest.
+Though we don't crawl this page directly or need to download it, it is often useful to go to it to get the links for categories of interest.
 
 Something like this:
 
@@ -52,9 +52,7 @@ You can see that we want to scrape most of the things in the `Adult` category bu
 
 ## Ready to Roll?
 
-We use [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) to parse out relevant information from the site.
-
-Not all sites will have all the information we are looking for.
+We use [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) to parse out relevant information from the site. Not all sites will have [all the information we are looking for](https://docs.google.com/spreadsheets/d/15dozBkEIOvezsNphgZzVHFDKuCnPkxPiji-0aSTbw1s/edit#gid=0).
 
 ### Step 1: Creating an Ad Parser
 ---
@@ -73,21 +71,21 @@ Not all sites will have all the information we are looking for.
 #### Code the site's adparser
 > Create a new file for the parser in
 
-> [`__app__/adparser/sites`](../blob/master/__app__/adparser/sites)
+[`__app__/adparser/sites`](../blob/master/__app__/adparser/sites)
 
 > Check out the other parsers in the directory. You'll see they all have the same methods. Copy the methods in
 
-> [`base_ad_parser.py`](../blob/master/__app__/adparser/sites/base_ad_parser.py)
+[`base_ad_parser.py`](../blob/master/__app__/adparser/sites/base_ad_parser.py)
 
 > so that you can be sure you got them all.
 
-This is the main work of creating a crawler. While we are trying to get as much information as possible we are not processing the data, so no need to unique or sort arrays.
+> This is the main work of creating a crawler. While we are trying to get as much information as possible we are not processing the data, so no need to unique or sort arrays.
 
-To start to figure whether you are scraping the site effectively, open the repl in your terminal by typing
+> To start to figure whether you are scraping the site effectively, open the repl in your terminal by typing
 
 `python`
 
-Now you can load one of the html files you created and start trying to find the data you'd like to extract.
+> Now you can load one of the html files you created and start trying to find the data you'd like to extract.
 
 ```
 import os
@@ -101,126 +99,124 @@ soup = BeautifulSoup(html, "html.parser")
 
 #### Test Your Adparser Code
 
-Add the expected JSON file for the ad to
+> Add the expected JSON file for the ad to
 
 [`__app__/adparser/tests/test-data`](../blob/master/__app__/adparser/tests/test-data)
 
+> This file contains the data you expect your parser will scrape from the ads. Your creation of this file will ensure that running the html files through your adparser code generated the expected results.
 
-This file contains the data you expect your parser will scrape from the ads. Your creation of this file will ensure that running the html files through your adparser code generated the expected results.
-
-Before you run the tests, ad your new adparser into this file:
+> Before you run the tests, ad your new adparser into this file:
 
 [`__app__/adparser/adparser.py`](../blob/master/__app__/adparser/adparser.py)
 
-
-Add an import statement for your parser:
+> Add an import statement for your parser:
 
   `from __app__.adparser.sites.cityxguide_com import CityXGuide`
 
-Add the domain and the parser name to the `AD_PARSERS` dictionary:
+> Add the domain and the parser name to the `AD_PARSERS` dictionary:
 
   `AD_PARSERS = { "cityxguide.com": CityXGuide, ... }`
 
-Now run the tests!
+> Now run the tests!
 
 `python -m pytest`
 
-If you want more details on failures and to be able to see things you print to the screen, run it like this:
+> If you want more details on failures and to be able to see things you print to the screen, run it like this:
 
 `python -m pytest -vv -s`
 
-Once you have the tests passing, you're reading to move on to the ad listing parser.
+> Once you have the tests passing, you're reading to move on to the ad listing parser.
 
 ### Step 2: Creating an Ad Listing Parser
 ---
 
 #### Collect Ad Listings
-Search around and find five ad listings from the site. Choose some from different categories. For each ad listing, save it's html in
+> Search around and find five ad listings from the site. Choose some from different categories. For each ad listing, save it's html in
 
 [`__app__/adlistingparser/tests/test-html`](../blob/master/__app__/adlistingparser/tests/test-html)
 
-As before, following the established file naming convention.
+> As before, following the established file naming convention.
 
 #### Code the site's adlistingparser
 
-Create a new file for the parser in
+> Create a new file for the parser in
 
 [`__app__/adlistingparser/sites`](../blob/master/__app__/adlistingparser/sites)
 
-Check out the other parsers in the directory. You'll see they all have the same methods. Copy the methods in
+> Check out the other parsers in the directory. You'll see they all have the same methods. Copy the methods in
 
 [`base_adlisting_parser.py`](../blob/master/__app__/adlistingparser/base_adlisting_parser.py)
 
-so that you can be sure you got them all.
+> so that you can be sure you got them all.
 
 #### Test Your Adlistingparser Code
 
-Add the expected JSON file for the ad listing to
+> Add the expected JSON file for the ad listing to
 
 [`__app__/adlistingparser/tests/test-data`](../blob/master/__app__/adlistingparser/tests/test-data)
 
-This file contains the data you expect your parser will scrape from the ad listings.
+> This file contains the data you expect your parser will scrape from the ad listings.
 
-Before you run the tests, add your new adlistingparser into this file:
+> Before you run the tests, add your new adlistingparser into this file:
 
 [`__app__/adlistingparser/adlistingparser.py`](.../blog/master/__app__/adlistingparser/adlistingparser.py)
 
-Add an import statement for your parser:
+> Add an import statement for your parser:
 
   `from __app__.adlistingparser.sites.cityxguide_com import CityXGuide_com`
 
-Add the domain and the parser name to the `AD_LISTING_PARSERS` dictionary:
+> Add the domain and the parser name to the `AD_LISTING_PARSERS` dictionary:
 
   `AD_LISTING_PARSERS = { "cityxguide.com": CityXGuide, ... }`
 
-Now run the tests as before!
+> Now run the tests as before!
 
 `python -m pytest`
 
-Once you have the tests passing, you're reading to move on to the site mapping parser.
+> Once you have the tests passing, you're reading to move on to the site mapping parser.
 
 ### Step 3: Creating a Site Map Parser
 ---
 
 #### Collect the Site Map
-Save the Site Map's html in
+> Save the Site Map's html in
 
 [`__app__/sitemapparser/tests/test-html`](../blob/master/__app__/sitemapparser/tests/test-html)
 
-As before, following the established file naming convention.
+> As before, following the established file naming convention.
 
 #### Code the site's sitemapparser
 
-Create a new file for the parser in
+> Create a new file for the parser in
 
 [`__app__/sitemapparser/sites`](../blob/master/__app__/sitemapparser/sites)
 
-Check out the other parsers in the directory. You'll see they all have the a single method, which returns the urls for all of the relevant adlistings pages.
+> Check out the other parsers in the directory. You'll see they all have the a single method, which returns the urls for all of the relevant adlistings pages.
 
 #### Test Your Sitemapparser Code
 
-Add the expected JSON file for the ad listing to
+> Add the expected JSON file for the ad listing to
 
 [`__app__/sitemapparser/tests/test-data`](../blob/master/__app__/sitemapparser/tests/test-data)
 
-This file contains the data you expect your parser will scrape from the site map.
+> This file contains the data you expect your parser will scrape from the site map.
 
-Before you run the tests, add your new sitemapparser into this file:
+> Before you run the tests, add your new sitemapparser into this file:
 
 [`__app__/sitemapparser/sitemapparser.py`](.../blog/master/__app__/sitemapparser/sitemapparser.py)
 
-Add an import statement for your parser:
+> Add an import statement for your parser:
 
   `from __app__.sitemapparser.sites.cityxguide_com import CityXGuide_com`
 
-Add the domain and the parser name to the `SITE_PARSERS` dictionary:
+> Add the domain and the parser name to the `SITE_PARSERS` dictionary:
 
   `SITE_PARSERS = { "cityxguide.com": CityXGuide_com, ... }`
 
-Now run the tests as before!
+> Now run the tests as before!
 
 `python -m pytest`
 
-Once you have the tests passing...
+> Once you have the tests passing...
 
 ![good work](./imgs/good-work.gif)
