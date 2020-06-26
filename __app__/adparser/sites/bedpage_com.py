@@ -8,9 +8,9 @@ class BedPage_com(BaseAdParser):
 
     def phone_numbers(self) -> List:
         phone_numbers_found = []
-        prim_phone_number = self.primary_phone_number()
-        if prim_phone_number:
-            phone_numbers_found.append(prim_phone_number)
+        phone_number_primary = self.primary_phone_number()
+        if phone_number_primary:
+            phone_numbers_found.append(phone_number_primary)
         matches = self.phone_re.findall(self.ad_text())
         phone_numbers_found.extend(["".join(match) for match in matches])
         post_id = self.__attributes("Post ID")
@@ -28,9 +28,9 @@ class BedPage_com(BaseAdParser):
 
     def emails(self) -> List:
         emails_found = []
-        prim_email = self.primary_email()
-        if prim_email:
-            emails_found.append(prim_email)
+        email_primary = self.primary_email()
+        if email_primary:
+            emails_found.append(email_primary)
         matches = self.email_re.findall(self.ad_text())
         emails_found.extend(["".join(match) for match in matches])
         return emails_found
@@ -70,6 +70,7 @@ class BedPage_com(BaseAdParser):
         return None
 
     def __attributes(self, fieldName) -> str:
+        # Grabs things from the standardized fields at the bottom of the ad
         text = self.soup.find(text=re.compile(f"{fieldName}:.*"))
         if text:
             value = re.search(r".*:\s+(.+)", text, re.MULTILINE)
