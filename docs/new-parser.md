@@ -60,27 +60,26 @@ Not all sites will have all the information we are looking for.
 ---
 
 #### Collect Ads
-Search around and find five ads from the site. Choose some from different categories, as well as varying levels of detail included in the ads. For each ad, save it's html in
+> Search around and find five ads from the site. Choose some from different categories, as well as varying levels of detail included in the ads. For each ad, save it's html in
 
 [`__app__/adparser/tests/test-html`](../blob/master/__app__/adparser/tests/test-html)
 
-Paste the HTML from the ad you want to parse.
+> Paste the HTML from the ad you want to parse.
 
 ![finding_html](./imgs/finding_html.png)
 
-Be sure to give the file a name that includes the site you are looking at and the date (`YYYYMMDD`) following the pattern from other filenames.
+> Be sure to give the file a name that includes the site you are looking at and the date (`YYYYMMDD`) following the pattern from other filenames.
 
 #### Code the site's adparser
-Create a new file for the parser in
+> Create a new file for the parser in
 
-[`__app__/adparser/sites`](../blob/master/__app__/adparser/sites)
+> [`__app__/adparser/sites`](../blob/master/__app__/adparser/sites)
 
+> Check out the other parsers in the directory. You'll see they all have the same methods. Copy the methods in
 
-Check out the other parsers in the directory. You'll see they all have the same methods. Copy the methods in
+> [`base_ad_parser.py`](../blob/master/__app__/adparser/sites/base_ad_parser.py)
 
-[`base_ad_parser.py`](../blob/master/__app__/adparser/sites/base_ad_parser.py)
-
-so that you can be sure you got them all.
+> so that you can be sure you got them all.
 
 This is the main work of creating a crawler. While we are trying to get as much information as possible we are not processing the data, so no need to unique or sort arrays.
 
