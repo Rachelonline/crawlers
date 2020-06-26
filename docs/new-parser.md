@@ -1,7 +1,7 @@
 # A Walkthrough Guide to Creating a New Parser
 
 A bit of context:
-Seattle Against Slavery crawls sites where people post ads for paid sex. We then provide local organizations a platform to reach out to the posters of those ads in bulk. While we are not everywhere in the world (yet!), we do crawler every link we can to collect as much information as possible.
+Seattle Against Slavery crawls sites where people post ads for paid sex. We then provide local organizations a platform to reach out to the posters of those ads in bulk. While we are not everywhere in the world (yet!), we do crawl every link we can to collect as much information as possible.
 
 Before you get started, be sure to check out the [design doc](./design.md) to understand the set up and provide context for your new parser. This doc is intended as a guide to go step-by-step through all the things you need to do to open a complete pull request for a new crawler.
 
