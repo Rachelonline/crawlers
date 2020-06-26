@@ -57,82 +57,83 @@ We use [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) 
 Not all sites will have all the information we are looking for.
 
 ### Step 1: Creating an Ad Parser
-===============
+---
 
 #### Collect Ads
-  Search around and find five ads from the site. Choose some from different categories, as well as varying levels of detail included in the ads. For each ad, save it's html in
+Search around and find five ads from the site. Choose some from different categories, as well as varying levels of detail included in the ads. For each ad, save it's html in
 
-  [`__app__/adparser/tests/test-html`](../blob/master/__app__/adparser/tests/test-html)
+[`__app__/adparser/tests/test-html`](../blob/master/__app__/adparser/tests/test-html)
 
-  Paste the HTML from the ad you want to parse.
+Paste the HTML from the ad you want to parse.
 
-  ![finding_html](./imgs/finding_html.png)
+![finding_html](./imgs/finding_html.png)
 
-  Be sure to give the file a name that includes the site you are looking at and the date (`YYYYMMDD`) following the pattern from other filenames.
+Be sure to give the file a name that includes the site you are looking at and the date (`YYYYMMDD`) following the pattern from other filenames.
 
 #### Code the site's adparser
-  Create a new file for the parser in
+Create a new file for the parser in
 
-  [`__app__/adparser/sites`](../blob/master/__app__/adparser/sites)
+[`__app__/adparser/sites`](../blob/master/__app__/adparser/sites)
 
 
-  Check out the other parsers in the directory. You'll see they all have the same methods. Copy the methods in
+Check out the other parsers in the directory. You'll see they all have the same methods. Copy the methods in
 
-  [`base_ad_parser.py`](../blob/master/__app__/adparser/sites/base_ad_parser.py)
+[`base_ad_parser.py`](../blob/master/__app__/adparser/sites/base_ad_parser.py)
 
-  so that you can be sure you got them all.
+so that you can be sure you got them all.
 
-  This is the main work of creating a crawler. While we are trying to get as much information as possible we are not processing the data, so no need to unique or sort arrays.
+This is the main work of creating a crawler. While we are trying to get as much information as possible we are not processing the data, so no need to unique or sort arrays.
 
-  To start to figure whether you are scraping the site effectively, open the repl in your terminal by typing
+To start to figure whether you are scraping the site effectively, open the repl in your terminal by typing
 
-  `python`
+`python`
 
-  Now you can load one of the html files you created and start trying to find the data you'd like to extract.
+Now you can load one of the html files you created and start trying to find the data you'd like to extract.
 
-  ```
-  import os
-  import re
-  from bs4 import BeautifulSoup
-  file_path = "__app__/adparser/tests/test-html/{INSERT THE NEW FILENAME YOU JUST CREATED}.html"
-  html = open(file_path, encoding="utf8").read()
-  soup = BeautifulSoup(html, "html.parser")
-  # soup.find("title").string
-  ```
+```
+import os
+import re
+from bs4 import BeautifulSoup
+file_path = "__app__/adparser/tests/test-html/{INSERT THE NEW FILENAME YOU JUST CREATED}.html"
+html = open(file_path, encoding="utf8").read()
+soup = BeautifulSoup(html, "html.parser")
+# soup.find("title").string
+```
 
 #### Test Your Adparser Code
 
-  Add the expected JSON file for the ad to
+Add the expected JSON file for the ad to
 
-  [`__app__/adparser/tests/test-data`](../blob/master/__app__/adparser/tests/test-data)
-
-
-  This file contains the data you expect your parser will scrape from the ads. Your creation of this file will ensure that running the html files through your adparser code generated the expected results.
-
-  Before you run the tests, ad your new adparser into this file:
-
-  [`__app__/adparser/adparser.py`](../blob/master/__app__/adparser/adparser.py)
+[`__app__/adparser/tests/test-data`](../blob/master/__app__/adparser/tests/test-data)
 
 
-  Add an import statement for your parser:
+This file contains the data you expect your parser will scrape from the ads. Your creation of this file will ensure that running the html files through your adparser code generated the expected results.
 
-    `from __app__.adparser.sites.cityxguide_com import CityXGuide`
+Before you run the tests, ad your new adparser into this file:
 
-  Add the domain and the parser name to the `AD_PARSERS` dictionary:
+[`__app__/adparser/adparser.py`](../blob/master/__app__/adparser/adparser.py)
 
-    `AD_PARSERS = { "cityxguide.com": CityXGuide, ... }`
 
-  Now run the tests!
+Add an import statement for your parser:
 
-  `python -m pytest`
+  `from __app__.adparser.sites.cityxguide_com import CityXGuide`
 
-  If you want more details on failures and to be able to see things you print to the screen, run it like this:
+Add the domain and the parser name to the `AD_PARSERS` dictionary:
 
-  `python -m pytest -vv -s`
+  `AD_PARSERS = { "cityxguide.com": CityXGuide, ... }`
 
-  Once you have the tests passing, you're reading to move on to the ad listing parser.
+Now run the tests!
+
+`python -m pytest`
+
+If you want more details on failures and to be able to see things you print to the screen, run it like this:
+
+`python -m pytest -vv -s`
+
+Once you have the tests passing, you're reading to move on to the ad listing parser.
 
 ### Step 2: Creating an Ad Listing Parser
+---
 
 #### Collect Ad Listings
 Search around and find five ad listings from the site. Choose some from different categories. For each ad listing, save it's html in
@@ -180,6 +181,7 @@ Now run the tests as before!
 Once you have the tests passing, you're reading to move on to the site mapping parser.
 
 ### Step 3: Creating a Site Map Parser
+---
 
 #### Collect the Site Map
 Save the Site Map's html in
