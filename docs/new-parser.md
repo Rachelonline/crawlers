@@ -9,8 +9,19 @@ Before we begin there are some overall concepts to understand:
 - First, you will download some sample pages from the site you are targeting.
 
   - You will need the "site map" page, i.e. the page where all the different categories or locations are listed out.
+  Something like this:
+  ![example_sitemap](./imgs/example_sitemap.png)
+
+  - Though we don't crawl this page directly or need to download it, it will be useful to go to it to get the links for categories of interest. Something like this:
+  ![example_location_sitemap](./imgs/example_location_sitemap.png)
+
   - You will also need a few examples of those listing pages. The listing page is where there is a collection of links to individual ads.
-  - Be sure to grab a few ads to get a good sample. Choose some from different categories, as well as varying levels of detail included in the ads.
+  Something like this:
+  ![example_ad_listings](./imgs/example_ad_listings.png)
+
+  - Be sure to grab a few ads to get a good sample. Choose some from different categories, as well as varying levels of detail included in the ads. Something like this:
+  ![example_ad](./imgs/example_ad.png)
+
 
 - Then you will use Beautiful Soup to parse out relevant information from the ad. Not all ads will have all the fields! We really recommend starting with the ad parser itself, as it is usually the bulk of the work and also allows you to get a good understanding of the code by referencing other ad parsers.
 
@@ -28,17 +39,15 @@ Before we begin there are some overall concepts to understand:
 
 4) If you want to test out the parser to see if it gets the HTML tag you wanted, you can load the HTML in the repl and test it first. Open the repl in your terminal by typing `python`. Then type each of these commands individually in the repl.
 
-`import os`
-
-`import re`
-
-`from bs4 import BeautifulSoup`
-
-`file_path = "__app__/adparser/tests/test-html/{INSERT THE NEW FILENAME YOU JUST CREATED}.html"`
-
-`html = open(file_path, encoding="utf8").read()`
-
-`soup = BeautifulSoup(html, "html.parser")`
+```
+import os
+import re
+from bs4 import BeautifulSoup
+file_path = "__app__/adparser/tests/test-html/{INSERT THE NEW FILENAME YOU JUST CREATED}.html"
+html = open(file_path, encoding="utf8").read()
+soup = BeautifulSoup(html, "html.parser")
+# soup.find("title").string
+```
 
 You can now play around with the Beautiful soup library to try to see what you are grabbing. For example, you can run `soup.find("a")` so that you can inspect an `a` tag.
 
