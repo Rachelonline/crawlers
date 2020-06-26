@@ -2,7 +2,7 @@ from typing import List
 from __app__.adparser.sites.base_ad_parser import BaseAdParser
 import re
 
-class BedPage(BaseAdParser):
+class BedPage_com(BaseAdParser):
     def primary_phone_number(self) -> str:
         return self.__attributes("Mobile")
 
