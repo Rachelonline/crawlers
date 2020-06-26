@@ -17,7 +17,7 @@ This is the post that users of the site create to sell sex. You can see right of
 
 Something like this:
 
-![example_ad](./imgs/example_ad.png)
+![ad](./imgs/ad.png)
 
 ### Ad Listing
 
@@ -25,8 +25,8 @@ This is the page that lists out all of the links to ads in the particular locati
 
 Something like this:
 
-![example_ad_listings](./imgs/example_ad_listings.png)
-![example_ad_listings_next](./imgs/example_ad_listings_next.png)
+![ad_listings](./imgs/ad_listings.png)
+![ad_listings_next](./imgs/ad_listings_next.png)
 
 ### Site Map
 
@@ -36,7 +36,7 @@ i.e. the page where all the different categories or locations are listed out.
 
 Something like this:
 
-![example_sitemap](./imgs/example_sitemap.png)
+![sitemap](./imgs/sitemap.png)
 
 
 ### Another helpful page
@@ -45,7 +45,7 @@ Though we don't crawl this page directly or need to download it, it is often use
 
 Something like this:
 
-![example_location_sitemap](./imgs/example_location_sitemap.png)
+![location_sitemap](./imgs/location_sitemap.png)
 
 You can see that we want to scrape most of the things in the `Adult` category but we will ignore the `Auto Parts` section.
 
