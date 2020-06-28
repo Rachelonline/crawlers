@@ -1,4 +1,6 @@
 import logging
+
+from __app__.sitemapparser.sites.adultlook import adultlook
 from __app__.utils.table.adlisting import AdListingTable
 from __app__.sitemapparser.sites.cityxguide_com import cityxguide_com
 from __app__.sitemapparser.sites.cityxguide_net import cityxguide_net
@@ -20,6 +22,7 @@ SITE_PARSERS = {
     "megapersonals.eu": megapersonals_eu,
     "2backpage.com": twobackpage_com,
     "onebackpage.com": onebackpage_com,
+    "adultlook.com": adultlook
 }
 
 TABLE = AdListingTable()

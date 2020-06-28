@@ -35,14 +35,3 @@ class AdultLook(BaseAdListingParser):
     def _get_full_url(self, url):
 
         return urljoin(self.__class__._domain, url)
-
-
-if __name__ == "__main__":
-    import pathlib
-
-    with open(pathlib.Path('../tests/test-html') / "20200621_adultlook_1.html") as f:
-        data = {"ad-listing-page": f.read()}
-        p = AdultLook(data)
-        print(p.ad_listings())
-        print(p.continuation_url())
-        print(p.ad_listing_data())
