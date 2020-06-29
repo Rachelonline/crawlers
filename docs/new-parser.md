@@ -60,7 +60,7 @@ We use [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) 
 #### Collect Ads
 > Search around and find five ads from the site. Choose some from different categories, as well as varying levels of detail included in the ads. For each ad, save it's html in
 
-[`__app__/adparser/tests/test-html`](../blob/master/__app__/adparser/tests/test-html)
+[`__app__/adparser/tests/test-html`](../__app__/adparser/tests/test-html)
 
 > Paste the HTML from the ad you want to parse.
 
@@ -71,11 +71,11 @@ We use [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) 
 #### Code the site's adparser
 > Create a new file for the parser in
 
-[`__app__/adparser/sites`](../blob/master/__app__/adparser/sites)
+[`__app__/adparser/sites`](../__app__/adparser/sites)
 
 > Check out the other parsers in the directory. You'll see they all have the same methods. Copy the methods in
 
-[`base_ad_parser.py`](../blob/master/__app__/adparser/sites/base_ad_parser.py)
+[`base_ad_parser.py`](../__app__/adparser/sites/base_ad_parser.py)
 
 > so that you can be sure you got them all.
 
@@ -101,13 +101,13 @@ soup = BeautifulSoup(html, "html.parser")
 
 > Add the expected JSON file for the ad to
 
-[`__app__/adparser/tests/test-data`](../blob/master/__app__/adparser/tests/test-data)
+[`__app__/adparser/tests/test-data`](../__app__/adparser/tests/test-data)
 
 > This file contains the data you expect your parser will scrape from the ads. Your creation of this file will ensure that running the html files through your adparser code generated the expected results.
 
 > Before you run the tests, ad your new adparser into this file:
 
-[`__app__/adparser/adparser.py`](../blob/master/__app__/adparser/adparser.py)
+[`__app__/adparser/adparser.py`](../__app__/adparser/adparser.py)
 
 > Add an import statement for your parser:
 
@@ -133,7 +133,7 @@ soup = BeautifulSoup(html, "html.parser")
 #### Collect Ad Listings
 > Search around and find five ad listings from the site. Choose some from different categories. For each ad listing, save it's html in
 
-[`__app__/adlistingparser/tests/test-html`](../blob/master/__app__/adlistingparser/tests/test-html)
+[`__app__/adlistingparser/tests/test-html`](../__app__/adlistingparser/tests/test-html)
 
 > As before, following the established file naming convention.
 
@@ -141,11 +141,11 @@ soup = BeautifulSoup(html, "html.parser")
 
 > Create a new file for the parser in
 
-[`__app__/adlistingparser/sites`](../blob/master/__app__/adlistingparser/sites)
+[`__app__/adlistingparser/sites`](../__app__/adlistingparser/sites)
 
 > Check out the other parsers in the directory. You'll see they all have the same methods. Copy the methods in
 
-[`base_adlisting_parser.py`](../blob/master/__app__/adlistingparser/base_adlisting_parser.py)
+[`base_adlisting_parser.py`](../__app__/adlistingparser/base_adlisting_parser.py)
 
 > so that you can be sure you got them all.
 
@@ -153,7 +153,7 @@ soup = BeautifulSoup(html, "html.parser")
 
 > Add the expected JSON file for the ad listing to
 
-[`__app__/adlistingparser/tests/test-data`](../blob/master/__app__/adlistingparser/tests/test-data)
+[`__app__/adlistingparser/tests/test-data`](../__app__/adlistingparser/tests/test-data)
 
 > This file contains the data you expect your parser will scrape from the ad listings.
 
@@ -181,7 +181,7 @@ soup = BeautifulSoup(html, "html.parser")
 #### Collect the Site Map
 > Save the Site Map's html in
 
-[`__app__/sitemapparser/tests/test-html`](../blob/master/__app__/sitemapparser/tests/test-html)
+[`__app__/sitemapparser/tests/test-html`](../__app__/sitemapparser/tests/test-html)
 
 > As before, following the established file naming convention.
 
@@ -189,7 +189,7 @@ soup = BeautifulSoup(html, "html.parser")
 
 > Create a new file for the parser in
 
-[`__app__/sitemapparser/sites`](../blob/master/__app__/sitemapparser/sites)
+[`__app__/sitemapparser/sites`](../__app__/sitemapparser/sites)
 
 > Check out the other parsers in the directory. You'll see they all have the a single method, which returns the urls for all of the relevant adlistings pages.
 
@@ -197,7 +197,7 @@ soup = BeautifulSoup(html, "html.parser")
 
 > Add the expected JSON file for the ad listing to
 
-[`__app__/sitemapparser/tests/test-data`](../blob/master/__app__/sitemapparser/tests/test-data)
+[`__app__/sitemapparser/tests/test-data`](../__app__/sitemapparser/tests/test-data)
 
 > This file contains the data you expect your parser will scrape from the site map.
 
