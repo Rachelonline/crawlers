@@ -42,7 +42,11 @@ class BedPage_com(BaseAdParser):
         return self.__attributes("age")
 
     def image_urls(self) -> List:
-        return None
+        image_urls_found = []
+        images = self.soup.select("#viewAdPhotoLayout img")
+        for img in images:
+            image_urls_found.append(img.get('src'))
+        return image_urls_found
 
     def location(self) -> str:
         return self.__attributes("Location")
