@@ -8,7 +8,7 @@ on:
 # CONFIGURATION
 # For help, go to https://github.com/Azure/Actions
 #
-# 1. Set up the following secrets in your repository:
+# 1. Set up the following secrets in your (Github) repository:
 #   AZURE_FUNCTIONAPP_PUBLISH_PROFILE
 #
 # 2. Change these variables for your configuration:
