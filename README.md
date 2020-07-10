@@ -5,6 +5,7 @@
 - [Getting started](./docs/getting-started.md)
 - [Writing a new parser](./docs/new-parser.md)
 - [Troubleshooting](./docs/troubleshooting.md)
+- [Alerts and Monitoring](./docs/alerts-and-monitoring.md)
 - [High Level Design](./docs/design.md)
 - [Interesting Bits](./docs/interesting-bits.md)
 
