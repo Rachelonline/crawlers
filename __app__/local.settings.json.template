@@ -14,10 +14,7 @@
     "TABLE_SERVICE_KEY": "",
     "BLOB_STORAGE_KEY": "",
     "STORAGE_KEY": "",
-    "REDIS_KEY": "",
-    "APP_INSIGHT_ID": "",
-    "APP_INSIGHTS_KEY": "",
-    "SLACK_KEY": ""
+    "REDIS_KEY": ""
   },
   "ConnectionStrings": {
     "AzureServiceBusConnectionString": {
