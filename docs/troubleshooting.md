@@ -71,7 +71,4 @@ Queue is what is in the queue.
 Deadletter was kicked out of the queue (most likely because it tried and failed to process a few times)
 Once you select `Peek` you can click on records to see more details.
 
-Look into recent changes to the crawlers. (not currently autodeploying but master is generally current)
-https://github.com/seattleagainstslavery/crawlers/commits/master
-
 [Stop Crawling a Domain](./ops/disable-site.md)
