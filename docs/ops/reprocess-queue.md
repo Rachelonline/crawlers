@@ -16,7 +16,6 @@ Now run the following script:
 ```
 // Change the queue argument to whichever queue you want to target
 python3 tools/queues/reprocess_dead_letter.py "siteparse"
-
 ```
 
 You may have to run it a few times to get everything back from deadletter to active for the queue.

@@ -2,7 +2,7 @@
 
 [A list of Azure Resources related to Crawling](https://portal.azure.com/#@seattleagainstslavery.org/resource/subscriptions/eb3b9f64-5569-4792-90ad-7c5a3954c142/resourceGroups/crawling/overview)
 
-##[To get a quick look at what is happening in the pi-crawling App Service in real time or details of exceptions being thrown.](https://portal.azure.com/#blade/AppInsightsExtension/QuickPulseBladeV2/ComponentId/%7B%22Name%22%3A%22pi-crawling%22%2C%22SubscriptionId%22%3A%22eb3b9f64-5569-4792-90ad-7c5a3954c142%22%2C%22ResourceGroup%22%3A%22crawling%22%7D/ResourceId/%2Fsubscriptions%2Feb3b9f64-5569-4792-90ad-7c5a3954c142%2FresourceGroups%2Fcrawling%2Fproviders%2Fmicrosoft.insights%2Fcomponents%2Fpi-crawling)
+## [To get a quick look at what is happening in the pi-crawling App Service in real time or details of exceptions being thrown.](https://portal.azure.com/#blade/AppInsightsExtension/QuickPulseBladeV2/ComponentId/%7B%22Name%22%3A%22pi-crawling%22%2C%22SubscriptionId%22%3A%22eb3b9f64-5569-4792-90ad-7c5a3954c142%22%2C%22ResourceGroup%22%3A%22crawling%22%7D/ResourceId/%2Fsubscriptions%2Feb3b9f64-5569-4792-90ad-7c5a3954c142%2FresourceGroups%2Fcrawling%2Fproviders%2Fmicrosoft.insights%2Fcomponents%2Fpi-crawling)
 
 ## Looking at logs for pi-crawling App Service
 [Link to logs where you can query](https://portal.azure.com/#@seattleagainstslavery.org/resource/subscriptions/eb3b9f64-5569-4792-90ad-7c5a3954c142/resourceGroups/crawling/providers/Microsoft.Web/sites/pi-crawling/appInsightsQueryLogs)
