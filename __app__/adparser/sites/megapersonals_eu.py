@@ -61,10 +61,17 @@ class MegaPersonals(BaseAdParser):
         return urls
 
     def location(self) -> str:
-        location_str = self.soup.find("p", class_="prev_city")
-        if location_str:
-            location_str = location_str.string.replace("City:", "")
-            return location_str.strip()
+        city_str = self.soup.find("p", class_="prev_city")
+        user_location_str = self.soup.find("p", class_="prev_location")
+        location_strings = []
+        if user_location_str:
+            user_location_str = user_location_str.string.replace("City:", "")
+            location_strings.append(user_location_string)
+        if city_str:
+            city_str = city_str.string.replace("Location:", "")
+            location_strings.append(city_str)
+        
+        return (" ").join(location_strings).strip()
 
     def ethnicity(self) -> str:
         return None
