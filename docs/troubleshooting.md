@@ -97,6 +97,30 @@ Once you select `Peek` you can click on records to see more details.
 
 If you see errors like "MaxDeliveryCountExceeded" with a message like this: "Message could not be consumed after 10 delivery attempts.", chances are high that something is broken in the functions. Use the link at the top of this document to inspect the exceptions coming through in real time.
 
+## How to Remove All Messages From Queue When A Site Is Down
+
+Only remove messages from crawling related queues. This is because they require connecting to the site that is down.
+
+The following queues are ones that you'll need to clear out:
+```
+imagecrawl
+pagecrawl
+regioncrawl
+sitecrawl
+```
+
+To remove all messages relying on example site "megapersonals.eu" run the following:
+```
+python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "imagecrawl" "active"
+python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "imagecrawl" "deadletter"
+python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "pagecrawl" "active"
+python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "pagecrawl" "deadletter"
+python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "regioncrawl" "active"
+python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "regioncrawl" "deadletter"
+python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "sitecrawl" "active"
+python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "sitecrawl" "deadletter"
+```
+
 ## [Need to Stop Crawling a Domain?](./ops/disable-site.md)
 
 ## [Need to Reprocess Records in Deadletter Queue?](./ops/reprocess-queue.md)
