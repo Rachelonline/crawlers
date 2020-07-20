@@ -13,5 +13,5 @@ Get the `APP_INSIGHTS_KEY`, `APP_INSIGHT_ID`, and `SLACK_KEY` from keybase. Save
 The entire function lives in `__init__.py` and can be run locally with
 
 ```bash
-python3 monitoring/__init__.py
+python3 __app__/monitoring/__init__.py
 ```
