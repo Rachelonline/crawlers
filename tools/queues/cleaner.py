@@ -28,4 +28,4 @@ def clear_queue(queue_name: str, domain: str, variant: str) -> None:
                 except MessageAlreadySettled:
                     pass
 
-    print(f"END: Removed {total} messages from {queue_name} for {domain}")
+    print(f"END: Removed {total} {variant} messages from {queue_name} for {domain}")
