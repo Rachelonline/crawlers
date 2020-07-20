@@ -111,14 +111,14 @@ sitecrawl
 
 To remove all messages relying on example site "megapersonals.eu" run the following:
 ```
-python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "imagecrawl" "active"
-python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "imagecrawl" "deadletter"
-python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "pagecrawl" "active"
-python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "pagecrawl" "deadletter"
-python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "regioncrawl" "active"
-python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "regioncrawl" "deadletter"
-python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "sitecrawl" "active"
-python3 tools/queues/broken_site_cleaner.py "megapersonals.eu" "sitecrawl" "deadletter"
+python3 tools/queues/remove_messages_from_queue.py "megapersonals.eu" "imagecrawl" "active"
+python3 tools/queues/remove_messages_from_queue.py "megapersonals.eu" "imagecrawl" "deadletter"
+python3 tools/queues/remove_messages_from_queue.py "megapersonals.eu" "pagecrawl" "active"
+python3 tools/queues/remove_messages_from_queue.py "megapersonals.eu" "pagecrawl" "deadletter"
+python3 tools/queues/remove_messages_from_queue.py "megapersonals.eu" "regioncrawl" "active"
+python3 tools/queues/remove_messages_from_queue.py "megapersonals.eu" "regioncrawl" "deadletter"
+python3 tools/queues/remove_messages_from_queue.py "megapersonals.eu" "sitecrawl" "active"
+python3 tools/queues/remove_messages_from_queue.py "megapersonals.eu" "sitecrawl" "deadletter"
 ```
 
 ## [Need to Stop Crawling a Domain?](./ops/disable-site.md)
