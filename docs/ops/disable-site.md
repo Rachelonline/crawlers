@@ -10,7 +10,7 @@ From [pi-crawling App Service Configuration](https://portal.azure.com/#@seattlea
 Locally (don't commit them to the Git repository!), you need to put those strings into `stop_crawling_domain.py`.
 
 ```
-python3 tools/adlistings/stop_crawling_domain.py "onebackpage.com"
+python3 tools/queues/stop_crawling_domain.py "onebackpage.com"
 ```
 
 It will also go through the existing adlistingcrawl queue and remove any crawl jobs for that domain.
