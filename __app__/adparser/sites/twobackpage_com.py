@@ -149,12 +149,14 @@ class TwoBackpage(BaseAdParser):
         return None
 
     def ad_text(self) -> str:
-        content = "\n".join(
-            string
-            for string in self.soup.find("div", class_="mainBody").stripped_strings
-        ).replace(u"\xa0", "")
-        if content:
-            return content
+        body = self.soup.find("div", class_="mainBody")
+        if body:
+          content = "\n".join(
+              string
+              for string in body.stripped_strings
+          ).replace(u"\xa0", "")
+          if content:
+              return content
 
 
     def ad_title(self) -> str:
