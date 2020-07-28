@@ -62,6 +62,11 @@ class TwoBackpage(BaseAdParser):
         if prim_phone_number:
             phone_numbers_found.append(prim_phone_number)
         matches = self.phone_re.findall(self.ad_text())
+        # Remove regex captured post ids of 6 digits
+        for match in matches: 
+          if len(match) < 7: 
+            matches.remove(match)
+
         phone_numbers_found.extend(["".join(match) for match in matches])
         return phone_numbers_found
 
