@@ -8,16 +8,21 @@ from __app__.adparser.sites.megapersonals_eu import MegaPersonals
 from __app__.adparser.sites.vipgirlfriend_com import VIPGirlfriend
 from __app__.adparser.sites.twobackpage_com import TwoBackpage
 from __app__.adparser.sites.gfemonkey_com import GfeMonkey
+from __app__.adparser.sites.onebackpage_com import OneBackPage_com
+from __app__.adparser.sites.bedpage_com import BedPage_com
 from __app__.utils.ads.adstore import get_ad_page
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 AD_PARSERS = {
     "cityxguide.com": CityXGuide,
+    "cityxguide.net": CityXGuide,  # We can reuse this parser
     "vipgirlfriend.com": VIPGirlfriend,
     "escortdirectory.com": EscortDirectory,
     "megapersonals.eu": MegaPersonals,
     "2backpage.com": TwoBackpage,
     "gfemonkey.com": GfeMonkey,
+    "onebackpage.com": OneBackPage_com,
+    "bedpage.com": BedPage_com,
 }
 
 # {'ad-page-blob': 'https://picrawling.blob.core.windows.net/test-ads/2019/09/11/cityxguide.com/9675015e-858e-48d1-97c6-d7d3a8bcf74f', 'domain': 'cityxguide.com', 'metadata': {'domain': 'cityxguide.com', 'manual-job': True, 'ad-listing-crawled': '2019-09-10T17:04:02', 'ad-crawled': '2019-09-11T14:57:39'}##}

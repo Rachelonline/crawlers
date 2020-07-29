@@ -1,6 +1,7 @@
 from typing import List
 from bs4 import BeautifulSoup
 from typing import NamedTuple
+from hashlib import sha1
 
 
 class AdListing(NamedTuple):
@@ -15,6 +16,14 @@ class AdListing(NamedTuple):
 
     ad_url: str
     metadata: dict = {}
+    custom_hash: str = None
+
+    def hash(self):
+        """ hash to identify the unique ads"""
+        ad_hash = sha1()
+        hash_str = self.custom_hash or self.ad_url
+        ad_hash.update(hash_str.encode())
+        return ad_hash.hexdigest()
 
 
 class BaseAdListingParser:

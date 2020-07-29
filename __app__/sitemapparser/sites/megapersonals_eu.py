@@ -18,9 +18,13 @@ def extract_listing_data(script) -> dict:
     """
     Extracts the location element in the script tag, if it exists
     """
-    script_splits = script.text.split("var data = JSON.parse('", maxsplit=1)
+    text = script.string
+    if (text is None):
+        return
+    script_splits = text.split("var data = JSON.parse(", maxsplit=1)
     if len(script_splits) > 1:
-        return json.loads(script_splits[1].split("')")[0])
+        data = script_splits[1].strip().split("' ||")[0]
+        return json.loads(data[1:])
 
 
 def convert_listings_to_urls(data: dict) -> List[str]:

@@ -10,6 +10,8 @@ from __app__.adlistingparser.sites.vipgirlfriend_com import VIPGirlfriend_com
 from __app__.adlistingparser.sites.megapersonals_eu import MegaPersonals_eu
 from __app__.adlistingparser.sites.twobackpage_com import TwoBackpage_com
 from __app__.adlistingparser.sites.gfemonkey_com import GfeMonkey_com
+from __app__.adlistingparser.sites.onebackpage_com import OneBackPage_com
+from __app__.adlistingparser.sites.bedpage_com import BedPage_com
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 AD_LISTING_PARSERS = {
@@ -19,6 +21,8 @@ AD_LISTING_PARSERS = {
     "megapersonals.eu": MegaPersonals_eu,
     "2backpage.com": TwoBackpage_com,
     "gfemonkey.com": GfeMonkey_com,
+    "onebackpage.com": OneBackPage_com,
+    "bedpage.com": BedPage_com,
 }
 
 
@@ -40,6 +44,7 @@ def build_ad_listing_msgs(msg: dict, ad_listings: List[AdListing]) -> List[AdLis
     for ad_listing in ad_listings:
         ad_msg = deepcopy(msg)
         ad_msg["ad-url"] = ad_listing.ad_url
+        ad_msg["ad-id"] = ad_listing.hash()
         if ad_listing.metadata:
             if "ad-listing-data" in ad_msg:
                 ad_msg["ad-listing-data"].update(ad_listing.metadata)

@@ -10,5 +10,5 @@ def gfemonkey_com(html):
         if link.get("href") == "/":
             # don't use home link
             continue
-        ad_listings_urls.append(link.get("href"))
+        ad_listings_urls.append(link.get("href") + "/all-results")
     return [f"https://www.gfemonkey.com{ad_url}" for ad_url in ad_listings_urls]

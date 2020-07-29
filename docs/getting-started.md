@@ -2,14 +2,13 @@
 
 ## Step 1:
 
-Are you at work? Are you on a work computer? On your work network? 
+Are you at work? Are you on a work computer? On your work network?
 
 🛑🛑🛑🛑🛑 STAHP 🛑🛑🛑🛑🛑
 
-Don't get fired. 
+Don't get fired.
 
 ![mj](./imgs/stahp.gif)
-
 
 If you are planning to use your work computer/network/time to complete a crawler, please get formal paperwork in place that your company acknowledges that you are doing this work. In the past, our volunteers have gotten this paperwork filed with HR, IT/security departments, and their direct manager.
 
@@ -21,7 +20,7 @@ To build crawlers, you'll need python 3. We recommend using a virtual environmen
 
 The crawlers require python3, you'll need to install that via [homebrew](https://brew.sh/).
 
-For most setups you'll use `python3`. 
+For most setups you'll use `python3`.
 
 ```bash
 brew install python3
@@ -30,7 +29,7 @@ brew install python3
 Then you'll want to set your virtual environment:
 
 ```bash
-python -m pip install virtualenv
+python3 -m pip install virtualenv
 ```
 
 Create and activate your virtual environment:
@@ -56,11 +55,19 @@ From there you'll be able to do local development and testing.
 
 ### Windows
 
-?
+1. Download [Python](https://www.python.org/downloads/) (>3.5)
+2. Install pip if it's not installed (check by running `pip -V`)
+3. Install venv by running the following in the terminal
+    1. `pip install virtualenv`
+    2. `virtualenv venv`
+    3. Activate venv `source venv/Scripts/activate`
+4. From the app root folder, install the requirements `python -m pip install -r **app**/requirements.txt`
+5. Run the test `python -m pytest`
+6. Now you're ready to add or edit the code
 
 ## Running tests
 
-We use pytest as our preferred test runner. 
+We use pytest as our preferred test runner.
 
 To run all the tests (from the top level folder):
 
@@ -70,7 +77,7 @@ python3 -m pytest
 
 #### Code formatting
 
-We'd like to run the code through black before commiting. 
+We'd like to run the code through black before commiting.
 
 To do that we can use a black pre-commit hook.
 
@@ -90,37 +97,39 @@ Now when you commit to this repo, your code will get formatted with black.
 
 #### Code coverage
 
-Code coverage can be seen with 
+Code coverage can be seen with
 
 ```bash
 python3 -m pytest --cov=__app__
 ```
 
 #### Troubleshooting
+
 If you run `pytest` directly you might get import errors `ModuleNotFoundError: No module named '__app__'`
 
 This is because the code isn't on your python path. The best way to avoid is by using `python3 -m` because it will automatically add the current directory to your path.
 
 ## Testing a single function
 
-When you need to experiment and test out your code without adding it to the pipeline, you can use the `test-in-queue`. 
+When you need to experiment and test out your code without adding it to the pipeline, you can use the `test-in-queue`.
 
 First change your function to point the input to the `test-in-queue`:
 
 ```git
--      "queueName": "foo", 
+-      "queueName": "foo",
 +      "queueName": "test-in-queue",
 ```
 
-Then you'll want to change your outputs to be a log/or print. This way your locally running function won't put data on the next queue. It's not the end of the world if that happens - the only really dangerous place for that is in the processor function because it writes to the database. Other queue will generally just error and cause on-call issues. 
+Then you'll want to change your outputs to be a log/or print. This way your locally running function won't put data on the next queue. It's not the end of the world if that happens - the only really dangerous place for that is in the processor function because it writes to the database. Other queue will generally just error and cause on-call issues.
 
 Here's an example using the processor.py:
+
 ```python
     # doc.set(func.Document.from_json(json.dumps(out_messag)))
     print(out_message)
 ```
 
-Now you can use `load-test-in-queue.py` to add a message to the test-in-queue. You'll have to export the service bus connection string (from your local.settings.json) and then give it a path to the json message you want to send the the queue. 
+Now you can use `load-test-in-queue.py` to add a message to the test-in-queue. You'll have to export the service bus connection string (from your local.settings.json) and then give it a path to the json message you want to send the the queue.
 
 If you created the test message you want to send in `tools\testing-queues\input.json` then you'd
 
@@ -150,22 +159,22 @@ brew tap azure/functions
 brew install azure-functions-core-tools
 ```
 
-You'll also need the local.settings.json file and add in the connection secrets. 
+You'll also need the local.settings.json file and add in the connection secrets.
 
 ```bash
-cp __app__/local.settings.json.template __app__/local.settings.json
+touch __app__/local.settings.json
 ```
 
-Ask Liz for the connection secrets. Be sure to add them to `local.settings.json` and not the template. 🙂
+You need get the correct contents for [that file](https://seattleagainstslavery.1password.com/vaults/w7thy5yzefbs2ktmljr3hapjde/allitems/iiwajonqqvhgramy5yksmdyiba) from our 1Password tech vault (Search for `Crawlers local.settings.json`). Be sure to add them to `local.settings.json` and not the template. 🙂
 
-Run single function 
+Run single function
 
 ```bash
 cd __app__
 func start --functions <folder/function name>
 ```
 
-Remeber - when running the functions locally you are running against production data. This is generally fine, but just keep it in mind. 
+Remeber - when running the functions locally you are running against production data. This is generally fine, but just keep it in mind.
 
 ### Windows
 
@@ -177,8 +186,14 @@ Remeber - when running the functions locally you are running against production 
 
 Install [Docker](https://docs.docker.com/docker-for-mac/install/)
 
-TODO: Azure permissions? 
+You will need to be signed in through the Azure CLI tool or via VSCode.
 
+VSCode:
+Open the Azure tab in the sidebar. Make sure you are signed in to Azure, and you have the [Azure Functions extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions) installed.
+
+You can now follow the guide [here](https://docs.microsoft.com/en-us/azure/developer/python/tutorial-vs-code-serverless-python-05) to deploy the python from VSCode.
+
+Terminal:
 Run the publish function that will build and publish the functions to azure.
 
 ```bash

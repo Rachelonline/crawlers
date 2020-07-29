@@ -6,7 +6,7 @@ from __app__.processor.adscorer import score_ad
 from __app__.processor.scorers.cache import RedisCache
 from __app__.processor.spam_check import in_customer_region
 from __app__.utils.metrics.metrics import get_client, enable_logging
-from __app__.utils.queue.message import decode_message
+from __app__.utils.queue.message import decode_message, encode_message
 from __app__.utils.locations.geocode import get_location
 
 
@@ -17,6 +17,12 @@ def geocode(message: dict) -> dict:
         ad_location = f"{adlisting_location} {ad_location}"
     location = get_location(ad_location)
     message["location"] = location
+    return message
+
+
+def set_document_id(message: dict) -> dict:
+    if "ad-id" in message:
+        message["id"] = message["ad-id"]
     return message
 
 
@@ -42,6 +48,7 @@ def main(
     inmsg: func.ServiceBusMessage,
     doc: func.Out[func.Document],
     sdoc: func.Out[func.Document],
+    pvmsg: func.Out[str],
 ) -> None:
 
     azure_tc = get_client()
@@ -50,7 +57,12 @@ def main(
     # processing ad data
     message = decode_message(inmsg)
     message = geocode(message)
+    message = set_document_id(message)
     doc.set(func.Document.from_json(json.dumps(message)))
+
+    # Send ad to PV creation queue
+    if 'id' in message:
+        pvmsg.set(encode_message(message))
 
     # spam scoring
     score_msg = spam_detection(message)

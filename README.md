@@ -2,12 +2,12 @@
 
 ## TOC:
 
-* [Getting started](./docs/getting-started.md)
-* [Runbook](./docs/runbook.md)
-* [High Level Design](./docs/design.md)
-* Crawler Design
-* [Interesting Bits](./docs/interesting-bits.md)
-* Rough Edges
+- [Getting started](./docs/getting-started.md)
+- [Writing a new parser](./docs/new-parser.md)
+- [Troubleshooting](./docs/troubleshooting.md)
+- [Alerts and Monitoring](./docs/alerts-and-monitoring.md)
+- [High Level Design](./docs/design.md)
+- [Interesting Bits](./docs/interesting-bits.md)
 
 ## High level crawling process
 
@@ -76,3 +76,11 @@ The sitemapper gathers a page where we can gather the ad listings urls.
 It takes jobs from the sitemappercrawling queue and outputs jobs onto the sitemappingparser queue.
 
 More details here
+
+## Data Definitions
+
+We have a [living document of the definitions of all fields](https://docs.google.com/spreadsheets/d/15dozBkEIOvezsNphgZzVHFDKuCnPkxPiji-0aSTbw1s/edit?usp=sharing) that are pulled out of the ads in the parsers. Please review these before creating a new parser so that you have a good sense of what the data means. If you add a new field to the parsers, please also add it to this document.
+
+## Deployment
+
+Deployment is triggered by a push to the master branch. This runs deploy.yml a Github hook which deploys the function to Azure.

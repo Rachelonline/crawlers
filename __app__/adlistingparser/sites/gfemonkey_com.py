@@ -21,10 +21,6 @@ class GfeMonkey_com(BaseAdListingParser):
         if next_link:
             return urljoin("https://www.gfemonkey.com", next_link.get("href"))
 
-        see_more_link = self.soup.find("a", class_="see-more")
-        if see_more_link:
-            return urljoin("https://www.gfemonkey.com", see_more_link.get("href"))
-
     def ad_listing_data(self) -> dict:
         metadata = {}
 

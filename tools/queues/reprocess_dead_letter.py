@@ -4,10 +4,7 @@ import logging
 from base64 import b64encode
 
 from argparse import ArgumentParser, ArgumentTypeError
-
 from azure.servicebus import ServiceBusClient, Message
-import azure.functions as func
-from azure.storage.blob import BlobClient
 
 
 CONNECTION = os.environ["SB_CONN_STR"]
