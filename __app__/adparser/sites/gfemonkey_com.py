@@ -28,7 +28,7 @@ class GfeMonkey(BaseAdParser):
         if contact:
             phone = contact.find("td", text="Phone:")
             if phone:
-                return phone.next_sibling.text
+                return phone.find_next_sibling("td").text
 
     def phone_numbers(self) -> List:
         phone_numbers_found = []
@@ -58,9 +58,12 @@ class GfeMonkey(BaseAdParser):
 
     def emails(self) -> List:
         emails_found = []
+        prim_email = self.primary_email()
+        if prim_email:
+            emails_found.append(prim_email)
+
         matches = self.email_re.findall(self.ad_text())
         emails_found.extend(["".join(match) for match in matches])
-        emails_found.append(self.primary_email())
         return emails_found
 
     def social(self) -> List:
@@ -69,8 +72,9 @@ class GfeMonkey(BaseAdParser):
     def age(self) -> str:
         stats = self.soup.find("div", id="stats")
         if stats:
-            stat = stats.find("td", text="Age:").next_sibling
-            return stat.text
+            label = stats.find("td", text="Age:")
+            if label:
+                return label.find_next_sibling("td").text
 
     def image_urls(self) -> List:
         urls = []
@@ -85,20 +89,23 @@ class GfeMonkey(BaseAdParser):
     def location(self) -> str:
         stats = self.soup.find("div", id="stats")
         if stats:
-            stat = stats.find("td", text="Location:").next_sibling
-            return stat.text
+            label = stats.find("td", text="Location:")
+            if label:
+                return label.find_next_sibling("td").text
 
     def ethnicity(self) -> str:
         stats = self.soup.find("div", id="stats")
         if stats:
-            stat = stats.find("td", text="Ethnicity:").next_sibling
-            return stat.text
+            label = stats.find("td", text="Ethnicity:")
+            if label:
+                return label.find_next_sibling("td").text
 
     def gender(self) -> str:
         stats = self.soup.find("div", id="stats")
         if stats:
-            stat = stats.find("td", text="Gender:").next_sibling
-            return stat.text
+            label = stats.find("td", text="Gender:")
+            if label:
+                return label.find_next_sibling("td").text
 
     def services(self) -> List:
         return None
@@ -106,9 +113,9 @@ class GfeMonkey(BaseAdParser):
     def website(self) -> str:
         contact = self.soup.find("div", id="contact")
         if contact:
-            phone = contact.find("td", text="Website:")
-            if phone:
-                return phone.next_sibling.text.strip()
+            website = contact.find("td", text="Website:")
+            if website:
+                return website.next_sibling.text.strip()
 
     def ad_text(self) -> str:
         content = "\n".join(
