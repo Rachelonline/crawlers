@@ -20,7 +20,6 @@ AD_PARSERS = {
     "escortdirectory.com": EscortDirectory,
     "megapersonals.eu": MegaPersonals,
     "2backpage.com": TwoBackpage,
-    "gfemonkey.com": GfeMonkey,
     "onebackpage.com": OneBackPage_com,
     "bedpage.com": BedPage_com,
     "gfemonkey.com": GfeMonkey,

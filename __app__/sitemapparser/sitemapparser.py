@@ -8,7 +8,6 @@ from __app__.sitemapparser.sites.vipgirlfriend_com import vipgirlfriend_com
 from __app__.sitemapparser.sites.megapersonals_eu import megapersonals_eu
 from __app__.sitemapparser.sites.onebackpage_com import onebackpage_com
 from __app__.sitemapparser.sites.twobackpage_com import twobackpage_com
-from __app__.sitemapparser.sites.gfemonkey_com import gfemonkey_com
 from __app__.sitemapparser.sites.bedpage_com import bedpage_com
 from __app__.sitemapparser.sites.gfemonkey_com import gfemonkey_com
 from __app__.utils.metrics.metrics import get_client, enable_logging

@@ -24,7 +24,6 @@ AD_LISTING_PARSERS = {
     "gfemonkey.com": GfeMonkey_com,
     "onebackpage.com": OneBackPage_com,
     "bedpage.com": BedPage_com,
-    "gfemonkey.com": GfeMonkey_com,
 }
 
 
