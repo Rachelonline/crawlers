@@ -1,10 +1,16 @@
 from urllib.parse import urljoin
 
+
 def escortdirectory(html):
     return [
-        "https://www.escortdirectory.com/massage",
-        "https://www.escortdirectory.com/bdsm",
-        "https://www.escortdirectory.com/escorts",
-        "https://www.escortdirectory.com/boys",
-        "https://www.escortdirectory.com/trans"
+        # Women Escorts US
+        "https://www.escortdirectory.com/escorts-united-states-c68?sort=newest&page=1",
+        # Men US
+        "https://www.escortdirectory.com/escorts-united-states-c68?p_top_category=boys",
+        # Trans US
+        "https://www.escortdirectory.com/escorts-united-states-c68?p_top_category=trans",
+        # Massage Women US
+        "https://www.escortdirectory.com/escorts-united-states-c68?p_top_category=massage",
+        # BDSM Women US
+        "https://www.escortdirectory.com/escorts-united-states-c68?p_top_category=bdsm",
     ]
