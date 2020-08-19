@@ -68,6 +68,7 @@ class BaseAdParser:
     def orientation(self) -> str:
         raise NotImplementedError
 
+    # Only on BaseAdParser, not extended.
     def ad_dict(self) -> dict:
         full_ad_dict = {
             "primary-phone-number": self.primary_phone_number(),
@@ -86,6 +87,6 @@ class BaseAdParser:
             "website": self.website(),
             "ad-text": self.ad_text(),
             "ad-title": self.ad_title(),
-            "orientation": self.orientation()
+            "orientation": self.orientation(),
         }
         return {k: v for k, v in full_ad_dict.items() if v}

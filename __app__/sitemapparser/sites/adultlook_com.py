@@ -55,13 +55,21 @@ def _get_breadcrumb_size(soup):
 
 def _handle_grid_page(grid):
     for sublisting in grid:
-        for listing in (urljoin(_domain, link["href"]) for link in sublisting.select("a") if link.has_attr("href")):
+        for listing in (
+            urljoin(_domain, link["href"])
+            for link in sublisting.select("a")
+            if link.has_attr("href")
+        ):
             yield listing
 
 
 def _handle_container_page(container):
     for sublisting in container:
-        for listing in (urljoin(_domain, link["href"]) for link in sublisting.select("a") if link.has_attr("href")):
+        for listing in (
+            urljoin(_domain, link["href"])
+            for link in sublisting.select("a")
+            if link.has_attr("href")
+        ):
             yield listing
 
 

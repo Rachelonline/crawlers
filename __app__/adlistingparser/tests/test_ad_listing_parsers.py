@@ -23,6 +23,7 @@ def case_data(case_loc: str) -> List:
 
     return test_cases
 
+
 def pytest_generate_tests(metafunc):
     if "test_case" in metafunc.fixturenames:
         test_cases = []
@@ -37,6 +38,7 @@ def build_ad_listings(ad_urls: List[dict]) -> AdListing:
         ad_listings.append(AdListing(ad_url["ad-url"], ad_url.get("metadata", {})))
     return ad_listings
 
+
 def test_site_map_parsers(test_case):
     with open(
         os.path.join(TEST_HTML_FOLDER, test_case["html"]), encoding="utf8"
@@ -47,5 +49,7 @@ def test_site_map_parsers(test_case):
     parser = AD_LISTING_PARSERS[test_case["domain"]]
     parser = parser(test_case)
     assert parser.ad_listings() == build_ad_listings(test_case["ad-urls"])
-    assert parser.continuation_url() == test_case["next-url"]
+    if "next-url" in test_case.keys():  # if last page, next-url will not exist
+        assert parser.continuation_url() == test_case["next-url"]
+
     assert parser.ad_listing_data() == test_case["ad-listing-data"]

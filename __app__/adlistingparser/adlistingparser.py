@@ -3,7 +3,7 @@ from typing import List
 import logging
 from copy import deepcopy
 
-from __app__.adlistingparser.sites.adultlook import AdultLook
+from __app__.adlistingparser.sites.adultlook_com import AdultLook_com
 from __app__.utils.table.ads import AdsTable
 from __app__.adlistingparser.sites.base_adlisting_parser import AdListing
 from __app__.adlistingparser.sites.cityxguide_com import CityXGuide_com
@@ -25,7 +25,7 @@ AD_LISTING_PARSERS = {
     "2backpage.com": TwoBackpage_com,
     "gfemonkey.com": GfeMonkey_com,
     "onebackpage.com": OneBackPage_com,
-    "adultlook.com": AdultLook,
+    "adultlook.com": AdultLook_com,
     "bedpage.com": BedPage_com,
 }
 

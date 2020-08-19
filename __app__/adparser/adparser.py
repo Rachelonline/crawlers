@@ -8,7 +8,7 @@ from __app__.adparser.sites.megapersonals_eu import MegaPersonals
 from __app__.adparser.sites.vipgirlfriend_com import VIPGirlfriend
 from __app__.adparser.sites.twobackpage_com import TwoBackpage
 from __app__.adparser.sites.onebackpage_com import OneBackPage_com
-from __app__.adparser.sites.adultlook import AdultLookParser
+from __app__.adparser.sites.adultlook_com import AdultLook_com
 from __app__.adparser.sites.bedpage_com import BedPage_com
 from __app__.adparser.sites.gfemonkey_com import GfeMonkey
 
@@ -23,7 +23,7 @@ AD_PARSERS = {
     "megapersonals.eu": MegaPersonals,
     "2backpage.com": TwoBackpage,
     "onebackpage.com": OneBackPage_com,
-    "adultlook.com": AdultLookParser,
+    "adultlook.com": AdultLook_com,
     "bedpage.com": BedPage_com,
     "gfemonkey.com": GfeMonkey,
 }

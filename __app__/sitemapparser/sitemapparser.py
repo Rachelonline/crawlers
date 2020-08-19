@@ -1,6 +1,6 @@
 import logging
 
-from __app__.sitemapparser.sites.adultlook import adultlook
+from __app__.sitemapparser.sites.adultlook_com import adultlook
 from __app__.utils.table.adlisting import AdListingTable
 from __app__.sitemapparser.sites.cityxguide_com import cityxguide_com
 from __app__.sitemapparser.sites.cityxguide_net import cityxguide_net
