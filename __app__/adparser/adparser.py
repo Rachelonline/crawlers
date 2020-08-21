@@ -11,6 +11,8 @@ from __app__.adparser.sites.onebackpage_com import OneBackPage_com
 from __app__.adparser.sites.adultlook_com import AdultLook_com
 from __app__.adparser.sites.bedpage_com import BedPage_com
 from __app__.adparser.sites.gfemonkey_com import GfeMonkey
+from __app__.adparser.sites.adultsearch_com import AdultSearch_com
+
 
 from __app__.utils.ads.adstore import get_ad_page
 from __app__.utils.metrics.metrics import get_client, enable_logging
@@ -26,6 +28,7 @@ AD_PARSERS = {
     "adultlook.com": AdultLook_com,
     "bedpage.com": BedPage_com,
     "gfemonkey.com": GfeMonkey,
+    "adultsearch.com": AdultSearch_com,
 }
 
 # {'ad-page-blob': 'https://picrawling.blob.core.windows.net/test-ads/2019/09/11/cityxguide.com/9675015e-858e-48d1-97c6-d7d3a8bcf74f', 'domain': 'cityxguide.com', 'metadata': {'domain': 'cityxguide.com', 'manual-job': True, 'ad-listing-crawled': '2019-09-10T17:04:02', 'ad-crawled': '2019-09-11T14:57:39'}##}
