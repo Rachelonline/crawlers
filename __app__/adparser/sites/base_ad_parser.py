@@ -68,7 +68,7 @@ class BaseAdParser:
     def orientation(self) -> str:
         raise NotImplementedError
 
-    # Only on BaseAdParser, not extended.
+    # This method should only be on BaseAdParser; children do not extend or implement it.
     def ad_dict(self) -> dict:
         full_ad_dict = {
             "primary-phone-number": self.primary_phone_number(),

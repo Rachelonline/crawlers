@@ -1,6 +1,6 @@
 import logging
 
-from __app__.sitemapparser.sites.adultlook_com import adultlook
+from __app__.sitemapparser.sites.adultlook_com import adultlook_com
 from __app__.utils.table.adlisting import AdListingTable
 from __app__.sitemapparser.sites.cityxguide_com import cityxguide_com
 from __app__.sitemapparser.sites.cityxguide_net import cityxguide_net
@@ -25,7 +25,7 @@ SITE_PARSERS = {
     "2backpage.com": twobackpage_com,
     "gfemonkey.com": gfemonkey_com,
     "onebackpage.com": onebackpage_com,
-    "adultlook.com": adultlook,
+    "adultlook.com": adultlook_com,
     "bedpage.com": bedpage_com,
 }
 

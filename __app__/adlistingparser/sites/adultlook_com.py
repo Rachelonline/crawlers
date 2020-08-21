@@ -28,31 +28,15 @@ class AdultLook_com(BaseAdListingParser):
         return [AdListing(self._get_full_url(link)) for link in links]
 
     def continuation_url(self):
-        maybe_next_page = self.soup.select_one("[rel='next']")
+        maybe_next_page = self.soup.select_one(".next-page")
         if maybe_next_page:
             return self._get_full_url(maybe_next_page.get("href"))
 
     def ad_listing_data(self) -> dict:
-        metadata = {}
-        # Use Breadcrumb to trace path
-        breadcrumb = self.soup.find(class_="breadcrumb")
-        if breadcrumb:
-            breadcrumb_text = [item.text.strip() for item in breadcrumb.select("li")]
-            _, country, state, city, service, *_ = breadcrumb_text
-
-            metadata["location"] = ", ".join((country, state, city))
-
-            if service:
-                for key in SERVICE_MAPPING:
-                    if key in service:
-                        metadata["services"] = SERVICE_MAPPING[
-                            key
-                        ]  # found more specific service
-                        break
-
-                for key in GENDER_MAPPING:
-                    if key in service:
-                        metadata["gender"] = GENDER_MAPPING[key]
+        # adlisting does not hold location or services, on per ad basis
+        metadata = {
+            "gender": "female"  # almost all ads are female; ad parser catches exceptions
+        }
 
         return metadata
 

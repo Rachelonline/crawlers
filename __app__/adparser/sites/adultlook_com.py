@@ -2,6 +2,15 @@ import re
 from typing import List
 from __app__.adparser.sites.base_ad_parser import BaseAdParser
 
+GENDER_MAPPING = {"Female": "female", "Transsexual": "trans", "Male": "male"}
+
+SERVICE_MAPPING = {
+    "Massage": "massage",
+    "Body Rubs": "massage",
+    "Domination": "bdsm",
+    "Escort": "escort",
+}
+
 
 class AdultLook_com(BaseAdParser):
     def primary_phone_number(self) -> str:
@@ -54,75 +63,90 @@ class AdultLook_com(BaseAdParser):
         return [re.search(r"^@\S+", acct).group(0) for acct in twitter_accts]
 
     def age(self) -> str:
-        return self._get_profile().get("Age", "")
+        return self._get_profile().get("Age")
 
     def image_urls(self) -> List:
-        # Gets First element on page, assumes every link is to an image
-        images_set = self.soup.select_one(
-            "#ppage > div > div > div:nth-child(6) > div:nth-child(1)"
-        )
-        return [img["src"] for img in images_set.select("img")]
+        images_carousel = self.soup.select_one("#carousel")
+        return [img["src"] for img in images_carousel.find_all("img")]
 
     def location(self) -> str:
-        # Gets Third element on page, assumes city name is first group of string.
-        location_elem = self.soup.select_one(
-            "#ppage > div > div > div:nth-child(6) > div:nth-child(3)"
-        )
-        loc = location_elem.find("div")
+        # Assumes city, state is group 1
+        loc_regex = r"([A-Za-z]+,\s?[A-Za-z]+).*"
+        loc = re.search(loc_regex, self._get_current_info())
+
         if loc:
-            loc_string = loc.text.strip()
-            loc_regex = r"([A-Za-z]+,\s?[A-Za-z]+).*"
-            return re.search(loc_regex, loc_string).group(1)
-        else:
-            return None
+            return loc.group(1)
 
     def ethnicity(self) -> str:
-        return self._get_profile().get("Ethnicity", "")
+        return self._get_profile().get("Ethnicity")
 
     def gender(self) -> str:
-        return self._get_profile().get("Gender", "")
+        current_info_text = self._get_current_info()
+
+        if current_info_text:
+            for key in GENDER_MAPPING:
+                if key in current_info_text:
+                    return GENDER_MAPPING[key]
 
     def services(self) -> List:
-        return []
+        services = []
+        current_info_text = self._get_current_info()
 
-    def website(self) -> str:
-        emails = self._get_contact_info().find(text=re.compile(r"[^@]+.[a-z]+"))
-        if len(emails) > 0:
-            primary, *_ = emails
-            return primary.strip()
+        if current_info_text:
+            for key in SERVICE_MAPPING:
+                if key in current_info_text:
+                    services.append(SERVICE_MAPPING[key])
+
+        if len(services):
+            return services
         else:
             return None
 
+    def website(self) -> str:
+        website_text = self._get_contact_info().find(text=re.compile(r"Website"))
+        if website_text:
+            website_link = website_text.find_next("span").find("a").get("href")
+            return website_link
+
     def ad_text(self) -> str:
-        ad_text = self.soup.select_one("#ppage > div > div > div:nth-child(8)")
-        return ad_text.text.replace("\n", "").strip()
+        ad_text = self.soup.find("blockquote")
+        if ad_text:
+            return ad_text.text.replace("\n", "").strip()
 
     def ad_title(self) -> str:
         title = self.soup.select("head > title")
         if len(title) > 0:
             return title[0].text.strip()
-        else:
+        else:  # failed select returns []
             return None
 
     def orientation(self) -> str:
-        return self._get_profile().get("Orientation", "")
+        return self._get_profile().get("Orientation")
 
     # Member methods
+    def _get_current_info(self) -> str:  # Most recent item in City/Category section
+        # Each item in section looks like <City>, <State> <Services>
+        category_info_header = self.soup.find(text=re.compile("City / Category"))
+
+        if category_info_header:  # small number of ads do not contain this section
+            current_info = (
+                category_info_header.find_parent().find_next_sibling().find("a").text
+            )
+            return current_info.strip()
+        else:
+            return ""
+
     def _get_contact_info(self):
-        # Gets second element on page, assumes it contains main contact info
         contact_info = self.soup.select_one(
-            "#ppage > div > div > div:nth-child(6) > div:nth-child(2)"
-        )
+            ".pro-section"
+        ).find_next_sibling()  # First profile section
         return contact_info
 
     def _get_profile(self):
-        # Gets fourth element on page, assumes it contains profile-based information (in a key: value format)
-        profile_elem = self.soup.select_one(
-            "#ppage > div > div > div:nth-child(6) > div:nth-child(4)"
-        )
-
+        profile_elem = self.soup.select_one(".portfolio").find_parent()
         profile_info = {
-            mat.group(1).strip(): mat.group(2).strip()
-            for mat in re.finditer(r"(.*):(.*)", profile_elem.text)
+            match.group(1).strip(): match.group(2).strip()
+            for match in re.finditer(r"(.*):(.*)", profile_elem.text)
         }
+
         return profile_info
