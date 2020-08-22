@@ -88,9 +88,9 @@ class AdultSearch_com(BaseAdParser):
         return self.about_section.get("Website")
 
     def ad_text(self) -> str:
-        description_body = self.soup.select(".details__card-body")[
-            2
-        ]  # last is description
+        description_body = self.soup.select(".details__card-body")[2].find(
+            "div"
+        )  # last card is description
 
         if description_body:
             return description_body.text.replace("\n", "").strip()
