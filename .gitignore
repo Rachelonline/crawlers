@@ -39,6 +39,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.sas/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
