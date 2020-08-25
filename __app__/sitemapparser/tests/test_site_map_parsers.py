@@ -6,7 +6,6 @@ from typing import List
 from tests.fixtures.no_network import *
 from __app__.sitemapparser.sitemapparser import parse_ad_listing_page
 
-
 TEST_DATA_LOCATION = "__app__/sitemapparser/tests/test-data/*.json"
 TEST_HTML_FOLDER = "__app__/sitemapparser/tests/test-html"
 
@@ -14,12 +13,14 @@ TEST_HTML_FOLDER = "__app__/sitemapparser/tests/test-html"
 def id_func(item):
     return item["html"]
 
+
 def case_data(case_loc: str) -> List:
     test_cases = []
     with open(case_loc, encoding="utf-8") as test_data_f:
         test_cases = json.load(test_data_f)
 
     return test_cases
+
 
 def pytest_generate_tests(metafunc):
     if "test_case" in metafunc.fixturenames:
