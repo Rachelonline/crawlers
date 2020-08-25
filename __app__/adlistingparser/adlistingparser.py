@@ -3,7 +3,6 @@ from typing import List
 import logging
 from copy import deepcopy
 
-from __app__.adlistingparser.sites.adultlook_com import AdultLook_com
 from __app__.utils.table.ads import AdsTable
 from __app__.adlistingparser.sites.base_adlisting_parser import AdListing
 from __app__.adlistingparser.sites.cityxguide_com import CityXGuide_com
@@ -15,6 +14,8 @@ from __app__.adlistingparser.sites.gfemonkey_com import GfeMonkey_com
 from __app__.adlistingparser.sites.onebackpage_com import OneBackPage_com
 from __app__.adlistingparser.sites.bedpage_com import BedPage_com
 from __app__.adlistingparser.sites.gfemonkey_com import GfeMonkey_com
+from __app__.adlistingparser.sites.adultlook_com import AdultLook_com
+from __app__.adlistingparser.sites.adultsearch_com import AdultSearch_com
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 AD_LISTING_PARSERS = {
@@ -27,6 +28,7 @@ AD_LISTING_PARSERS = {
     "onebackpage.com": OneBackPage_com,
     "adultlook.com": AdultLook_com,
     "bedpage.com": BedPage_com,
+    "adultsearch.com": AdultSearch_com,
 }
 
 

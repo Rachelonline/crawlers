@@ -4,15 +4,6 @@ from __app__.adlistingparser.sites.base_adlisting_parser import (
 )
 from urllib.parse import urljoin
 
-GENDER_MAPPING = {"Female": "female", "Transsexual": "trans", "Male": "male"}
-
-SERVICE_MAPPING = {
-    "Massage": "massage",
-    "Body Rubs": "massage",
-    "Domination": "bdsm",
-    "Escort": "escort",
-}
-
 
 class AdultLook_com(BaseAdListingParser):
 

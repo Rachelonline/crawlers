@@ -18,8 +18,14 @@ class AdultSearch_com(BaseAdParser):
         return phone_number.text.strip()
 
     def phone_numbers(self) -> List:
-        return None
-        # not yet implemented in this PR
+        phone_numbers_found = []
+        phone_number_primary = self.primary_phone_number()
+        if phone_number_primary:
+            phone_numbers_found.append(phone_number_primary)
+
+        matches = self.phone_re.findall(self.ad_text())
+        phone_numbers_found.extend(["".join(match) for match in matches])
+        return phone_numbers_found
 
     def date_posted(self) -> str:
         return None
@@ -32,8 +38,14 @@ class AdultSearch_com(BaseAdParser):
         return self.about_section.get("Email")  # did not see any ads with Email here
 
     def emails(self) -> List:
-        return None
-        # not yet implemented in this PR
+        emails_found = []
+        email_primary = self.primary_email()
+        if email_primary:
+            emails_found.append(email_primary)
+
+        matches = self.email_re.findall(self.ad_text())
+        emails_found.extend(["".join(match) for match in matches])
+        return emails_found
 
     def social(self) -> List:
         return None
@@ -41,12 +53,12 @@ class AdultSearch_com(BaseAdParser):
     def age(self) -> str:
         stats = self.about_section.get("Stats").split(", ")
         if len(stats) > 0:
-            print("0 stats is " + str(stats[0].strip().replace(" years old", "")))
             return stats[0].strip().replace(" years old", "")
 
     def image_urls(self) -> List:
-        images_carousel = self.soup.select_one(".carousel")
-        return [img["src"] for img in images_carousel.find_all("img")]
+        images_carousel = self.soup.select_one("#ad").select_one(".carousel")
+
+        return [("https:" + img["src"]) for img in images_carousel.find_all("img")]
 
     def location(self) -> str:
         loc_info = self.breadcrumb[:-1]  # all but last category crumb
@@ -59,7 +71,6 @@ class AdultSearch_com(BaseAdParser):
     def ethnicity(self) -> str:
         stats = self.about_section.get("Stats").split(", ")
         if len(stats) > 1:
-            print("first stats is " + str(stats[1]))
             return stats[1].strip()
 
     def gender(self) -> str:
@@ -93,7 +104,11 @@ class AdultSearch_com(BaseAdParser):
         )  # last card is description
 
         if description_body:
-            return description_body.text.replace("\n", "").strip()
+            stripped_text = description_body.text.strip()
+            for r in (("\n", ""), ("\xa0", " ")):
+                stripped_text = stripped_text.replace(*r)
+
+            return stripped_text
 
     def ad_title(self) -> str:
         heading_items = self.soup.select_one(".details__heading").find_all("span")
@@ -115,7 +130,6 @@ class AdultSearch_com(BaseAdParser):
             body = title.find_next_sibling("td")
             about_info[title.text.strip()] = body.text.strip()
 
-        print("about: " + str(about_info))
         return about_info
 
     def _get_breadcrumb(self) -> List:
