@@ -1,6 +1,5 @@
 import logging
 
-from __app__.sitemapparser.sites.adultlook_com import adultlook_com
 from __app__.utils.table.adlisting import AdListingTable
 from __app__.sitemapparser.sites.cityxguide_com import cityxguide_com
 from __app__.sitemapparser.sites.cityxguide_net import cityxguide_net
@@ -12,6 +11,8 @@ from __app__.sitemapparser.sites.onebackpage_com import onebackpage_com
 from __app__.sitemapparser.sites.twobackpage_com import twobackpage_com
 from __app__.sitemapparser.sites.bedpage_com import bedpage_com
 from __app__.sitemapparser.sites.gfemonkey_com import gfemonkey_com
+from __app__.sitemapparser.sites.adultsearch_com import adultsearch_com
+from __app__.sitemapparser.sites.adultlook_com import adultlook_com
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 
@@ -27,6 +28,7 @@ SITE_PARSERS = {
     "onebackpage.com": onebackpage_com,
     "adultlook.com": adultlook_com,
     "bedpage.com": bedpage_com,
+    "adultsearch.com": adultsearch_com,
 }
 
 TABLE = AdListingTable()
