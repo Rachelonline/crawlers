@@ -219,4 +219,29 @@ soup = BeautifulSoup(html, "html.parser")
 
 > Once you have the tests passing...
 
+> Great job! There's just one last small piece.
+
+### Step 4: Adding the Site to the Loader and Crawler
+---
+
+For your web crawler to start working, you have to add it to the site mappings in `siteloader.py` and `sitemapcrawler.py`.
+
+#### siteloader
+
+At the top of `app/siteloader/siteloader.py` there is an array called `SITES_TO_MAP` of objects containing a web crawler's domain and a metadata object (which also includes domain).
+
+>  Add your site to SITES_TO_MAP.
+
+For example, the adultlook.com object looks like ` ("adultlook.com", {"domain": "adultlook.com"})`.
+
+#### sitemapcrawler
+
+Similarly, there is a dictionary at the top of `app/sitemapcrawler/sitemapcrawler.py` called `SITEMAP_URL`.
+
+> Add your site to SITEMAP_URL.
+
+For example, the key:value pair for adultlook.com looks like ` "adultlook.com": "https://www.adultlook.com/"`.
+
+*And now... you're all done!*
+
 ![good work](./imgs/good-work.gif)
