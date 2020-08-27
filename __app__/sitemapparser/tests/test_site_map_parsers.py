@@ -6,6 +6,10 @@ from typing import List
 from tests.fixtures.no_network import *
 from __app__.sitemapparser.sitemapparser import parse_ad_listing_page
 
+import responses
+from requests_mocker import mock_responses
+
+
 TEST_DATA_LOCATION = "__app__/sitemapparser/tests/test-data/*.json"
 TEST_HTML_FOLDER = "__app__/sitemapparser/tests/test-html"
 
@@ -30,7 +34,11 @@ def pytest_generate_tests(metafunc):
         metafunc.parametrize("test_case", [i for i in test_cases], ids=id_func)
 
 
+@responses.activate
 def test_site_map_parsers(test_case):
+    if test_case["domain"] == "adultsearch.com":
+        mock_responses(test_case["domain"])  # mock nested page requests
+
     with open(
         os.path.join(TEST_HTML_FOLDER, test_case["html"]), encoding="utf8"
     ) as html:

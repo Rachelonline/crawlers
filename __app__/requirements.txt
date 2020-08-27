@@ -6,6 +6,7 @@ azure-cosmos
 azure-cosmosdb-table
 beautifulsoup4
 requests
+responses
 applicationinsights
 azure-servicebus
 redis
