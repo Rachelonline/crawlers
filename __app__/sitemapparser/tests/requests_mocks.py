@@ -24,34 +24,28 @@ class AdultSearchMock:
 
     def __init__(self):
         # Only return 1 province, state, and linked category pages for dozens of links.
-        self.return_ca_region = True
-        self.return_us_region = True
-        self.return_ca_category = True
-        self.return_us_category = True
+        self.should_return = {
+            "region": {"us": True, "ca": True},
+            "category": {"us": True, "ca": True},
+        }
+
+    def _get_resp_for(self, url, key):
+        if self.should_return[key]["ca"] and url.netloc == "ca.adultsearch.com":
+            self.should_return[key]["ca"] = False
+            return MockResponse(get_html_text(AdultSearchMock.RESPONSES["ca_" + key]))
+        elif self.should_return[key]["us"] and url.netloc == "adultsearch.com":
+            self.should_return[key]["us"] = False
+            return MockResponse(get_html_text(AdultSearchMock.RESPONSES["us_" + key]))
+        else:
+            return None  # so parser does not get duplicate responses
 
     def get(self, *args):
         url = urlparse(args[0])
         num_path_segments = len(url.path.strip("/").split("/"))
 
-        if num_path_segments == 1:  # region page
-            if self.return_ca_region and url.netloc == "ca.adultsearch.com":
-                resp_text = get_html_text(AdultSearchMock.RESPONSES["ca_region"])
-                self.return_ca_region = False
-            elif self.return_us_region and url.netloc == "adultsearch.com":
-                resp_text = get_html_text(AdultSearchMock.RESPONSES["us_region"])
-                self.return_us_region = False
-            else:
-                return None  # so parser skips subsequent regions
-        elif num_path_segments == 2:  # category page
-            if self.return_ca_category and url.netloc == "ca.adultsearch.com":
-                resp_text = get_html_text(AdultSearchMock.RESPONSES["ca_category"])
-                self.return_ca_category = False
-            elif self.return_us_category:
-                resp_text = get_html_text(AdultSearchMock.RESPONSES["us_category"])
-                self.return_us_category = False
-            else:
-                return None  # so parser skips subsequent categories
+        if num_path_segments == 1:  # e.g. domain/alabama/
+            return self._get_resp_for(url, "region")
+        elif num_path_segments == 2:  # e.g. domain/alabama/female-escorts
+            return self._get_resp_for(url, "category")
         else:
             raise Exception("Unexpected request made, no matching mock.")
-
-        return MockResponse(resp_text)
