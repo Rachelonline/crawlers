@@ -14,8 +14,6 @@ class AdultSearch_com(BaseAdListingParser):
         links = [listing.get("href") for listing in self.soup.select(".card-view a")]
         links = filter(lambda x: x is not None and external_ad_url not in x, links)
 
-        for link in links:
-            print("links are " + str(link))
         return [AdListing(link) for link in links]
 
     def continuation_url(self):
