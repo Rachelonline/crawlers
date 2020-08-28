@@ -11,6 +11,8 @@ SITEMAP_URL = {
     "2backpage.com": "https://2backpage.com",
     "gfemonkey.com": "https://www.gfemonkey.com",
     "adultsearch.com": "https://www.adultsearch.com",
+    "bedpage.com": "https://www.bedpage.com/",
+    "adultlook.com": "https://www.adultlook.com/",
     # "cityxguide.com": "https://cityxguide.com", # Disabled using stop_crawling_domain.py 20200630
     # "cityxguide.net": "https://cityxguide.net" # Disabled using stop_crawling_domain.py 20200630
     # "onebackpage.com": "https://onebackpage.com" # Disabled using stop_crawling_domain.py 20200615
