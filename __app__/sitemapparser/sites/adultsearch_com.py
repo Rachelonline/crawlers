@@ -4,52 +4,49 @@ import requests
 import sys
 
 
-# Catch regional subdomains.
+# Catches country subdomains, since the main sitemap and US uses the primary adultsearch.com
+# but subsequent pages in other countries prepend their URLs.
 def _find_domain(soup):
-    uri = urlparse(
-        soup.find("link", rel="canonical").get("href")
-    )  # captures country subdomains
+    uri = urlparse(soup.find("link", rel="canonical").get("href"))
 
     return f"{uri.scheme}://{uri.netloc}"
 
 
-# Attempt to return the soup of a tag's linked page.
-def _get_linked_soup(tag, domain):
-    resp = requests.get(urljoin(domain, tag.get("href")))
+# Attempt to retrieve the linked page.
+def _get_linked_page(link, domain):
+    resp = requests.get(urljoin(domain, link.get("href")))
 
     if resp:
         return BeautifulSoup(resp.text, "html.parser")
 
 
 # Each region page has several buttons for specific categories.
-def get_category_soups(region_soups):
-    category_soups = []
-    for page in region_soups:
+def get_category_pages(region_pages):
+    category_pages = []
+    for page in region_pages:
         sub_domain = _find_domain(page)
         category_buttons = page.select_one(".escort-services__buttons")
 
-        for category_tag in category_buttons.select("a.btn-secondary-rounded"):
-            category_count = category_tag.select_one(".btn-rounded-count")
+        for button in category_buttons.select("a.btn-secondary-rounded"):
+            category_count = button.select_one(".btn-rounded-count")
             if category_count and category_count.text != "(0)":
-                category_page = _get_linked_soup(category_tag, sub_domain)
-                if category_page:
-                    category_soups.append(category_page)
+                page = _get_linked_page(button, sub_domain)
+                if page:
+                    category_pages.append(page)
 
-    return category_soups
+    return category_pages
 
 
 # Sitemap has regional links by state and province for CA and US.
-def get_region_soups(sitemap_soup):
-    region_soups = []
+def get_region_pages(sitemap_soup):
+    region_pages = []
 
     for region_tag in sitemap_soup.select("h5 > a"):
-        region_page = _get_linked_soup(
-            region_tag, ""
-        )  # href of region tag includes subdomain
-        if region_page:
-            region_soups.append(region_page)
+        page = _get_linked_page(region_tag, "")  # href of region tag includes subdomain
+        if page:
+            region_pages.append(page)
 
-    return region_soups
+    return region_pages
 
 
 # Retrieves ad listings from nested sitemap>region>category structure.
@@ -57,11 +54,11 @@ def adultsearch_com(html):
     sitemap_soup = BeautifulSoup(html, "html.parser")
     ad_listing_links = []
 
-    region_soups = get_region_soups(sitemap_soup)
-    category_soups = get_category_soups(region_soups)
+    region_pages = get_region_pages(sitemap_soup)
+    category_pages = get_category_pages(region_pages)
 
     # Each category page links to city-specific ad listings.
-    for page in category_soups:
+    for page in category_pages:
         sub_domain = _find_domain(page)
         city_list = page.select_one(".city-list").select_one(".row")
 

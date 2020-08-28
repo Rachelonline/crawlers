@@ -138,6 +138,7 @@ class AdultSearch_com(BaseAdParser):
             crumb.text.strip()
             for crumb in self.soup.select_one(".breadcrumb").find_all("li")
         ]
-        phone_index = len(breadcrumb_text) - 1  # return list with category as last elem
+        phone_index = len(breadcrumb_text) - 1
 
-        return breadcrumb_text[1:phone_index]  # exclusive end
+        # Becomes Country > State if exists > Locality > Category
+        return breadcrumb_text[1:phone_index]  # exclude Home and Phone #
