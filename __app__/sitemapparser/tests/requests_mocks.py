@@ -1,12 +1,8 @@
 from urllib.parse import urlparse
 import os
+from unittest.mock import Mock
 
 MOCK_RESPONSE_FOLDER = "__app__/sitemapparser/tests/test-html/mock_responses"
-
-
-class MockResponse:
-    def __init__(self, text):
-        self.text = text
 
 
 def get_html_text(filename):
@@ -14,38 +10,55 @@ def get_html_text(filename):
         return html.read()
 
 
-class AdultSearchMock:
-    RESPONSES = {
-        "us_region": "20200827_adultsearch_com-region-alabama.html",
-        "ca_region": "20200828_adultsearch_com-region-britishcolumbia.html",
-        "us_category": "20200827_adultsearch_com-category-al-female-escorts.html",
-        "ca_category": "20200828_adultsearch_com-category-bc-female-escorts.html",
-    }
+class MockResponse:
+    def __init__(self, text):
+        self.text = text
 
+
+class RespondOnce:
+    def __init__(self, filename):
+        self.page = MockResponse(get_html_text(filename))
+        self.generator = self.gen()
+
+    def gen(self):
+        yield self.page
+        while True:
+            yield None  # skip response for subsequent calls
+
+    @property
+    def resp(self):
+        return next(self.generator)
+
+
+class AdultSearchMock:
     def __init__(self):
         # Only return 1 province, state, and linked category pages for dozens of links.
-        self.should_return = {
-            "region": {"us": True, "ca": True},
-            "category": {"us": True, "ca": True},
-        }
-
-    def _get_resp_for(self, url, key):
-        if self.should_return[key]["ca"] and url.netloc == "ca.adultsearch.com":
-            self.should_return[key]["ca"] = False
-            return MockResponse(get_html_text(AdultSearchMock.RESPONSES["ca_" + key]))
-        elif self.should_return[key]["us"] and url.netloc == "adultsearch.com":
-            self.should_return[key]["us"] = False
-            return MockResponse(get_html_text(AdultSearchMock.RESPONSES["us_" + key]))
-        else:
-            return None  # so parser does not get duplicate responses
+        self.us_region = RespondOnce("20200827_adultsearch_com-region-alabama.html")
+        self.ca_region = RespondOnce(
+            "20200828_adultsearch_com-region-britishcolumbia.html"
+        )
+        self.ca_category = RespondOnce(
+            "20200828_adultsearch_com-category-bc-female-escorts.html"
+        )
+        self.us_category = RespondOnce(
+            "20200827_adultsearch_com-category-al-female-escorts.html"
+        )
 
     def get(self, *args):
         url = urlparse(args[0])
         num_path_segments = len(url.path.strip("/").split("/"))
 
         if num_path_segments == 1:  # e.g. domain/alabama/
-            return self._get_resp_for(url, "region")
+            return (
+                self.ca_region.resp
+                if url.netloc == "ca.adultsearch.com"
+                else self.us_region.resp
+            )
         elif num_path_segments == 2:  # e.g. domain/alabama/female-escorts
-            return self._get_resp_for(url, "category")
+            return (
+                self.ca_category.resp
+                if url.netloc == "ca.adultsearch.com"
+                else self.us_category.resp
+            )
         else:
             raise Exception("Unexpected request made, no matching mock.")
