@@ -58,7 +58,7 @@ We use [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) 
 ---
 
 #### Collect Ads
-> Search around and find five ads from the site. Choose some from different categories, as well as varying levels of detail included in the ads. For each ad, save it's html in
+> Search around and find __five__ ads from the site. Choose some from different categories, as well as varying levels of detail included in the ads. For each ad, save it's html in
 
 [`__app__/adparser/tests/test-html`](../__app__/adparser/tests/test-html)
 
@@ -97,6 +97,8 @@ soup = BeautifulSoup(html, "html.parser")
 # soup.find("title").string
 ```
 
+_Note on Style Conventions:_ If you are frequently accessing a section of soup for your parser, you may want to store it in a member property and grab it during adparser initialization. If you do so, prefix any member methods with an underscore and move it to the _bottom_ of your class, under the inherited methods. For an example of this, see _get_about_section() in the adultsearch parser.
+
 #### Test Your Adparser Code
 
 > Add the expected JSON file for the ad to
@@ -131,7 +133,7 @@ soup = BeautifulSoup(html, "html.parser")
 ---
 
 #### Collect Ad Listings
-> Search around and find five ad listings from the site. Choose some from different categories. For each ad listing, save it's html in
+> Search around and find __at least three__ ad listings from the site. Choose some from different categories. For each ad listing, save it's html in
 
 [`__app__/adlistingparser/tests/test-html`](../__app__/adlistingparser/tests/test-html)
 

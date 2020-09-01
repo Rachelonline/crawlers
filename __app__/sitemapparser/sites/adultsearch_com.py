@@ -3,23 +3,6 @@ from bs4 import BeautifulSoup
 import requests
 import sys
 
-
-# Catches country subdomains, since the main sitemap and US uses the primary adultsearch.com
-# but subsequent pages in other countries prepend their URLs.
-def _find_domain(soup):
-    uri = urlparse(soup.find("link", rel="canonical").get("href"))
-
-    return f"{uri.scheme}://{uri.netloc}"
-
-
-# Attempt to retrieve the linked page.
-def _get_linked_page(link, domain):
-    resp = requests.get(urljoin(domain, link.get("href")))
-
-    if resp:
-        return BeautifulSoup(resp.text, "html.parser")
-
-
 # Each region page has several buttons for specific categories.
 def get_category_pages(region_pages):
     category_pages = []
@@ -67,3 +50,21 @@ def adultsearch_com(html):
             ad_listing_links.append(full_listing_url)
 
     return ad_listing_links
+
+
+# Member methods
+
+# Catches country subdomains, since the main sitemap and US uses the primary adultsearch.com
+# but subsequent pages in other countries prepend their URLs.
+def _find_domain(soup):
+    uri = urlparse(soup.find("link", rel="canonical").get("href"))
+
+    return f"{uri.scheme}://{uri.netloc}"
+
+
+# Attempt to retrieve the linked page.
+def _get_linked_page(link, domain):
+    resp = requests.get(urljoin(domain, link.get("href")))
+
+    if resp:
+        return BeautifulSoup(resp.text, "html.parser")
