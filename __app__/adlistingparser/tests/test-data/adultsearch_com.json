@@ -1,0 +1,32 @@
+[
+  {
+    "html": "20200825_adultsearch_com_1.html",
+    "domain": "adultsearch.com",
+    "ad-listing-url": "https://adultsearch.com/louisiana/new-orleans/female-escorts",
+    "metadata": {},
+    "ad-urls": [],
+    "ad-listing-data": {
+      "gender": "female"
+    }
+  },
+  {
+    "html": "20200825_adultsearch_com_2.html",
+    "domain": "adultsearch.com",
+    "ad-listing-url": "https://adultsearch.com/utah/salt-lake-city/female-escorts/?page=3",
+    "metadata": {},
+    "ad-urls": [],
+    "ad-listing-data": {
+      "gender": "female"
+    }
+  },
+  {
+    "html": "20200825_adultsearch_com_3.html",
+    "domain": "adultsearch.com",
+    "ad-listing-url": "https://adultsearch.com/texas/austin/body-rubs",
+    "metadata": {},
+    "ad-urls": [],
+    "ad-listing-data": {
+      "gender": "female"
+    }
+  }
+]

@@ -1,10 +1,13 @@
 import pytest
 import json
 import os
+import requests
 from glob import glob
 from typing import List
 from tests.fixtures.no_network import *
+from requests_mocks import AdultSearchMock
 from __app__.sitemapparser.sitemapparser import parse_ad_listing_page
+
 
 TEST_DATA_LOCATION = "__app__/sitemapparser/tests/test-data/*.json"
 TEST_HTML_FOLDER = "__app__/sitemapparser/tests/test-html"
@@ -30,10 +33,18 @@ def pytest_generate_tests(metafunc):
         metafunc.parametrize("test_case", [i for i in test_cases], ids=id_func)
 
 
-def test_site_map_parsers(test_case):
+def test_site_map_parsers(monkeypatch, test_case):
+    if "adultsearch.com" == test_case["domain"]:
+        mock_requests = AdultSearchMock()
+        monkeypatch.setattr(
+            requests, "get", mock_requests.get
+        )  # override deletion in no_network fixture with specific mocked responses
+
     with open(
         os.path.join(TEST_HTML_FOLDER, test_case["html"]), encoding="utf8"
     ) as html:
         page = html.read()
+
     ad_listing_urls = parse_ad_listing_page(test_case["domain"], page)
+
     assert ad_listing_urls == test_case["ad-listing-urls"]

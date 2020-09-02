@@ -48,6 +48,7 @@ def test_site_map_parsers(test_case):
     test_case["ad-listing-page"] = page
     parser = AD_LISTING_PARSERS[test_case["domain"]]
     parser = parser(test_case)
+
     assert parser.ad_listings() == build_ad_listings(test_case["ad-urls"])
     if "next-url" in test_case.keys():  # if last page, next-url will not exist
         assert parser.continuation_url() == test_case["next-url"]
