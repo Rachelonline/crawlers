@@ -49,6 +49,10 @@ def _clean_location(location: str) -> str:
     )
 
 
+def _extract(component_name, location):
+    return next((component for component in location["address_components"] if component_name in component["types"]), None)
+
+
 def get_location(location: str) -> List:
     """
     Get the lat long of a location. Ignores stop words.
@@ -57,6 +61,8 @@ def get_location(location: str) -> List:
     location = _geocode(_clean_location(location))
     if location:
         return {
+            "country_code": _extract("country", location)["short_name"],
+            "description": f'{_extract("locality", location)["long_name"]}, {_extract("administrative_area_level_1", location)["short_name"]}',
             "type": "Point",
             "coordinates": [
                 location["geometry"]["location"]["lng"],
@@ -64,4 +70,3 @@ def get_location(location: str) -> List:
             ],
             "placeid": location["place_id"],
         }
-
