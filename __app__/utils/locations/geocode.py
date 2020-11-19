@@ -1,12 +1,9 @@
 from typing import List
-import json
-import os
 import re
-import requests
+import geocoder
 from __app__.utils.locations.redis_cache import cache_location
 
 PATTERN = re.compile(r"[^\w ]+", re.UNICODE)
-GOOGLE_GEO_API = "https://maps.googleapis.com/maps/api/geocode/json"
 STOP_WORDS = {
     "outcall",
     "outcalls",
@@ -31,11 +28,9 @@ STOP_WORDS = {
 
 @cache_location
 def _geocode(location: str):
-    params = {"key": os.environ["GOOGLE_MAPS_KEY"], "address": location, "limit": 1}
-    resp = requests.get(GOOGLE_GEO_API, params=params)
-    data = resp.json()
-    if data["status"] == "OK":
-        return data["results"][0]
+    geocoder.osm(location, maxRows=1)
+    if location.ok:
+        return location
 
 
 def _clean_location(location: str) -> str:
@@ -49,10 +44,6 @@ def _clean_location(location: str) -> str:
     )
 
 
-def _extract(component_name, location):
-    return next((component for component in location["address_components"] if component_name in component["types"]), None)
-
-
 def get_location(location: str) -> List:
     """
     Get the lat long of a location. Ignores stop words.
@@ -61,12 +52,12 @@ def get_location(location: str) -> List:
     location = _geocode(_clean_location(location))
     if location:
         return {
-            "country_code": _extract("country", location)["short_name"],
-            "description": f'{_extract("locality", location)["long_name"]}, {_extract("administrative_area_level_1", location)["short_name"]}',
+            "country_code": location.country_code.upper(),
+            "description": location.address,
             "type": "Point",
             "coordinates": [
-                location["geometry"]["location"]["lng"],
-                location["geometry"]["location"]["lat"],
+                location.lng,
+                location.lat,
             ],
-            "placeid": location["place_id"],
+            "osm_id": location.osm_id,
         }
