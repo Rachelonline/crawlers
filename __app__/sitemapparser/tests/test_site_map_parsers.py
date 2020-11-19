@@ -47,4 +47,7 @@ def test_site_map_parsers(monkeypatch, test_case):
 
     ad_listing_urls = parse_ad_listing_page(test_case["domain"], page)
 
+    if "backpage.ly" == test_case["domain"]:
+        print(ad_listing_urls)
+
     assert ad_listing_urls == test_case["ad-listing-urls"]

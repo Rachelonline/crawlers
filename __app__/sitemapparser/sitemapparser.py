@@ -13,6 +13,7 @@ from __app__.sitemapparser.sites.bedpage_com import bedpage_com
 from __app__.sitemapparser.sites.gfemonkey_com import gfemonkey_com
 from __app__.sitemapparser.sites.adultsearch_com import adultsearch_com
 from __app__.sitemapparser.sites.adultlook_com import adultlook_com
+from __app__.sitemapparser.sites.backpage_ly import backpage_ly
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 
@@ -28,6 +29,7 @@ SITE_PARSERS = {
     "onebackpage.com": onebackpage_com,
     "adultlook.com": adultlook_com,
     "bedpage.com": bedpage_com,
+    "backpage.ly": backpage_ly,
     "adultsearch.com": adultsearch_com,
 }
 
