@@ -83,4 +83,4 @@ We have a [living document of the definitions of all fields](https://docs.google
 
 ## Deployment
 
-Deployment is triggered by a push to the master branch. This runs deploy.yml a Github Action which deploys the function to Azure.
+Deployment is triggered by a push to the master branch. This runs deploy.yml a Github hook which deploys the function to Azure.
