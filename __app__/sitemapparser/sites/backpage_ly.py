@@ -1,6 +1,7 @@
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
+#These IDs correspond to all the sketchy categories on Backpage, from dating to escorts. They are embedded in each listing URL.
 category_ids = [
     "category,98", 
     "category,99", 
@@ -30,10 +31,12 @@ countries = {
 def backpage_ly(html):
     soup = BeautifulSoup(html, "html.parser")
     links = []
+    #The pattern of region IDs was figured out by observing the website URLs.
+    #These starting values below are incremented depending on the alphabetical order of the region.
     us_region_id = 782041
     world_region_id = 782099
-    country_id = " "
-    city_name = " "
+    country_id = None
+    city_name = None
     states_list = soup.findAll("div", class_= "state-list mx-2")
     for states in states_list:
         for country in countries:
@@ -41,6 +44,7 @@ def backpage_ly(html):
                 country_id = countries[country]
         for state in states.findAll("div", class_="state-container"):
             if (country_id == "country,US"):
+                #This if-statement accounts for an error I noticed in the numbering system of states from South Carolina to Texas.
                 if (us_region_id == 782082):
                     us_region_id += 11
                 elif (us_region_id == 782095):
@@ -51,12 +55,12 @@ def backpage_ly(html):
                     for cityname in city.findAll("a"):
                         city_name = cityname.get("title").replace(" ", "+")
                     for category in category_ids:
-                        links.append("https://www.backpage.ly/search/region," + str(us_region_id) + "/city," + city_name + "/" + category + "/" + country_id)
+                        links.append(f"https://www.backpage.ly/search/region,{us_region_id}/city,{city_name}/{category}/{country_id}")
             else:
                 world_region_id += 1
                 for city in state.findAll("li", class_="city-item"):
                     for cityname in city.findAll("a"):
                         city_name = cityname.get("title")
                     for category in category_ids:
-                        links.append("https://www.backpage.ly/search/region," + str(world_region_id) + "/city," + city_name + "/" + category + "/" + country_id)
+                        links.append(f"https://www.backpage.ly/search/region,{world_region_id}/city,{city_name}/{category}/{country_id}")
     return links
