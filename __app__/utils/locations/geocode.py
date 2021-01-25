@@ -26,7 +26,6 @@ STOP_WORDS = {
 }
 
 
-@cache_location
 def _geocode(location: str):
     geocoded_location = geocoder.osm(location, maxRows=1)
     if geocoded_location.ok:
@@ -44,6 +43,7 @@ def _clean_location(location: str) -> str:
     )
 
 
+@cache_location
 def get_location(location: str) -> List:
     """
     Get the lat long of a location. Ignores stop words.
