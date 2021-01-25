@@ -28,14 +28,14 @@ STOP_WORDS = {
 
 @cache_location
 def _geocode(location: str):
-    geocoder.osm(location, maxRows=1)
-    if location.ok:
-        return location
+    geocoded_location = geocoder.osm(location, maxRows=1)
+    if geocoded_location.ok:
+        return geocoded_location
 
 
 def _clean_location(location: str) -> str:
     """
-    Lowercases, remove puncutation and stop words
+    Lowercases, remove punctuation and stop words
     """
     return " ".join(
         word
