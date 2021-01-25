@@ -26,7 +26,7 @@ def cache_location(function):
             location = function(*args, **kwargs)
             if location is None:
                 return
-            place_id = location["osm_id"]
+            place_id = location["place_id"]
             location = json.dumps(location)
             conn.set(key, place_id)
             # Not worried about the race condition, data is the same for both
