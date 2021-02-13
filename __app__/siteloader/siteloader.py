@@ -15,6 +15,7 @@ SITES_TO_MAP = [
     ("adultlook.com", {"domain": "adultlook.com"}),
     ("bedpage.com", {"domain": "bedpage.com"}),
     ("backpage.ly", {"domain": "backpage.ly"}),
+    ("sumosear.ch", {"domain": "sumosear.ch"})
 ]
 
 

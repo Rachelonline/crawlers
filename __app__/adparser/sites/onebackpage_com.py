@@ -39,7 +39,6 @@ class OneBackPage_com(BaseAdParser):
 
     def social(self) -> List:
         text = self.soup.find(text=re.compile(f"Social Link.*:.*"))
-        print(text)
 
         if text:
             links = text.parent.find_all("a")

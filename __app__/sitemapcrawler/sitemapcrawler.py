@@ -13,6 +13,7 @@ SITEMAP_URL = {
     "bedpage.com": "https://www.bedpage.com/",
     "backpage.ly": "https://backpage.ly/",
     "adultlook.com": "https://www.adultlook.com/",
+    "sumosear.ch": "https://sumosear.ch/"
     # "cityxguide.com": "https://cityxguide.com", # Disabled using stop_crawling_domain.py 20200630
     # "cityxguide.net": "https://cityxguide.net" # Disabled using stop_crawling_domain.py 20200630
     # "onebackpage.com": "https://onebackpage.com" # Disabled using stop_crawling_domain.py 20200615

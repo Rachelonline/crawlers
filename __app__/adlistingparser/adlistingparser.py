@@ -17,6 +17,7 @@ from __app__.adlistingparser.sites.gfemonkey_com import GfeMonkey_com
 from __app__.adlistingparser.sites.adultlook_com import AdultLook_com
 from __app__.adlistingparser.sites.adultsearch_com import AdultSearch_com
 from __app__.adlistingparser.sites.backpage_ly import BackPage_ly
+from __app__.adlistingparser.sites.sumosear_ch import SumoSear_ch
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 
@@ -31,7 +32,8 @@ AD_LISTING_PARSERS = {
     "adultlook.com": AdultLook_com,
     "bedpage.com": BedPage_com,
     "adultsearch.com": AdultSearch_com,
-    "backpage.ly": BackPage_ly
+    "backpage.ly": BackPage_ly,
+    "sumosear.ch": SumoSear_ch
 }
 
 

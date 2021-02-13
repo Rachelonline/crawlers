@@ -14,6 +14,7 @@ from __app__.sitemapparser.sites.backpage_ly import backpage_ly
 from __app__.sitemapparser.sites.gfemonkey_com import gfemonkey_com
 from __app__.sitemapparser.sites.adultsearch_com import adultsearch_com
 from __app__.sitemapparser.sites.adultlook_com import adultlook_com
+from __app__.sitemapparser.sites.sumosear_ch import sumosear_ch
 from __app__.utils.metrics.metrics import get_client, enable_logging
 
 
@@ -31,6 +32,7 @@ SITE_PARSERS = {
     "bedpage.com": bedpage_com,
     "adultsearch.com": adultsearch_com,
     "backpage.ly": backpage_ly,
+    "sumosear.ch": sumosear_ch
 }
 
 TABLE = AdListingTable()
