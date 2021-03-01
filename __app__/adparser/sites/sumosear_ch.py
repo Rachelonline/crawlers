@@ -6,8 +6,7 @@ class SumoSear_ch(BaseAdParser):
     def primary_phone_number(self) -> str:
         number = self.soup.find("a", class_="card-info__tel-num")
         if number:
-            number = number.get_text()
-        return number
+            return number.get_text()
 
     def phone_numbers(self) -> List:
         phone_numbers_found = []
