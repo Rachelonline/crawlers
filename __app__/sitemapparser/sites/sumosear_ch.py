@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 #https://sumosear.ch/images/tags/carbondale-il/escorts
 #https://sumosear.ch/images/tags/carbondale-il/female-escorts
 
-tags = [
+categories = [
     "escorts",
     "female-escorts",
     "massage-body-rubs",
