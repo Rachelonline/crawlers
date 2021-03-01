@@ -32,7 +32,6 @@ class SumoSear_ch(BaseAdListingParser):
     def ad_listing_data(self):
         metadata = {}
         data = self.soup.findAll("span", class_="tags-row__item-name")
-        metadata["location"] = data[0].get_text()
         category = data[1].get_text()
         if "Female" in category:
             metadata["gender"] = "female"
