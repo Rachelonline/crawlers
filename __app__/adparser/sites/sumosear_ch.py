@@ -20,8 +20,7 @@ class SumoSear_ch(BaseAdParser):
     def date_posted(self) -> str:
         date = self.soup.find("time")
         if date:
-            date = date.get("datetime")
-        return date
+            return date.get("datetime")
 
     def name(self) -> str:
         return None
