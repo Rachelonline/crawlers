@@ -63,9 +63,8 @@ class SumoSear_ch(BaseAdParser):
 
     def ad_text(self) -> str:
         text = self.soup.find("div", class_="card-info__secondary")
-        if (text):
-            text = text.get_text()
-        return text
+        if text:
+            return text.get_text()
 
     def ad_title(self) -> str:
         title = self.soup.find("div", class_="card-info__primary")
