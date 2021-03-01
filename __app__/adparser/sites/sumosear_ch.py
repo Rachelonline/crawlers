@@ -79,4 +79,3 @@ class SumoSear_ch(BaseAdParser):
         for attribute in attributes:
             if fieldName in attribute.get_text():
                 return attribute.get_text().replace(fieldName, "")
-        return None
