@@ -69,9 +69,8 @@ class SumoSear_ch(BaseAdParser):
 
     def ad_title(self) -> str:
         title = self.soup.find("div", class_="card-info__primary")
-        if (title):
-            title = title.get_text()
-        return title
+        if title:
+            return title.get_text()
 
     def orientation(self) -> str:
         return None
