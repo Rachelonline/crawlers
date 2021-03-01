@@ -26,9 +26,8 @@ class SumoSear_ch(BaseAdListingParser):
 
     def continuation_url(self):
         url = self.soup.find("a", class_="pagination__link nav-arrow")
-        if url == None:
-            return
-        return url.get("href")
+        if url:
+            return url.get("href")
 
     def ad_listing_data(self):
         metadata = {}
