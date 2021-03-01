@@ -10,7 +10,6 @@ from __app__.adlistingparser.sites.base_adlisting_parser import (
 class SumoSear_ch(BaseAdListingParser):
     def ad_listings(self):
         ad_listings = []
-        date = "Not found"
         for item in self.soup.findAll("a", class_="img-res-item"):
                 url = item.get("href")
                 metadata = {}
