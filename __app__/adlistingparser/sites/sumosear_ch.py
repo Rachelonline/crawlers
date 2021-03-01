@@ -14,12 +14,8 @@ class SumoSear_ch(BaseAdListingParser):
                 url = item.get("href")
                 metadata = {}
                 time = item.find("time", class_="img-res-item__time").get_text()
-                #Advertisers sometimes put their phone numbers or weird comments in the location section, so the results for this section of the parser aren't perfect.
-                location = item.find("div", class_="img-res-item__attr_txt").get_text()
                 if time:
                     metadata["ad-date-posted"] = time
-                if location:
-                    metadata["location"] = location
                 ad_listings.append(AdListing(url, metadata = metadata))
         return ad_listings
 
