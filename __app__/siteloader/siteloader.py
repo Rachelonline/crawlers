@@ -4,12 +4,12 @@ from __app__.utils.metrics.metrics import get_client, enable_logging
 
 
 SITES_TO_MAP = [
-    ("cityxguide.com", {"domain": "cityxguide.com"}),
-    ("capleasures.com", {"domain": "capleasures.com"}),
+    # ("cityxguide.com", {"domain": "cityxguide.com"}),
+    # ("capleasures.com", {"domain": "capleasures.com"}),
     ("vipgirlfriend.com", {"domain": "vipgirlfriend.com"}),
     ("megapersonals.eu", {"domain": "megapersonals.eu"}),
     ("escortdirectory.com", {"domain": "escortdirectory.com"}),
-    ("2backpage.com", {"domain": "2backpage.com"}),
+    # ("2backpage.com", {"domain": "2backpage.com"}),
     ("adultsearch.com", {"domain": "adultsearch.com"}),
     ("gfemonkey.com", {"domain": "gfemonkey.com"}),
     ("adultlook.com", {"domain": "adultlook.com"}),
