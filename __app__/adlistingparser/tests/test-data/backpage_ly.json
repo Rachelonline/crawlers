@@ -4,6 +4,10 @@
         "domain": "backpage.ly",
         "ad-listing-url": "https://backpage.ly/search/region,782043/city,Juneau/category,131/country,US",
         "metadata": {},
+        "next-url": null,
+        "ad-listing-data": {
+            "location": "Juneau, Alaska, United States"
+        },
         "ad-urls": [
             {
                 "ad-url": "https://backpage.ly/juneau/personal-connections/cam-sex/nudes-videos-online-servicesno-meets_i8748147",
@@ -75,17 +79,17 @@
                     "location": "Juneau, Alaska"
                 }
             }
-        ],
-        "next-url": null,
-        "ad-listing-data": {
-            "location": "Juneau, Alaska, United States"
-        }
+        ]
     },
     {
         "html": "20201014_backpage_ly_2.html",
         "domain": "backpage.ly",
         "ad-listing-url": "https://backpage.ly/search/region,782080/city,Pittsburgh/category,98/country,US",
         "metadata": {},
+        "next-url": "https://backpage.ly/search/region,782080/city,Pittsburgh/category,98/country,US/iPage,2",
+        "ad-listing-data": {
+            "location": "Pittsburgh, Pennsylvania, United States"
+        },
         "ad-urls": [
             {
                 "ad-url": "https://backpage.ly/pittsburgh/personal-connections/escorts/38ddd-s-spankab%e2%84%93-ssetssoft-lips-thick-ebony_i8929579",
@@ -437,17 +441,17 @@
                     "location": "Pittsburgh, Pennsylvania"
                 }
             }
-        ],
-        "next-url": "https://backpage.ly/search/region,782080/city,Pittsburgh/category,98/country,US/iPage,2",
-        "ad-listing-data": {
-            "location": "Pittsburgh, Pennsylvania, United States"
-        }
+        ]
     },
     {
         "html": "20201014_backpage_ly_3.html",
         "domain": "backpage.ly",
         "ad-listing-url": "https://backpage.ly/search/region,782089/city,Seattle/category,104/country,US",
         "metadata": {},
+        "next-url": null,
+        "ad-listing-data": {
+            "location": "Seattle, Washington, United States"
+        },
         "ad-urls": [
             {
                 "ad-url": "https://backpage.ly/seattle/personal-connections/adult-industry-jobs/are-you-stressed-and-need-some-hot-reliever_i8878271",
@@ -463,10 +467,6 @@
                     "location": "Seattle, Washington"
                 }
             }
-        ],
-        "next-url": null,
-        "ad-listing-data": {
-            "location": "Seattle, Washington, United States"
-        }
+        ]
     }
 ]
