@@ -15,6 +15,6 @@
       "name": "outmsg",
       "queueName": "regionparse"
     }
-
-  ]
+  ],
+  "disabled": true
 }

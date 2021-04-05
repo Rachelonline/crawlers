@@ -14,5 +14,6 @@
       "name": "queuemsg",
       "queueName": "sitecrawl"
     }
-  ]
+  ],
+  "disabled": true
 }

@@ -33,5 +33,6 @@
       "queueName": "process-pv",
       "connection": "PVAzureServiceBusConnectionString"
     }
-  ]
+  ],
+  "disabled": true
 }
