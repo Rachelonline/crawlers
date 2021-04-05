@@ -8,5 +8,6 @@
       "queueName": "imagecrawl",
       "connection": "AzureServiceBusConnectionString"
     }
-  ]
+  ],
+  "disabled": true
 }
